@@ -1,0 +1,296 @@
+<!doctype html>
+<html lang="ms">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Store — PvP Legends</title>
+  <style>
+    :root {
+      --accent: #a855f7; 
+      --accent-light: #c084fc;
+      --bg: #0b0b12;
+      --card-bg: rgba(20, 20, 30, 0.85);
+      --glass-border: rgba(255, 255, 255, 0.12);
+      --text: #ffffff;
+      --muted: rgba(255, 255, 255, 0.65);
+      font-family: Inter, system-ui, -apple-system, sans-serif;
+    }
+
+    html, body {
+      min-height: 100%;
+      margin: 0;
+      background-color: var(--bg);
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      color: var(--text);
+    }
+
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+      backdrop-filter: brightness(0.5);
+    }
+
+    .container { 
+      width: 100%; 
+      max-width: 520px; 
+      z-index: 1;
+    }
+    
+    header { 
+      text-align: center; 
+      margin-bottom: 30px; 
+      margin-top: 40px; 
+    }
+
+    h1 { 
+      font-size: 28px; 
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 5px;
+    }
+
+    .purple-line {
+      width: 50px;
+      height: 4px;
+      background: var(--accent);
+      margin: 0 auto 15px;
+      border-radius: 2px;
+    }
+
+    .card {
+      backdrop-filter: blur(15px);
+      background: var(--card-bg);
+      border: 1px solid var(--glass-border);
+      padding: 24px;
+      border-radius: 22px;
+      box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+      margin-bottom: 25px;
+    }
+
+    .section-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--accent-light);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-bottom: 15px;
+      display: block;
+    }
+
+    .item-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px;
+      background: rgba(255,255,255,0.03);
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .rank-box {
+      margin-bottom: 25px;
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      padding-bottom: 20px;
+    }
+    .rank-box:last-child { border: none; padding-bottom: 0; }
+
+    .rank-name {
+      font-size: 19px;
+      font-weight: 800;
+      margin-bottom: 4px;
+    }
+    .rank-price {
+      font-size: 13px;
+      color: var(--accent-light);
+      font-weight: 600;
+      margin-bottom: 12px;
+      display: block;
+    }
+
+    .feature-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+    .feature-item {
+      font-size: 12px;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+    }
+    .feature-item::before {
+      content: "•";
+      color: var(--accent);
+      margin-right: 6px;
+    }
+
+    .btn-group {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .btn {
+      display: block;
+      width: 100%;
+      padding: 16px;
+      text-align: center;
+      text-decoration: none;
+      font-weight: 700;
+      border-radius: 14px;
+      transition: 0.3s;
+      box-sizing: border-box;
+    }
+    .btn-primary { background: var(--accent); color: #fff; }
+    .btn-secondary { background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); color: var(--text); }
+    .btn:hover { transform: translateY(-3px); }
+
+    .footer-text { text-align: center; font-size: 12px; color: var(--muted); margin: 30px 0; line-height: 1.6; }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <header>
+      <h1>Pvp Legends</h1>
+      <div class="purple-line"></div>
+      <p style="color: var(--muted); font-size: 14px;">Welcome to PvP Legends Official Store</p>
+    </header>
+
+    <div class="card">
+      <span class="section-title">Coins Currency</span>
+      <div class="item-row">
+        <div>
+          <div style="font-weight: 600;">80 Coins</div>
+          <div style="font-size: 11px; color: var(--muted);">In-game Currency</div>
+        </div>
+        <div style="text-align: right;">
+          <div style="color: var(--accent-light); font-weight: 700;">Rp8.000</div>
+          <div style="font-size: 11px; color: var(--muted);">RM2.00</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <span class="section-title">Server Ranks</span>
+      
+      <div class="rank-box">
+        <div class="rank-name" style="color: #55ff55;">[VIP]</div>
+        <span class="rank-price">Rp25.000 / RM6.00 Perbulan</span>
+        <ul class="feature-list">
+          <li class="feature-item">10x Sethome</li>
+          <li class="feature-item">/clan create</li>
+          <li class="feature-item">/pvpass cmd</li>
+          <li class="feature-item">/feed & /heal</li>
+          <li class="feature-item">Kit VIP</li>
+          <li class="feature-item">Money Rp35k</li>
+        </ul>
+      </div>
+
+      <div class="rank-box">
+        <div class="rank-name" style="color: #55ffff;">[MVP]</div>
+        <span class="rank-price">Rp50.000 / RM12.00 Perbulan</span>
+        <ul class="feature-list">
+          <li class="feature-item">10x Sethome</li>
+          <li class="feature-item">/clan create</li>
+          <li class="feature-item">/pvpass cmd</li>
+          <li class="feature-item">/feed & /heal</li>
+          <li class="feature-item">Kit VIP</li>
+          <li class="feature-item">Money Rp35k</li>
+        </ul>
+      </div>
+
+      <div class="rank-box">
+        <div class="rank-name" style="color: #ff55ff;">[ELITE]</div>
+        <span class="rank-price">Rp80.000 / RM19.00 Perbulan</span>
+        <ul class="feature-list">
+          <li class="feature-item">15x Sethome</li>
+          <li class="feature-item">/ec & /fly</li>
+          <li class="feature-item">/nick & /repair</li>
+          <li class="feature-item">/feed cmd</li>
+          <li class="feature-item">Kit Elite</li>
+          <li class="feature-item">Money Rp70k</li>
+        </ul>
+      </div>
+
+      <div class="rank-box">
+        <div class="rank-name" style="color: #ffaa00;">[LEGEND]</div>
+        <span class="rank-price">Rp125.000 / RM29.00</span>
+        <ul class="feature-list">
+          <li class="feature-item">25x Sethome</li>
+          <li class="feature-item">/ec & /fly</li>
+          <li class="feature-item">/nick & /repair</li>
+          <li class="feature-item">Fitur ELITE</li>
+          <li class="feature-item">Kit Legend</li>
+          <li class="feature-item">Money Rp250k</li>
+        </ul>
+      </div>
+
+      <div class="rank-box">
+        <div class="rank-name" style="color: #ff5555;">[SULTAN]</div>
+        <span class="rank-price">Rp150.000 / RM35.00 Perbulan</span>
+        <ul class="feature-list">
+          <li class="feature-item">50x Sethome</li>
+          <li class="feature-item">/beezooka</li>
+          <li class="feature-item">/fly & /nick</li>
+          <li class="feature-item">Fitur LEGEND</li>
+          <li class="feature-item">Kit Sultan</li>
+          <li class="feature-item">Money Rp350k</li>
+        </ul>
+      </div>
+
+      <div class="rank-box">
+        <div class="rank-name" style="color: #aa00aa;">[SUPREME]</div>
+        <span class="rank-price">Rp300.000 / RM70.00 Perbulan</span>
+        <ul class="feature-list">
+          <li class="feature-item">999 Sethome</li>
+          <li class="feature-item">/craft & /head</li>
+          <li class="feature-item">/beezooka</li>
+          <li class="feature-item">/fly & /nick</li>
+          <li class="feature-item">Kit Supreme</li>
+          <li class="feature-item">All Features</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="btn-group">
+      <a href="https://chat.whatsapp.com/IsAFXEIZ1fM5t7ml3Ith9c" class="btn btn-primary">JOIN GROUP UNTUK BELI</a>
+      <a href="https://sociabuzz.com/pvplegends/tribe" class="btn btn-secondary">METHOD PEMBAYARAN</a>
+    </div>
+
+    <div class="footer-text">
+      Bisa semua Indo / Malay Pembayaran<br>
+      Sila hubungi admin di grup store.<br>
+      © 2026 PvP Legends Store
+    </div>
+  </div>
+
+  <script>
+    const GITHUB_RAW_BASE = 'https://raw.githubusercontent.com/Faridgameprimi/Pvpsl/main';
+    const WALLPAPER_LIST_PATH = '/wallpapers/list.txt';
+    const WALLPAPER_FOLDER = '/wallpapers';
+
+    async function applyWallpaper(){
+      try{
+        const listUrl = GITHUB_RAW_BASE + WALLPAPER_LIST_PATH;
+        const resp = await fetch(listUrl);
+        if(!resp.ok) return;
+        const text = await resp.text();
+        const names = text.split("\n").map(a=>a.trim()).filter(Boolean);
+        if(names.length === 0) return;
+        const chosen = names[Math.floor(Math.random()*names.length)];
+        const imgUrl = GITHUB_RAW_BASE + WALLPAPER_FOLDER + '/' + chosen;
+        document.body.style.backgroundImage = `url('${imgUrl}')`;
+      }catch{}
+    }
+    applyWallpaper();
+  </script>
+</body>
+</html>
