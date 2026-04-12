@@ -1,0 +1,78 @@
+/* Guna warna Ungu & Putih */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap');
+
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    background-color: #f8f5ff;
+    color: #333;
+}
+
+.container { max-width: 1000px; margin: 0 auto; padding: 0 20px; }
+
+/* Navbar */
+nav { background: #fff; padding: 20px 0; border-bottom: 4px solid #6c5ce7; }
+.brand-logo { margin: 0; color: #6c5ce7; font-weight: 800; letter-spacing: 1px; }
+.brand-logo span { color: #2d3436; }
+nav ul { list-style: none; display: flex; gap: 20px; float: right; margin-top: -35px; }
+nav ul li a { text-decoration: none; color: #6c5ce7; font-weight: 600; }
+
+/* Header */
+header {
+    background: linear-gradient(135deg, #6c5ce7 0%, #a29bfe 100%);
+    color: white;
+    text-align: center;
+    padding: 80px 20px;
+    border-bottom-left-radius: 50% 20%;
+    border-bottom-right-radius: 50% 20%;
+}
+
+/* Cards & Grid */
+.section-title { text-align: center; margin-top: 50px; color: #4834d4; }
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-top: 30px; }
+
+.card {
+    background: white;
+    border-radius: 15px;
+    padding: 30px;
+    text-align: center;
+    border: 1px solid #eee;
+    box-shadow: 0 10px 20px rgba(108, 92, 231, 0.1);
+}
+
+/* Rank Specific */
+.rank-card { max-width: 400px; margin: 0 auto; border: 2px solid #6c5ce7; }
+.rank-badge { background: #6c5ce7; color: white; display: inline-block; padding: 5px 15px; border-radius: 20px; font-size: 12px; font-weight: bold; margin-bottom: 10px; }
+.features { list-style: none; padding: 0; margin: 20px 0; text-align: left; }
+.features li { padding: 8px 0; border-bottom: 1px dashed #ddd; color: #555; }
+.subscription { font-style: italic; color: #a29bfe; font-size: 14px; }
+
+/* Selector (Dropdown) ala DonutSMP */
+.selector-group { margin: 20px 0; text-align: left; }
+.selector-group label { display: block; font-size: 12px; font-weight: bold; margin-bottom: 5px; color: #666; }
+select {
+    width: 100%;
+    padding: 10px;
+    border-radius: 8px;
+    border: 1px solid #6c5ce7;
+    background: #fdfbff;
+    font-family: 'Poppins';
+    cursor: pointer;
+}
+
+.price { font-size: 1.5rem; font-weight: 800; color: #6c5ce7; margin: 20px 0; }
+
+.btn-buy {
+    display: block;
+    background: #6c5ce7;
+    color: white;
+    text-decoration: none;
+    padding: 15px;
+    border-radius: 10px;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.btn-buy:hover { background: #4834d4; transform: scale(1.02); }
+
+footer { text-align: center; padding: 50px; color: #999; }
