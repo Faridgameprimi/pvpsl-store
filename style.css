@@ -1,9 +1,8 @@
-/* Tema Liquid Glass Ungu & Putih */
+/* PVP LEGEND - LIQUID GLASS THEME */
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap');
 
 :root {
     --glass: rgba(255, 255, 255, 0.05);
-    --glass-heavy: rgba(255, 255, 255, 0.1);
     --glass-border: rgba(255, 255, 255, 0.15);
     --primary-purple: #a855f7;
     --bg-dark: #0a0a0f;
@@ -13,16 +12,15 @@ body {
     font-family: 'Plus Jakarta Sans', sans-serif;
     margin: 0;
     background-color: var(--bg-dark);
-    /* Efek cahaya liquid di background */
     background-image: radial-gradient(circle at 10% 20%, rgba(168, 85, 247, 0.1) 0%, transparent 40%),
                       radial-gradient(circle at 90% 80%, rgba(168, 85, 247, 0.05) 0%, transparent 40%);
     color: #ffffff;
-    line-height: 1.6;
+    overflow-x: hidden;
 }
 
 .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
 
-/* Animasi Teks Gradien (Ungu ke Putih) */
+/* Animasi Teks Mengalir (Ungu - Putih) */
 @keyframes flowText {
     0% { background-position: 0% 50%; }
     100% { background-position: 100% 50%; }
@@ -34,38 +32,34 @@ body {
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     animation: flowText 4s linear infinite;
+    font-weight: 800;
 }
 
-/* Navbar Glassmorphism */
+/* Navbar Glass */
 nav {
     background: rgba(255, 255, 255, 0.02);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     padding: 20px 0;
     border-bottom: 1px solid var(--glass-border);
-    position: sticky;
-    top: 0;
-    z-index: 1000;
+    position: sticky; top: 0; z-index: 1000;
 }
 
-.brand-logo { margin: 0; font-weight: 800; letter-spacing: 1px; }
+.brand-logo { margin: 0; font-size: 1.5rem; }
 
-nav ul { list-style: none; display: flex; gap: 25px; float: right; margin-top: -30px; }
+nav ul { list-style: none; display: flex; gap: 20px; float: right; margin-top: -32px; }
 nav ul li a { text-decoration: none; color: rgba(255,255,255,0.7); font-weight: 600; transition: 0.3s; }
-nav ul li a:hover { color: var(--primary-purple); text-shadow: 0 0 10px rgba(168, 85, 247, 0.5); }
+nav ul li a:hover { color: var(--primary-purple); }
 
 /* Header */
-header {
-    text-align: center;
-    padding: 100px 20px;
-}
+header { text-align: center; padding: 80px 20px; }
+header h1 { font-size: 3.5rem; margin: 0; }
+header p { opacity: 0.6; margin-top: 10px; }
 
-header h1 { font-size: 4rem; margin: 0; font-weight: 800; }
-header p { opacity: 0.7; font-size: 1.1rem; }
+/* Section Titles */
+.section-title { text-align: center; margin: 60px 0 30px; letter-spacing: 2px; text-transform: uppercase; }
 
-/* Section & Cards */
-.section-title { text-align: center; margin-top: 70px; margin-bottom: 40px; font-weight: 800; letter-spacing: 2px; }
-
+/* Grid & Cards */
 .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
 
 .card {
@@ -73,86 +67,64 @@ header p { opacity: 0.7; font-size: 1.1rem; }
     backdrop-filter: blur(25px);
     -webkit-backdrop-filter: blur(25px);
     border-radius: 30px;
-    padding: 35px;
-    text-align: center;
+    padding: 40px 30px;
     border: 1px solid var(--glass-border);
-    transition: 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
-    box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+    text-align: center;
+    transition: 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
 .card:hover {
     transform: translateY(-10px);
-    background: var(--glass-heavy);
     border-color: var(--primary-purple);
-    box-shadow: 0 30px 60px rgba(168, 85, 247, 0.2);
+    background: rgba(255, 255, 255, 0.08);
 }
 
-/* Rank Card Spesifik */
-.rank-card { 
-    max-width: 450px; 
-    margin: 0 auto; 
-    border: 2px solid var(--primary-purple); 
-}
+/* Ranks Card */
+.rank-card { max-width: 450px; margin: 0 auto; border: 2px solid var(--primary-purple); }
+.rank-badge { background: var(--primary-purple); color: white; padding: 5px 15px; border-radius: 10px; font-size: 11px; font-weight: 800; margin-bottom: 15px; display: inline-block; }
 
-.rank-badge { 
-    background: var(--primary-purple); 
-    color: white; 
-    padding: 6px 20px; 
-    border-radius: 12px; 
-    font-size: 12px; 
-    font-weight: 800; 
-    margin-bottom: 15px; 
-    display: inline-block;
-}
+.features { list-style: none; padding: 0; margin: 25px 0; text-align: left; }
+.features li { padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.05); color: rgba(255,255,255,0.7); font-size: 14px; }
 
-.features { list-style: none; padding: 0; margin: 30px 0; text-align: left; }
-.features li { padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.05); color: rgba(255,255,255,0.8); }
-
-.subscription { font-style: italic; color: var(--primary-purple); font-size: 14px; margin-top: 10px; }
-
-/* Selector (Dropdown) Glass Style */
-.selector-group { margin: 25px 0; text-align: left; }
-.selector-group label { display: block; font-size: 11px; font-weight: 800; margin-bottom: 8px; color: rgba(255,255,255,0.5); letter-spacing: 1px; }
+/* Select/Dropdown Glass */
+.selector-group { margin: 20px 0; text-align: left; }
+.selector-group label { font-size: 11px; font-weight: 800; opacity: 0.5; display: block; margin-bottom: 8px; }
 
 select {
     width: 100%;
-    padding: 14px;
-    border-radius: 15px;
+    padding: 12px;
+    border-radius: 12px;
+    background: rgba(0,0,0,0.3);
     border: 1px solid var(--glass-border);
-    background: rgba(0,0,0,0.4);
     color: white;
-    font-family: inherit;
-    cursor: pointer;
     outline: none;
+    cursor: pointer;
 }
 
-.price { font-size: 1.8rem; font-weight: 800; margin: 25px 0; }
+.price { font-size: 1.8rem; margin: 20px 0; }
 
-/* Buy Button Liquid Style */
+/* Button Liquid Style */
 .btn-buy {
     display: block;
     background: #ffffff;
-    color: #000000;
+    color: #000;
     text-decoration: none;
-    padding: 20px;
-    border-radius: 20px;
+    padding: 18px;
+    border-radius: 15px;
     font-weight: 800;
-    transition: 0.4s;
-    box-shadow: 0 10px 20px rgba(255,255,255,0.1);
+    transition: 0.3s;
+    box-shadow: 0 10px 20px rgba(255,255,255,0.05);
 }
 
-.btn-buy:hover { 
-    background: var(--primary-purple); 
-    color: #ffffff;
-    transform: scale(1.03); 
+.btn-buy:hover {
+    background: var(--primary-purple);
+    color: white;
+    transform: scale(1.05);
     box-shadow: 0 15px 30px rgba(168, 85, 247, 0.4);
 }
 
-footer { text-align: center; padding: 100px 50px; color: rgba(255,255,255,0.3); font-size: 12px; letter-spacing: 1px; }
+/* Footer */
+footer { padding: 80px 20px; text-align: center; color: rgba(255,255,255,0.2); font-size: 12px; }
 
-/* Gambar Produk */
-.card img {
-    max-width: 120px;
-    margin-bottom: 20px;
-    filter: drop-shadow(0 10px 15px rgba(0,0,0,0.5));
-}
+/* Assets */
+.card img { max-width: 100px; margin-bottom: 20px; filter: drop-shadow(0 10px 15px rgba(0,0,0,0.5)); }

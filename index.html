@@ -44,7 +44,7 @@
                     </ul>
                     <p class="subscription">30 Day Subscription</p>
                     <p class="price">
-                        <del style="font-size: 0.8em; opacity: 0.6;">RM 20.00 / 85k IDR</del><br>
+                        <del style="font-size: 0.7em; opacity: 0.5;">RM 20.00 / 85k IDR</del><br>
                         RM 10.00 / 42.5k IDR
                     </p>
                     <a href="https://chat.whatsapp.com/IsAFXEIZ1fM5t7ml3Ith9c" class="btn-buy">Buy via WhatsApp</a>
@@ -101,14 +101,11 @@
         
         function playSound() {
             btnAudio.currentTime = 0;
-            btnAudio.play().catch(() => {
-                console.log("Audio play blocked until user interaction");
-            });
+            btnAudio.play().catch(() => {});
         }
 
-        // Integrasi suara ke fungsi updatePrice bawaan
         function updatePrice(type) {
-            playSound();
+            playSound(); // Bunyi masa tukar harga
             if(type === 'ce') {
                 const val = document.getElementById('ce-key-select').value;
                 document.getElementById('ce-price').innerText = val;
@@ -118,7 +115,7 @@
             }
         }
 
-        // Pasang suara ke semua elemen klik
+        // Auto-pasang bunyi pada semua elemen interaktif
         document.querySelectorAll('a, button, select, .card').forEach(el => {
             el.addEventListener('click', playSound);
         });
