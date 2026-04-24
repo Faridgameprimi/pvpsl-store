@@ -4,14 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pvp Legend | Official Webstore</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
 </head>
 <body>
 
+    <audio id="btnAudio" src="click-sound.wav" preload="auto"></audio>
+
     <nav>
         <div class="container">
-            <h2 class="brand-logo">PVP LEGEND<span> STORE</span></h2>
+            <h2 class="brand-logo">PVP LEGEND<span class="animated-text"> STORE</span></h2>
             <ul>
                 <li><a href="#ranks">Ranks</a></li>
                 <li><a href="#keys">Keys</a></li>
@@ -21,7 +23,7 @@
     </nav>
 
     <header>
-        <h1>PVP LEGEND</h1>
+        <h1 class="animated-text">PVP LEGEND</h1>
         <p>Semoga Betah, Selamat Belanja di pvp legends</p>
     </header>
 
@@ -32,7 +34,7 @@
             <div class="rank-container">
                 <div class="card rank-card">
                     <div class="rank-badge">RANK</div>
-                    <h3>PVP+</h3>
+                    <h3 class="animated-text">PVP+</h3>
                     <ul class="features">
                         <li>+ 3 Homes</li>
                         <li>+ Short RTP Cooldown</li>
@@ -42,7 +44,7 @@
                     </ul>
                     <p class="subscription">30 Day Subscription</p>
                     <p class="price">
-                        <del style="font-size: 0.8em; color: #ff4757;">RM 20.00 / 85k IDR</del><br>
+                        <del style="font-size: 0.8em; opacity: 0.6;">RM 20.00 / 85k IDR</del><br>
                         RM 10.00 / 42.5k IDR
                     </p>
                     <a href="https://chat.whatsapp.com/IsAFXEIZ1fM5t7ml3Ith9c" class="btn-buy">Buy via WhatsApp</a>
@@ -66,7 +68,7 @@
                             <option value="RM 4.64 / 20k IDR">10x Keys</option>
                         </select>
                     </div>
-                    <p class="price" id="ce-price">RM 0.50 / 2k IDR</p>
+                    <p class="price animated-text" id="ce-price">RM 0.50 / 2k IDR</p>
                     <a href="https://chat.whatsapp.com/IsAFXEIZ1fM5t7ml3Ith9c" class="btn-buy">Buy via WhatsApp</a>
                 </div>
 
@@ -82,7 +84,7 @@
                             <option value="RM 11.60 / 50k IDR">10x Keys</option>
                         </select>
                     </div>
-                    <p class="price" id="spawner-price">RM 1.20 / 5k IDR</p>
+                    <p class="price animated-text" id="spawner-price">RM 1.20 / 5k IDR</p>
                     <a href="https://chat.whatsapp.com/IsAFXEIZ1fM5t7ml3Ith9c" class="btn-buy">Buy via WhatsApp</a>
                 </div>
 
@@ -95,7 +97,18 @@
     </footer>
 
     <script>
+        const btnAudio = document.getElementById('btnAudio');
+        
+        function playSound() {
+            btnAudio.currentTime = 0;
+            btnAudio.play().catch(() => {
+                console.log("Audio play blocked until user interaction");
+            });
+        }
+
+        // Integrasi suara ke fungsi updatePrice bawaan
         function updatePrice(type) {
+            playSound();
             if(type === 'ce') {
                 const val = document.getElementById('ce-key-select').value;
                 document.getElementById('ce-price').innerText = val;
@@ -104,6 +117,11 @@
                 document.getElementById('spawner-price').innerText = val;
             }
         }
+
+        // Pasang suara ke semua elemen klik
+        document.querySelectorAll('a, button, select, .card').forEach(el => {
+            el.addEventListener('click', playSound);
+        });
     </script>
 </body>
 </html>

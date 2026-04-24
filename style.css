@@ -1,78 +1,158 @@
-/* Guna warna Ungu & Putih */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap');
+/* Tema Liquid Glass Ungu & Putih */
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap');
 
-body {
-    font-family: 'Poppins', sans-serif;
-    margin: 0;
-    background-color: #f8f5ff;
-    color: #333;
+:root {
+    --glass: rgba(255, 255, 255, 0.05);
+    --glass-heavy: rgba(255, 255, 255, 0.1);
+    --glass-border: rgba(255, 255, 255, 0.15);
+    --primary-purple: #a855f7;
+    --bg-dark: #0a0a0f;
 }
 
-.container { max-width: 1000px; margin: 0 auto; padding: 0 20px; }
+body {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    margin: 0;
+    background-color: var(--bg-dark);
+    /* Efek cahaya liquid di background */
+    background-image: radial-gradient(circle at 10% 20%, rgba(168, 85, 247, 0.1) 0%, transparent 40%),
+                      radial-gradient(circle at 90% 80%, rgba(168, 85, 247, 0.05) 0%, transparent 40%);
+    color: #ffffff;
+    line-height: 1.6;
+}
 
-/* Navbar */
-nav { background: #fff; padding: 20px 0; border-bottom: 4px solid #6c5ce7; }
-.brand-logo { margin: 0; color: #6c5ce7; font-weight: 800; letter-spacing: 1px; }
-.brand-logo span { color: #2d3436; }
-nav ul { list-style: none; display: flex; gap: 20px; float: right; margin-top: -35px; }
-nav ul li a { text-decoration: none; color: #6c5ce7; font-weight: 600; }
+.container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
+
+/* Animasi Teks Gradien (Ungu ke Putih) */
+@keyframes flowText {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 100% 50%; }
+}
+
+.animated-text {
+    background: linear-gradient(90deg, var(--primary-purple), #ffffff, var(--primary-purple));
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: flowText 4s linear infinite;
+}
+
+/* Navbar Glassmorphism */
+nav {
+    background: rgba(255, 255, 255, 0.02);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    padding: 20px 0;
+    border-bottom: 1px solid var(--glass-border);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.brand-logo { margin: 0; font-weight: 800; letter-spacing: 1px; }
+
+nav ul { list-style: none; display: flex; gap: 25px; float: right; margin-top: -30px; }
+nav ul li a { text-decoration: none; color: rgba(255,255,255,0.7); font-weight: 600; transition: 0.3s; }
+nav ul li a:hover { color: var(--primary-purple); text-shadow: 0 0 10px rgba(168, 85, 247, 0.5); }
 
 /* Header */
 header {
-    background: linear-gradient(135deg, #6c5ce7 0%, #a29bfe 100%);
-    color: white;
     text-align: center;
-    padding: 80px 20px;
-    border-bottom-left-radius: 50% 20%;
-    border-bottom-right-radius: 50% 20%;
+    padding: 100px 20px;
 }
 
-/* Cards & Grid */
-.section-title { text-align: center; margin-top: 50px; color: #4834d4; }
-.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; margin-top: 30px; }
+header h1 { font-size: 4rem; margin: 0; font-weight: 800; }
+header p { opacity: 0.7; font-size: 1.1rem; }
+
+/* Section & Cards */
+.section-title { text-align: center; margin-top: 70px; margin-bottom: 40px; font-weight: 800; letter-spacing: 2px; }
+
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
 
 .card {
-    background: white;
-    border-radius: 15px;
-    padding: 30px;
+    background: var(--glass);
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+    border-radius: 30px;
+    padding: 35px;
     text-align: center;
-    border: 1px solid #eee;
-    box-shadow: 0 10px 20px rgba(108, 92, 231, 0.1);
+    border: 1px solid var(--glass-border);
+    transition: 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.5);
 }
 
-/* Rank Specific */
-.rank-card { max-width: 400px; margin: 0 auto; border: 2px solid #6c5ce7; }
-.rank-badge { background: #6c5ce7; color: white; display: inline-block; padding: 5px 15px; border-radius: 20px; font-size: 12px; font-weight: bold; margin-bottom: 10px; }
-.features { list-style: none; padding: 0; margin: 20px 0; text-align: left; }
-.features li { padding: 8px 0; border-bottom: 1px dashed #ddd; color: #555; }
-.subscription { font-style: italic; color: #a29bfe; font-size: 14px; }
+.card:hover {
+    transform: translateY(-10px);
+    background: var(--glass-heavy);
+    border-color: var(--primary-purple);
+    box-shadow: 0 30px 60px rgba(168, 85, 247, 0.2);
+}
 
-/* Selector (Dropdown) ala DonutSMP */
-.selector-group { margin: 20px 0; text-align: left; }
-.selector-group label { display: block; font-size: 12px; font-weight: bold; margin-bottom: 5px; color: #666; }
+/* Rank Card Spesifik */
+.rank-card { 
+    max-width: 450px; 
+    margin: 0 auto; 
+    border: 2px solid var(--primary-purple); 
+}
+
+.rank-badge { 
+    background: var(--primary-purple); 
+    color: white; 
+    padding: 6px 20px; 
+    border-radius: 12px; 
+    font-size: 12px; 
+    font-weight: 800; 
+    margin-bottom: 15px; 
+    display: inline-block;
+}
+
+.features { list-style: none; padding: 0; margin: 30px 0; text-align: left; }
+.features li { padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.05); color: rgba(255,255,255,0.8); }
+
+.subscription { font-style: italic; color: var(--primary-purple); font-size: 14px; margin-top: 10px; }
+
+/* Selector (Dropdown) Glass Style */
+.selector-group { margin: 25px 0; text-align: left; }
+.selector-group label { display: block; font-size: 11px; font-weight: 800; margin-bottom: 8px; color: rgba(255,255,255,0.5); letter-spacing: 1px; }
+
 select {
     width: 100%;
-    padding: 10px;
-    border-radius: 8px;
-    border: 1px solid #6c5ce7;
-    background: #fdfbff;
-    font-family: 'Poppins';
+    padding: 14px;
+    border-radius: 15px;
+    border: 1px solid var(--glass-border);
+    background: rgba(0,0,0,0.4);
+    color: white;
+    font-family: inherit;
     cursor: pointer;
+    outline: none;
 }
 
-.price { font-size: 1.5rem; font-weight: 800; color: #6c5ce7; margin: 20px 0; }
+.price { font-size: 1.8rem; font-weight: 800; margin: 25px 0; }
 
+/* Buy Button Liquid Style */
 .btn-buy {
     display: block;
-    background: #6c5ce7;
-    color: white;
+    background: #ffffff;
+    color: #000000;
     text-decoration: none;
-    padding: 15px;
-    border-radius: 10px;
-    font-weight: bold;
-    transition: 0.3s;
+    padding: 20px;
+    border-radius: 20px;
+    font-weight: 800;
+    transition: 0.4s;
+    box-shadow: 0 10px 20px rgba(255,255,255,0.1);
 }
 
-.btn-buy:hover { background: #4834d4; transform: scale(1.02); }
+.btn-buy:hover { 
+    background: var(--primary-purple); 
+    color: #ffffff;
+    transform: scale(1.03); 
+    box-shadow: 0 15px 30px rgba(168, 85, 247, 0.4);
+}
 
-footer { text-align: center; padding: 50px; color: #999; }
+footer { text-align: center; padding: 100px 50px; color: rgba(255,255,255,0.3); font-size: 12px; letter-spacing: 1px; }
+
+/* Gambar Produk */
+.card img {
+    max-width: 120px;
+    margin-bottom: 20px;
+    filter: drop-shadow(0 10px 15px rgba(0,0,0,0.5));
+}
