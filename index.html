@@ -15,9 +15,9 @@
         <div class="container">
             <h2 class="brand-logo">PVP LEGEND<span class="animated-text"> STORE</span></h2>
             <ul>
-                <li><a href="#ranks">Ranks</a></li>
-                <li><a href="#keys">Keys</a></li>
-                <li><a href="https://wa.me/60142446184">Support</a></li>
+                <li><a href="#ranks" class="snd-trigger">Ranks</a></li>
+                <li><a href="#keys" class="snd-trigger">Keys</a></li>
+                <li><a href="https://wa.me/60142446184" class="snd-trigger">Support</a></li>
             </ul>
         </div>
     </nav>
@@ -32,7 +32,7 @@
         <section id="ranks">
             <h2 class="section-title">Server Ranks</h2>
             <div class="rank-container">
-                <div class="card rank-card">
+                <div class="card rank-card snd-trigger">
                     <div class="rank-badge">LIMITED OFFER</div>
                     <h3 class="animated-text">PVP+</h3>
                     <ul class="features">
@@ -43,13 +43,11 @@
                         <li>+ Ability to /tpaall</li>
                     </ul>
                     <p class="subscription">30 Day Subscription</p>
-                    
                     <div class="price-container">
                         <span class="original-price">RM 20.00 / 85k IDR</span>
                         <p class="price animated-text">RM 10.00 / 42.5k IDR</p>
                     </div>
-
-                    <a href="https://wa.me/60142446184?text=Saya%20ingin%20beli%20Rank%20PVP+" class="btn-buy">Buy via WhatsApp</a>
+                    <a href="https://wa.me/60142446184?text=Saya%20ingin%20beli%20Rank%20PVP+" class="btn-buy snd-trigger">Buy via WhatsApp</a>
                 </div>
             </div>
         </section>
@@ -58,38 +56,38 @@
             <h2 class="section-title">Crate Keys</h2>
             <div class="grid">
                 
-                <div class="card">
+                <div class="card snd-trigger">
                     <img src="assets/images/key/custom-enchant.png" alt="Key" class="key-img">
                     <h3>Custom Enchant Key</h3>
                     <div class="selector-group">
                         <label>Jumlah Key:</label>
-                        <input type="number" id="ce-input" value="1" min="1" oninput="calculateKey('ce')">
+                        <input type="number" id="ce-input" class="snd-trigger" value="1" min="1" oninput="calculateKey('ce')">
                         <div class="quick-select">
-                            <button onclick="setKey('ce', 1)">1</button>
-                            <button onclick="setKey('ce', 3)">3</button>
-                            <button onclick="setKey('ce', 5)">5</button>
-                            <button onclick="setKey('ce', 10)">10</button>
+                            <button class="snd-trigger" onclick="setKey('ce', 1)">1</button>
+                            <button class="snd-trigger" onclick="setKey('ce', 3)">3</button>
+                            <button class="snd-trigger" onclick="setKey('ce', 5)">5</button>
+                            <button class="snd-trigger" onclick="setKey('ce', 10)">10</button>
                         </div>
                     </div>
                     <p class="price animated-text" id="ce-price-display">RM 0.50 / 2k IDR</p>
-                    <a href="#" id="ce-buy-link" class="btn-buy">Buy via WhatsApp</a>
+                    <a href="#" id="ce-buy-link" class="btn-buy snd-trigger">Buy via WhatsApp</a>
                 </div>
 
-                <div class="card">
+                <div class="card snd-trigger">
                     <img src="assets/images/key/spawner-key.png" alt="Key" class="key-img">
                     <h3>Spawner Key</h3>
                     <div class="selector-group">
                         <label>Jumlah Key:</label>
-                        <input type="number" id="spawner-input" value="1" min="1" oninput="calculateKey('spawner')">
+                        <input type="number" id="spawner-input" class="snd-trigger" value="1" min="1" oninput="calculateKey('spawner')">
                         <div class="quick-select">
-                            <button onclick="setKey('spawner', 1)">1</button>
-                            <button onclick="setKey('spawner', 3)">3</button>
-                            <button onclick="setKey('spawner', 5)">5</button>
-                            <button onclick="setKey('spawner', 10)">10</button>
+                            <button class="snd-trigger" onclick="setKey('spawner', 1)">1</button>
+                            <button class="snd-trigger" onclick="setKey('spawner', 3)">3</button>
+                            <button class="snd-trigger" onclick="setKey('spawner', 5)">5</button>
+                            <button class="snd-trigger" onclick="setKey('spawner', 10)">10</button>
                         </div>
                     </div>
                     <p class="price animated-text" id="spawner-price-display">RM 1.20 / 5k IDR</p>
-                    <a href="#" id="spawner-buy-link" class="btn-buy">Buy via WhatsApp</a>
+                    <a href="#" id="spawner-buy-link" class="btn-buy snd-trigger">Buy via WhatsApp</a>
                 </div>
 
             </div>
@@ -107,15 +105,19 @@
             spawner: { rm: 1.20, idr: 5000 }
         };
 
+        // Fungsi Suara yang diperbaiki
         function playSound() {
+            btnAudio.pause(); // Reset jika sedang bunyi
             btnAudio.currentTime = 0;
-            btnAudio.play().catch(() => {});
+            const playPromise = btnAudio.play();
+            if (playPromise !== undefined) {
+                playPromise.catch(error => { console.log("User interaction required for audio"); });
+            }
         }
 
         function setKey(type, val) {
             document.getElementById(type + '-input').value = val;
             calculateKey(type);
-            playSound();
         }
 
         function calculateKey(type) {
@@ -132,12 +134,16 @@
             document.getElementById(type + '-buy-link').href = `https://wa.me/60142446184?text=${waMsg}`;
         }
 
+        // Global Event Listener untuk semua tombol/link/input/card
+        document.addEventListener('click', function(e) {
+            if (e.target.closest('.snd-trigger')) {
+                playSound();
+            }
+        });
+
+        // Inisialisasi awal
         calculateKey('ce');
         calculateKey('spawner');
-
-        document.querySelectorAll('a, button, input').forEach(el => {
-            el.addEventListener('click', playSound);
-        });
     </script>
 </body>
 </html>

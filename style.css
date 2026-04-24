@@ -1,21 +1,26 @@
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap');
 
 :root {
-    --glass: rgba(255, 255, 255, 0.05);
-    --glass-border: rgba(255, 255, 255, 0.15);
+    --glass: rgba(255, 255, 255, 0.03);
+    --glass-heavy: rgba(255, 255, 255, 0.08);
+    --glass-border: rgba(255, 255, 255, 0.12);
     --primary-purple: #a855f7;
-    --bg-dark: #0a0a0f;
+    --bg-dark: #07070b;
 }
 
 body {
     font-family: 'Plus Jakarta Sans', sans-serif;
     margin: 0; background-color: var(--bg-dark); color: white;
-    background-image: radial-gradient(circle at 10% 20%, rgba(168, 85, 247, 0.1) 0%, transparent 40%);
+    background-image: 
+        radial-gradient(circle at 15% 15%, rgba(168, 85, 247, 0.15) 0%, transparent 40%),
+        radial-gradient(circle at 85% 85%, rgba(168, 85, 247, 0.1) 0%, transparent 40%);
     overflow-x: hidden;
+    min-height: 100vh;
 }
 
 .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
 
+/* Animasi Teks */
 @keyframes flowText {
     0% { background-position: 0% 50%; }
     100% { background-position: 100% 50%; }
@@ -30,74 +35,111 @@ body {
     font-weight: 800;
 }
 
+/* Navbar */
 nav {
-    background: rgba(255, 255, 255, 0.02);
-    backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-    padding: 20px 0; border-bottom: 1px solid var(--glass-border);
+    background: rgba(255, 255, 255, 0.01);
+    backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px);
+    padding: 25px 0; border-bottom: 1px solid var(--glass-border);
     position: sticky; top: 0; z-index: 1000;
 }
 
-nav ul { list-style: none; display: flex; gap: 20px; float: right; margin-top: -30px; }
-nav ul li a { text-decoration: none; color: rgba(255,255,255,0.7); font-weight: 600; }
+.brand-logo { margin: 0; font-size: 1.6rem; letter-spacing: -1px; }
 
-header { text-align: center; padding: 80px 20px; }
-.section-title { text-align: center; margin-top: 50px; text-transform: uppercase; letter-spacing: 2px; }
+nav ul { list-style: none; display: flex; gap: 25px; float: right; margin-top: -35px; }
+nav ul li a { text-decoration: none; color: rgba(255,255,255,0.6); font-weight: 600; transition: 0.3s; }
+nav ul li a:hover { color: var(--primary-purple); }
 
-.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+/* Header */
+header { text-align: center; padding: 100px 20px; }
+header h1 { font-size: 4.5rem; margin: 0; letter-spacing: -2px; }
+header p { opacity: 0.5; font-size: 1.1rem; margin-top: 10px; }
+
+.section-title { text-align: center; margin: 80px 0 40px; text-transform: uppercase; letter-spacing: 4px; font-size: 0.9rem; opacity: 0.8; }
+
+/* Grid & Card (LIQUID GLASS V2) */
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 40px; }
 
 .card {
     background: var(--glass);
-    backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px);
-    border-radius: 30px; padding: 35px; border: 1px solid var(--glass-border);
-    text-align: center; transition: 0.4s;
+    backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px);
+    border-radius: 45px; /* Lebih Bulat */
+    padding: 45px 35px; 
+    border: 1px solid var(--glass-border);
+    text-align: center; 
+    transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    overflow: hidden;
 }
 
-.card:hover { transform: translateY(-10px); border-color: var(--primary-purple); }
+.card:hover { 
+    transform: translateY(-15px) scale(1.02); 
+    border-color: rgba(168, 85, 247, 0.5);
+    background: var(--glass-heavy);
+    box-shadow: 0 30px 60px rgba(0,0,0,0.4), 0 0 20px rgba(168, 85, 247, 0.1);
+}
 
-/* RANK CARD */
-.rank-card { max-width: 450px; margin: 0 auto; border: 2px solid var(--primary-purple); }
+/* Rank Specific */
+.rank-card { 
+    max-width: 480px; 
+    margin: 0 auto; 
+    border: 1px solid rgba(168, 85, 247, 0.4); 
+    background: rgba(168, 85, 247, 0.03);
+}
+
 .rank-badge {
     background: linear-gradient(90deg, #ff4757, #a855f7);
-    color: white; padding: 6px 15px; border-radius: 8px;
-    font-size: 11px; font-weight: 800; margin-bottom: 15px;
-    display: inline-block; box-shadow: 0 5px 15px rgba(255, 71, 87, 0.3);
+    color: white; padding: 8px 20px; border-radius: 50px;
+    font-size: 10px; font-weight: 800; margin-bottom: 20px;
+    display: inline-block; box-shadow: 0 10px 20px rgba(255, 71, 87, 0.2);
 }
 
-.price-container { margin: 15px 0; display: flex; flex-direction: column; align-items: center; gap: 5px;}
+/* Harga */
+.price-container { margin: 25px 0; }
 .original-price { 
-    font-size: 0.9rem; color: rgba(255,255,255,0.4); 
+    font-size: 1rem; color: rgba(255,255,255,0.3); 
     text-decoration: line-through; text-decoration-color: #ff4757; font-weight: 600;
 }
+.price { font-size: 2rem; margin: 5px 0; }
 
-.price { font-size: 1.8rem; margin: 0; }
-
-/* KEYS INPUT */
-.selector-group { margin: 20px 0; text-align: left; }
-.selector-group label { font-size: 11px; opacity: 0.5; font-weight: 800; }
+/* Input & Buttons */
+.selector-group { margin: 30px 0; text-align: left; }
+.selector-group label { font-size: 11px; opacity: 0.4; font-weight: 800; margin-left: 15px; }
 
 input[type=number] {
-    width: 100%; padding: 12px; background: rgba(0,0,0,0.3);
-    border: 1px solid var(--glass-border); border-radius: 12px;
-    color: white; font-size: 1.2rem; text-align: center; margin: 10px 0;
+    width: 100%; padding: 18px; background: rgba(0,0,0,0.4);
+    border: 1px solid var(--glass-border); border-radius: 20px;
+    color: white; font-size: 1.3rem; text-align: center; margin: 12px 0;
+    font-weight: 800; font-family: inherit; transition: 0.3s;
 }
+input[type=number]:focus { border-color: var(--primary-purple); background: rgba(0,0,0,0.6); }
 
-.quick-select { display: flex; gap: 8px; }
+.quick-select { display: flex; gap: 10px; }
 .quick-select button {
-    flex: 1; padding: 8px; background: var(--glass);
+    flex: 1; padding: 12px; background: rgba(255,255,255,0.05);
     border: 1px solid var(--glass-border); color: white;
-    border-radius: 8px; cursor: pointer; transition: 0.3s;
+    border-radius: 15px; cursor: pointer; transition: 0.3s; font-weight: 700;
 }
-.quick-select button:hover { background: var(--primary-purple); }
+.quick-select button:hover { background: var(--primary-purple); border-color: white; transform: scale(1.1); }
 
 .btn-buy {
-    display: block; background: white; color: black;
-    text-decoration: none; padding: 18px; border-radius: 15px;
-    font-weight: 800; margin-top: 15px; transition: 0.3s;
+    display: block; background: #ffffff; color: #000000;
+    text-decoration: none; padding: 22px; border-radius: 25px;
+    font-weight: 800; margin-top: 20px; transition: 0.4s;
+    box-shadow: 0 15px 30px rgba(255,255,255,0.1);
 }
-.btn-buy:hover { background: var(--primary-purple); color: white; }
+.btn-buy:hover { 
+    background: var(--primary-purple); color: white; 
+    transform: scale(1.05);
+    box-shadow: 0 20px 40px rgba(168, 85, 247, 0.4);
+}
 
-.features { list-style: none; padding: 0; margin: 25px 0; text-align: left; }
-.features li { padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.05); color: rgba(255,255,255,0.7); }
+.features { list-style: none; padding: 0; margin: 30px 0; text-align: left; }
+.features li { padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.03); color: rgba(255,255,255,0.6); font-size: 14px; }
 
-.key-img { max-width: 100px; margin-bottom: 15px; filter: drop-shadow(0 10px 10px rgba(0,0,0,0.5)); }
-footer { text-align: center; padding: 60px; opacity: 0.3; font-size: 12px; }
+.key-img { max-width: 130px; margin-bottom: 20px; filter: drop-shadow(0 20px 30px rgba(0,0,0,0.5)); transition: 0.5s; }
+.card:hover .key-img { transform: rotate(5deg) scale(1.1); }
+
+footer { text-align: center; padding: 100px 20px; opacity: 0.2; font-size: 12px; letter-spacing: 1px; }
+
+/* Hilangkan arrow input number */
+input::-webkit-outer-spin-button, input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
