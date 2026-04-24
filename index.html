@@ -17,14 +17,14 @@
             <ul>
                 <li><a href="#ranks">Ranks</a></li>
                 <li><a href="#keys">Keys</a></li>
-                <li><a href="https://wa.me/60142446184">Contact Support</a></li>
+                <li><a href="https://wa.me/60142446184">Support</a></li>
             </ul>
         </div>
     </nav>
 
     <header>
         <h1 class="animated-text">PVP LEGEND</h1>
-        <p>Semoga Betah, Selamat Belanja di pvp legends</p>
+        <p>Selamat Datang di Toko Resmi PvP Legends</p>
     </header>
 
     <main class="container">
@@ -43,13 +43,11 @@
                         <li>+ Ability to /tpaall</li>
                     </ul>
                     <p class="subscription">30 Day Subscription</p>
-                    
                     <div class="price-container">
                         <span class="original-price">RM 20.00 / 85k IDR</span>
-                        <p class="price animated-text" id="rank-price">RM 10.00 / 42.5k IDR</p>
+                        <p class="price animated-text">RM 10.00 / 42.5k IDR</p>
                     </div>
-
-                    <a href="https://chat.whatsapp.com/IsAFXEIZ1fM5t7ml3Ith9c" class="btn-buy">Buy via WhatsApp</a>
+                    <a href="https://wa.me/60142446184?text=Saya%20ingin%20beli%20Rank%20PVP+" class="btn-buy">Buy via WhatsApp</a>
                 </div>
             </div>
         </section>
@@ -59,35 +57,37 @@
             <div class="grid">
                 
                 <div class="card">
-                    <img src="assets/images/key/custom-enchant.png" alt="Custom Enchant Key">
+                    <img src="assets/images/key/custom-enchant.png" alt="Key" class="key-img">
                     <h3>Custom Enchant Key</h3>
                     <div class="selector-group">
-                        <label>Select Amount:</label>
-                        <select id="ce-key-select" onchange="updatePrice('ce')">
-                            <option value="RM 0.50 / 2k IDR">1x Key</option>
-                            <option value="RM 1.39 / 6k IDR">3x Keys</option>
-                            <option value="RM 2.32 / 10k IDR">5x Keys</option>
-                            <option value="RM 4.64 / 20k IDR">10x Keys</option>
-                        </select>
+                        <label>Jumlah Key:</label>
+                        <input type="number" id="ce-input" value="1" min="1" oninput="calculateKey('ce')">
+                        <div class="quick-select">
+                            <button onclick="setKey('ce', 1)">1</button>
+                            <button onclick="setKey('ce', 3)">3</button>
+                            <button onclick="setKey('ce', 5)">5</button>
+                            <button onclick="setKey('ce', 10)">10</button>
+                        </div>
                     </div>
-                    <p class="price animated-text" id="ce-price">RM 0.50 / 2k IDR</p>
-                    <a href="https://chat.whatsapp.com/IsAFXEIZ1fM5t7ml3Ith9c" class="btn-buy">Buy via WhatsApp</a>
+                    <p class="price animated-text" id="ce-price-display">RM 0.50 / 2k IDR</p>
+                    <a href="#" id="ce-buy-link" class="btn-buy">Buy via WhatsApp</a>
                 </div>
 
                 <div class="card">
-                    <img src="assets/images/key/spawner-key.png" alt="Spawner Key">
+                    <img src="assets/images/key/spawner-key.png" alt="Key" class="key-img">
                     <h3>Spawner Key</h3>
                     <div class="selector-group">
-                        <label>Select Amount:</label>
-                        <select id="spawner-key-select" onchange="updatePrice('spawner')">
-                            <option value="RM 1.20 / 5k IDR">1x Key</option>
-                            <option value="RM 3.50 / 15k IDR">3x Keys</option>
-                            <option value="RM 5.80 / 25k IDR">5x Keys</option>
-                            <option value="RM 11.60 / 50k IDR">10x Keys</option>
-                        </select>
+                        <label>Jumlah Key:</label>
+                        <input type="number" id="spawner-input" value="1" min="1" oninput="calculateKey('spawner')">
+                        <div class="quick-select">
+                            <button onclick="setKey('spawner', 1)">1</button>
+                            <button onclick="setKey('spawner', 3)">3</button>
+                            <button onclick="setKey('spawner', 5)">5</button>
+                            <button onclick="setKey('spawner', 10)">10</button>
+                        </div>
                     </div>
-                    <p class="price animated-text" id="spawner-price">RM 1.20 / 5k IDR</p>
-                    <a href="https://chat.whatsapp.com/IsAFXEIZ1fM5t7ml3Ith9c" class="btn-buy">Buy via WhatsApp</a>
+                    <p class="price animated-text" id="spawner-price-display">RM 1.20 / 5k IDR</p>
+                    <a href="#" id="spawner-buy-link" class="btn-buy">Buy via WhatsApp</a>
                 </div>
 
             </div>
@@ -100,25 +100,41 @@
 
     <script>
         const btnAudio = document.getElementById('btnAudio');
-        
+        const prices = {
+            ce: { rm: 0.50, idr: 2000 },
+            spawner: { rm: 1.20, idr: 5000 }
+        };
+
         function playSound() {
             btnAudio.currentTime = 0;
             btnAudio.play().catch(() => {});
         }
 
-        function updatePrice(type) {
+        function setKey(type, val) {
+            document.getElementById(type + '-input').value = val;
+            calculateKey(type);
             playSound();
-            if(type === 'ce') {
-                const val = document.getElementById('ce-key-select').value;
-                document.getElementById('ce-price').innerText = val;
-            } else if(type === 'spawner') {
-                const val = document.getElementById('spawner-key-select').value;
-                document.getElementById('spawner-price').innerText = val;
-            }
         }
 
-        // Aktifkan bunyi pada semua klik
-        document.querySelectorAll('a, button, select, .card').forEach(el => {
+        function calculateKey(type) {
+            const input = document.getElementById(type + '-input');
+            let qty = parseInt(input.value);
+            if (isNaN(qty) || qty < 1) qty = 1;
+
+            const totalRM = (qty * prices[type].rm).toFixed(2);
+            const totalIDR = (qty * prices[type].idr).toLocaleString();
+
+            document.getElementById(type + '-price-display').innerText = `RM ${totalRM} / ${totalIDR} IDR`;
+            
+            const waMsg = `Hello%20PVP%20Legend,%20saya%20ingin%20membeli%20${qty}x%20${type.toUpperCase()}%20KEY`;
+            document.getElementById(type + '-buy-link').href = `https://wa.me/60142446184?text=${waMsg}`;
+        }
+
+        // Jalankan awal
+        calculateKey('ce');
+        calculateKey('spawner');
+
+        document.querySelectorAll('a, button, input').forEach(el => {
             el.addEventListener('click', playSound);
         });
     </script>
