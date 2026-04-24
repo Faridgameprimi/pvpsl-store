@@ -33,7 +33,7 @@
             <h2 class="section-title">Server Ranks</h2>
             <div class="rank-container">
                 <div class="card rank-card">
-                    <div class="rank-badge">RANK</div>
+                    <div class="rank-badge">LIMITED OFFER</div>
                     <h3 class="animated-text">PVP+</h3>
                     <ul class="features">
                         <li>+ 3 Homes</li>
@@ -43,12 +43,12 @@
                         <li>+ Ability to /tpaall</li>
                     </ul>
                     <p class="subscription">30 Day Subscription</p>
-                    <div class="price-wrapper">
-                        <p class="price animated-text" id="rank-price">
-                            <span style="display:block; font-size: 0.6em; opacity: 0.5; text-decoration: line-through;">RM 20.00 / 85k IDR</span>
-                            RM 10.00 / 42.5k IDR
-                        </p>
+                    
+                    <div class="price-container">
+                        <span class="original-price">RM 20.00 / 85k IDR</span>
+                        <p class="price animated-text" id="rank-price">RM 10.00 / 42.5k IDR</p>
                     </div>
+
                     <a href="https://chat.whatsapp.com/IsAFXEIZ1fM5t7ml3Ith9c" class="btn-buy">Buy via WhatsApp</a>
                 </div>
             </div>
@@ -117,6 +117,7 @@
             }
         }
 
+        // Aktifkan bunyi pada semua klik
         document.querySelectorAll('a, button, select, .card').forEach(el => {
             el.addEventListener('click', playSound);
         });

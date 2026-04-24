@@ -56,10 +56,10 @@ header { text-align: center; padding: 80px 20px; }
 header h1 { font-size: 3.5rem; margin: 0; }
 header p { opacity: 0.6; margin-top: 10px; }
 
-/* Section Titles */
+/* Titles */
 .section-title { text-align: center; margin: 60px 0 30px; letter-spacing: 2px; text-transform: uppercase; }
 
-/* Grid & Cards */
+/* Cards */
 .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
 
 .card {
@@ -79,31 +79,37 @@ header p { opacity: 0.6; margin-top: 10px; }
     background: rgba(255, 255, 255, 0.08);
 }
 
-/* Ranks Card */
+/* Ranks Spesifik */
 .rank-card { max-width: 450px; margin: 0 auto; border: 2px solid var(--primary-purple); }
-.rank-badge { background: var(--primary-purple); color: white; padding: 5px 15px; border-radius: 10px; font-size: 11px; font-weight: 800; margin-bottom: 15px; display: inline-block; }
+
+.rank-badge {
+    background: linear-gradient(90deg, #ff4757, #a855f7);
+    color: white;
+    padding: 6px 15px;
+    border-radius: 8px;
+    font-size: 11px;
+    font-weight: 800;
+    margin-bottom: 15px;
+    display: inline-block;
+    box-shadow: 0 5px 15px rgba(255, 71, 87, 0.3);
+}
 
 .features { list-style: none; padding: 0; margin: 25px 0; text-align: left; }
 .features li { padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.05); color: rgba(255,255,255,0.7); font-size: 14px; }
 
-/* Select/Dropdown Glass */
-.selector-group { margin: 20px 0; text-align: left; }
-.selector-group label { font-size: 11px; font-weight: 800; opacity: 0.5; display: block; margin-bottom: 8px; }
-
-select {
-    width: 100%;
-    padding: 12px;
-    border-radius: 12px;
-    background: rgba(0,0,0,0.3);
-    border: 1px solid var(--glass-border);
-    color: white;
-    outline: none;
-    cursor: pointer;
+/* Harga Diskaun */
+.price-container { margin: 20px 0; display: flex; flex-direction: column; align-items: center; gap: 5px; }
+.original-price {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.4);
+    text-decoration: line-through;
+    text-decoration-color: #ff4757;
+    font-weight: 600;
 }
 
-.price { font-size: 1.8rem; margin: 20px 0; }
+.price { font-size: 1.8rem; margin: 0; }
 
-/* Button Liquid Style */
+/* Butang Buy */
 .btn-buy {
     display: block;
     background: #ffffff;
@@ -113,7 +119,6 @@ select {
     border-radius: 15px;
     font-weight: 800;
     transition: 0.3s;
-    box-shadow: 0 10px 20px rgba(255,255,255,0.05);
 }
 
 .btn-buy:hover {
@@ -123,8 +128,5 @@ select {
     box-shadow: 0 15px 30px rgba(168, 85, 247, 0.4);
 }
 
-/* Footer */
 footer { padding: 80px 20px; text-align: center; color: rgba(255,255,255,0.2); font-size: 12px; }
-
-/* Assets */
 .card img { max-width: 100px; margin-bottom: 20px; filter: drop-shadow(0 10px 15px rgba(0,0,0,0.5)); }
