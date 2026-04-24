@@ -43,10 +43,12 @@
                         <li>+ Ability to /tpaall</li>
                     </ul>
                     <p class="subscription">30 Day Subscription</p>
-                    <p class="price">
-                        <del style="font-size: 0.7em; opacity: 0.5;">RM 20.00 / 85k IDR</del><br>
-                        RM 10.00 / 42.5k IDR
-                    </p>
+                    <div class="price-wrapper">
+                        <p class="price animated-text" id="rank-price">
+                            <span style="display:block; font-size: 0.6em; opacity: 0.5; text-decoration: line-through;">RM 20.00 / 85k IDR</span>
+                            RM 10.00 / 42.5k IDR
+                        </p>
+                    </div>
                     <a href="https://chat.whatsapp.com/IsAFXEIZ1fM5t7ml3Ith9c" class="btn-buy">Buy via WhatsApp</a>
                 </div>
             </div>
@@ -105,7 +107,7 @@
         }
 
         function updatePrice(type) {
-            playSound(); // Bunyi masa tukar harga
+            playSound();
             if(type === 'ce') {
                 const val = document.getElementById('ce-key-select').value;
                 document.getElementById('ce-price').innerText = val;
@@ -115,7 +117,6 @@
             }
         }
 
-        // Auto-pasang bunyi pada semua elemen interaktif
         document.querySelectorAll('a, button, select, .card').forEach(el => {
             el.addEventListener('click', playSound);
         });
