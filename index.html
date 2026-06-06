@@ -3,28 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Farid Smp | Official Webstore</title>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
+    <title>Pvp Legend | Official Webstore</title>
     <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
 </head>
 <body>
 
-    <audio id="btnAudio" src="click-sound.wav" preload="auto"></audio>
-
     <nav>
         <div class="container">
-            <h2 class="brand-logo">FARID SMP<span class="animated-text"> STORE</span></h2>
+            <h2 class="brand-logo">PVP LEGEND<span> STORE</span></h2>
             <ul>
-                <li><a href="#ranks" class="snd-trigger">Ranks</a></li>
-                <li><a href="#keys" class="snd-trigger">Keys</a></li>
-                <li><a href="https://wa.me/60142446184" class="snd-trigger">Support</a></li>
+                <li><a href="#ranks">Ranks</a></li>
+                <li><a href="#keys">Keys</a></li>
+                <li><a href="https://wa.me/60142446184">Contact Support</a></li>
             </ul>
         </div>
     </nav>
 
     <header>
-        <h1 class="animated-text">FARID SMP</h1>
-        <p>Selamat Datang di Toko Resmi Farid Smp</p>
+        <h1>PVP LEGEND</h1>
+        <p>Semoga Betah, Selamat Belanja di pvp legends</p>
     </header>
 
     <main class="container">
@@ -32,9 +30,9 @@
         <section id="ranks">
             <h2 class="section-title">Server Ranks</h2>
             <div class="rank-container">
-                <div class="card rank-card snd-trigger">
-                    <div class="rank-badge">LIMITED OFFER</div>
-                    <h3 class="animated-text">RID+</h3>
+                <div class="card rank-card">
+                    <div class="rank-badge">RANK</div>
+                    <h3>PVP+</h3>
                     <ul class="features">
                         <li>+ 3 Homes</li>
                         <li>+ Short RTP Cooldown</li>
@@ -43,11 +41,44 @@
                         <li>+ Ability to /tpaall</li>
                     </ul>
                     <p class="subscription">30 Day Subscription</p>
-                    <div class="price-container">
-                        <span class="original-price">RM 14.67 / 66.4k IDR</span>
-                        <p class="price animated-text">RM 5.89 / 26.0k IDR</p>
-                    </div>
-                    <a href="https://wa.me/60142446184?text=Saya%20ingin%20beli%20Rank%20Rid+" class="btn-buy snd-trigger">Buy via WhatsApp</a>
+                    <p class="price">
+                        <del style="font-size: 0.8em; color: #ff4757;">RM 20.00 / 85k IDR</del><br>
+                        RM 10.00 / 42.5k IDR
+                    </p>
+                    <a href="https://chat.whatsapp.com/IsAFXEIZ1fM5t7ml3Ith9c" class="btn-buy">Buy via WhatsApp</a>
+                </div>
+
+                <div class="card rank-card">
+                    <div class="rank-badge">RANK</div>
+                    <h3>FARID+</h3>
+                    <ul class="features">
+                        <li>+ Fly In Lobby</li>
+                        <li>+ Get shard anywhere</li>
+                        <li>+ 6 max sethome</li>
+                        <li>+ 2x shard in afk</li>
+                    </ul>
+                    <p class="subscription">30 Day Subscription</p>
+                    <p class="price">
+                        RM 15.00 / 57k IDR
+                    </p>
+                    <a href="https://chat.whatsapp.com/IsAFXEIZ1fM5t7ml3Ith9c" class="btn-buy">Buy via WhatsApp</a>
+                </div>
+
+                <div class="card rank-card">
+                    <div class="rank-badge">RANK</div>
+                    <h3>FARID ULTRA</h3>
+                    <ul class="features">
+                        <li>+ All feature Farid Plus</li>
+                        <li>+ 2x shard anywhere</li>
+                        <li>+ 10 max sethome</li>
+                        <li>+ 3x shard in afk</li>
+                        <li>+ nick</li>
+                    </ul>
+                    <p class="subscription">30 Day Subscription</p>
+                    <p class="price">
+                        RM 30.00 / 114k IDR
+                    </p>
+                    <a href="https://chat.whatsapp.com/IsAFXEIZ1fM5t7ml3Ith9c" class="btn-buy">Buy via WhatsApp</a>
                 </div>
             </div>
         </section>
@@ -56,38 +87,64 @@
             <h2 class="section-title">Crate Keys</h2>
             <div class="grid">
                 
-                <div class="card snd-trigger">
-                    <img src="assets/images/key/custom-enchant.png" alt="Key" class="key-img">
+                <div class="card">
+                    <img src="assets/images/key/custom-enchant.png" alt="Custom Enchant Key">
                     <h3>Custom Enchant Key</h3>
                     <div class="selector-group">
-                        <label>Jumlah Key:</label>
-                        <input type="number" id="ce-input" class="snd-trigger" value="1" min="1" oninput="calculateKey('ce')">
-                        <div class="quick-select">
-                            <button class="snd-trigger" onclick="setKey('ce', 1)">1</button>
-                            <button class="snd-trigger" onclick="setKey('ce', 3)">3</button>
-                            <button class="snd-trigger" onclick="setKey('ce', 5)">5</button>
-                            <button class="snd-trigger" onclick="setKey('ce', 10)">10</button>
-                        </div>
+                        <label>Select Amount:</label>
+                        <select id="ce-key-select" onchange="updatePrice('ce')">
+                            <option value="RM 0.50 / 2k IDR">1x Key</option>
+                            <option value="RM 1.39 / 6k IDR">3x Keys</option>
+                            <option value="RM 2.32 / 10k IDR">5x Keys</option>
+                            <option value="RM 4.64 / 20k IDR">10x Keys</option>
+                        </select>
                     </div>
-                    <p class="price animated-text" id="ce-price-display">RM 0.80 / 3.5k IDR</p>
-                    <a href="#" id="ce-buy-link" class="btn-buy snd-trigger">Buy via WhatsApp</a>
+                    <p class="price" id="ce-price">RM 0.50 / 2k IDR</p>
+                    <a href="https://chat.whatsapp.com/IsAFXEIZ1fM5t7ml3Ith9c" class="btn-buy">Buy via WhatsApp</a>
                 </div>
 
-                <div class="card snd-trigger">
-                    <img src="assets/images/key/spawner-key.png" alt="Key" class="key-img">
+                <div class="card">
+                    <img src="assets/images/key/spawner-key.png" alt="Spawner Key">
                     <h3>Spawner Key</h3>
                     <div class="selector-group">
-                        <label>Jumlah Key:</label>
-                        <input type="number" id="spawner-input" class="snd-trigger" value="1" min="1" oninput="calculateKey('spawner')">
-                        <div class="quick-select">
-                            <button class="snd-trigger" onclick="setKey('spawner', 1)">1</button>
-                            <button class="snd-trigger" onclick="setKey('spawner', 3)">3</button>
-                            <button class="snd-trigger" onclick="setKey('spawner', 5)">5</button>
-                            <button class="snd-trigger" onclick="setKey('spawner', 10)">10</button>
-                        </div>
+                        <label>Select Amount:</label>
+                        <select id="spawner-key-select" onchange="updatePrice('spawner')">
+                            <option value="RM 1.20 / 5k IDR">1x Key</option>
+                            <option value="RM 3.50 / 15k IDR">3x Keys</option>
+                            <option value="RM 5.80 / 25k IDR">5x Keys</option>
+                            <option value="RM 11.60 / 50k IDR">10x Keys</option>
+                        </select>
                     </div>
-                    <p class="price animated-text" id="spawner-price-display">RM 1.50 / 6.5k IDR</p>
-                    <a href="#" id="spawner-buy-link" class="btn-buy snd-trigger">Buy via WhatsApp</a>
+                    <p class="price" id="spawner-price">RM 1.20 / 5k IDR</p>
+                    <a href="https://chat.whatsapp.com/IsAFXEIZ1fM5t7ml3Ith9c" class="btn-buy">Buy via WhatsApp</a>
+                </div>
+
+                <div class="card">
+                    <img src="assets/images/key/iron-key.png" alt="Iron Key">
+                    <h3>Iron Key</h3>
+                    <p class="price">RM 3.50 / 13k IDR</p>
+                    <a href="https://chat.whatsapp.com/IsAFXEIZ1fM5t7ml3Ith9c" class="btn-buy">Buy via WhatsApp</a>
+                </div>
+
+                <div class="card">
+                    <img src="assets/images/key/gold-key.png" alt="Gold Key">
+                    <h3>Gold Key</h3>
+                    <p class="price">RM 6.50 / 25k IDR</p>
+                    <a href="https://chat.whatsapp.com/IsAFXEIZ1fM5t7ml3Ith9c" class="btn-buy">Buy via WhatsApp</a>
+                </div>
+
+                <div class="card">
+                    <img src="assets/images/key/diamond-key.png" alt="Diamond Key">
+                    <h3>Diamond Key</h3>
+                    <p class="price">RM 12.50 / 48k IDR</p>
+                    <a href="https://chat.whatsapp.com/IsAFXEIZ1fM5t7ml3Ith9c" class="btn-buy">Buy via WhatsApp</a>
+                </div>
+
+                <div class="card">
+                    <img src="assets/images/key/netherite-key.png" alt="Netherite Key">
+                    <h3>Netherite Key</h3>
+                    <p class="price">RM 18.50 / 71k IDR</p>
+                    <a href="https://chat.whatsapp.com/IsAFXEIZ1fM5t7ml3Ith9c" class="btn-buy">Buy via WhatsApp</a>
                 </div>
 
             </div>
@@ -95,52 +152,19 @@
     </main>
 
     <footer>
-        <p>&copy; 2026 Farid Smp Store. Not an official Minecraft product.</p>
+        <p>&copy; 2026 Pvp Legend Store. Not an official Minecraft product.</p>
     </footer>
 
     <script>
-        const btnAudio = document.getElementById('btnAudio');
-        const prices = {
-            ce: { rm: 0.80, idr: 3500 },
-            spawner: { rm: 1.50, idr: 6500 }
-        };
-
-        function playSound() {
-            btnAudio.pause();
-            btnAudio.currentTime = 0;
-            const playPromise = btnAudio.play();
-            if (playPromise !== undefined) {
-                playPromise.catch(error => { console.log("User interaction required"); });
+        function updatePrice(type) {
+            if(type === 'ce') {
+                const val = document.getElementById('ce-key-select').value;
+                document.getElementById('ce-price').innerText = val;
+            } else if(type === 'spawner') {
+                const val = document.getElementById('spawner-key-select').value;
+                document.getElementById('spawner-price').innerText = val;
             }
         }
-
-        function setKey(type, val) {
-            document.getElementById(type + '-input').value = val;
-            calculateKey(type);
-        }
-
-        function calculateKey(type) {
-            const input = document.getElementById(type + '-input');
-            let qty = parseInt(input.value);
-            if (isNaN(qty) || qty < 1) qty = 1;
-
-            const totalRM = (qty * prices[type].rm).toFixed(2);
-            const totalIDR = (qty * prices[type].idr).toLocaleString();
-
-            document.getElementById(type + '-price-display').innerText = `RM ${totalRM} / ${totalIDR} IDR`;
-            
-            const waMsg = `Hello%20Farid%20Smp,%20saya%20ingin%20membeli%20${qty}x%20${type.toUpperCase()}%20KEY`;
-            document.getElementById(type + '-buy-link').href = `https://wa.me/60142446184?text=${waMsg}`;
-        }
-
-        document.addEventListener('click', function(e) {
-            if (e.target.closest('.snd-trigger')) {
-                playSound();
-            }
-        });
-
-        calculateKey('ce');
-        calculateKey('spawner');
     </script>
 </body>
 </html>
