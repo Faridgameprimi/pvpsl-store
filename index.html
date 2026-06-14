@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
     <style>
-        /* Sedikit tambahan styling agar dropdown jumlah terlihat rapi */
+        /* Styling agar kolom input jumlah terlihat rapi dan proporsional */
         .qty-container {
             margin: 10px 0;
             display: flex;
@@ -15,12 +15,20 @@
             justify-content: center;
             gap: 8px;
         }
-        .qty-container select {
-            padding: 5px 10px;
+        .qty-container input[type="number"] {
+            padding: 6px 10px;
             border-radius: 5px;
             border: 1px solid #ccc;
             font-family: 'Poppins', sans-serif;
-            cursor: pointer;
+            width: 70px;
+            text-align: center;
+            font-weight: 600;
+        }
+        /* Menghilangkan panah bawaan browser di input number agar lebih clean (opsional) */
+        .qty-container input::-webkit-outer-spin-button,
+        .qty-container input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
         }
     </style>
 </head>
@@ -94,12 +102,7 @@
                     <h3>Iron Key</h3>
                     <div class="qty-container">
                         <label for="iron-qty">Jumlah:</label>
-                        <select id="iron-qty" onchange="calculateKeyPrice('iron')">
-                            <option value="1">1x</option>
-                            <option value="5">5x</option>
-                            <option value="10">10x</option>
-                            <option value="20">20x</option>
-                        </select>
+                        <input type="number" id="iron-qty" min="1" value="1" oninput="calculateKeyPrice('iron')">
                     </div>
                     <p class="price" id="iron-price">RM 3.50 / 13k IDR</p>
                     <a href="https://wa.me/60142446184?text=Halo%2C%20saya%20mau%20beli%20Iron%20Key%20%28RM%203.50%20%2F%2013k%20IDR%29.%20Jumlah%3A%201x%0ANickname%3A" id="iron-btn" class="btn-buy">Buy via WhatsApp</a>
@@ -111,12 +114,7 @@
                     <h3>Gold Key</h3>
                     <div class="qty-container">
                         <label for="gold-qty">Jumlah:</label>
-                        <select id="gold-qty" onchange="calculateKeyPrice('gold')">
-                            <option value="1">1x</option>
-                            <option value="5">5x</option>
-                            <option value="10">10x</option>
-                            <option value="20">20x</option>
-                        </select>
+                        <input type="number" id="gold-qty" min="1" value="1" oninput="calculateKeyPrice('gold')">
                     </div>
                     <p class="price" id="gold-price">RM 6.50 / 25k IDR</p>
                     <a href="https://wa.me/60142446184?text=Halo%2C%20saya%20mau%20beli%20Gold%20Key%20%28RM%206.50%20%2F%2025k%20IDR%29.%20Jumlah%3A%201x%0ANickname%3A" id="gold-btn" class="btn-buy">Buy via WhatsApp</a>
@@ -128,12 +126,7 @@
                     <h3>Diamond Key</h3>
                     <div class="qty-container">
                         <label for="diamond-qty">Jumlah:</label>
-                        <select id="diamond-qty" onchange="calculateKeyPrice('diamond')">
-                            <option value="1">1x</option>
-                            <option value="5">5x</option>
-                            <option value="10">10x</option>
-                            <option value="20">20x</option>
-                        </select>
+                        <input type="number" id="diamond-qty" min="1" value="1" oninput="calculateKeyPrice('diamond')">
                     </div>
                     <p class="price" id="diamond-price">RM 12.50 / 48k IDR</p>
                     <a href="https://wa.me/60142446184?text=Halo%2C%20saya%20mau%20beli%20Diamond%20Key%20%28RM%2012.50%20%2F%2048k%20IDR%29.%20Jumlah%3A%201x%0ANickname%3A" id="diamond-btn" class="btn-buy">Buy via WhatsApp</a>
@@ -145,12 +138,7 @@
                     <h3>Netherite Key</h3>
                     <div class="qty-container">
                         <label for="netherite-qty">Jumlah:</label>
-                        <select id="netherite-qty" onchange="calculateKeyPrice('netherite')">
-                            <option value="1">1x</option>
-                            <option value="5">5x</option>
-                            <option value="10">10x</option>
-                            <option value="20">20x</option>
-                        </select>
+                        <input type="number" id="netherite-qty" min="1" value="1" oninput="calculateKeyPrice('netherite')">
                     </div>
                     <p class="price" id="netherite-price">RM 18.50 / 71k IDR</p>
                     <a href="https://wa.me/60142446184?text=Halo%2C%20saya%20mau%20beli%20Netherite%20Key%20%28RM%2018.50%20%2F%2071k%20IDR%29.%20Jumlah%3A%201x%0ANickname%3A" id="netherite-btn" class="btn-buy">Buy via WhatsApp</a>
@@ -175,7 +163,7 @@
             }
         }
 
-        // Data harga dasar masing-masing key
+        // Data harga dasar masing-masing key per 1 pcs
         const keyData = {
             iron: { name: "Iron Key", rm: 3.50, idr: 13 },
             gold: { name: "Gold Key", rm: 6.50, idr: 25 },
@@ -183,19 +171,25 @@
             netherite: { name: "Netherite Key", rm: 18.50, idr: 71 }
         };
 
-        // Fungsi perhitungan harga dan link otomatis
+        // Fungsi perhitungan harga kustom dan generate link WhatsApp otomatis
         function calculateKeyPrice(type) {
-            const qty = parseInt(document.getElementById(type + '-qty').value);
+            let qty = parseInt(document.getElementById(type + '-qty').value);
+            
+            // Jaga-jaga kalau input kosong, diisi 0, atau minus, otomatis dihitung sebagai 1
+            if (isNaN(qty) || qty < 1) {
+                qty = 1;
+            }
+            
             const data = keyData[type];
             
-            // Hitung total harga
+            // Hitung total harga baru berdasarkan jumlah kustom
             const totalRM = (data.rm * qty).toFixed(2);
             const totalIDR = data.idr * qty;
             
-            // Update teks tampilan harga di web
+            // Perbarui teks harga di layar web
             document.getElementById(type + '-price').innerText = `RM ${totalRM} / ${totalIDR}k IDR`;
             
-            // Perbarui link WhatsApp tujuan beserta teks pesannya
+            // Buat ulang link WhatsApp beserta pesan teks kustomnya
             const phoneNumber = "60142446184";
             const message = `Halo, saya mau beli ${data.name} (RM ${totalRM} / ${totalIDR}k IDR).\nJumlah: ${qty}x\nNickname:`;
             const encodedMessage = encodeURIComponent(message);
