@@ -5,212 +5,75 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FaridSmp | Official Webstore</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
-    <style>
-        /* Styling agar kolom input jumlah terlihat rapi dan proporsional */
-        .qty-container {
-            margin: 10px 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-        .qty-container input[type="number"] {
-            padding: 6px 10px;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-            font-family: 'Poppins', sans-serif;
-            width: 70px;
-            text-align: center;
-            font-weight: 600;
-        }
-        /* Menghilangkan panah bawaan browser di input number agar lebih clean (opsional) */
-        .qty-container input::-webkit-outer-spin-button,
-        .qty-container input::-webkit-inner-spin-button {
-            -webkit-appearance: none;
-            margin: 0;
-        }
-    </style>
 </head>
 <body>
 
     <nav>
         <div class="container">
-            <h2 class="brand-logo">FARIDSMP<span> STORE</span></h2>
+            <div class="nav-left">
+                <a href="index.html" class="brand-logo">FARIDSMP<span> STORE</span></a>
+                <span class="status-pill"><span class="status-dot"></span>Server Online</span>
+            </div>
             <ul>
-                <li><a href="#ranks">Ranks</a></li>
-                <li><a href="#keys">Keys</a></li>
-                <li><a href="https://wa.me/60142446184">Contact Support</a></li>
+                <li><a href="index.html" class="active sfx">Home</a></li>
+                <li><a href="rank.html" class="sfx">Ranks</a></li>
+                <li><a href="key.html" class="sfx">Keys</a></li>
+                <li><a href="https://wa.me/60142446184" class="nav-support sfx">Contact Support</a></li>
             </ul>
         </div>
     </nav>
 
-    <header>
+    <header class="hero">
+        <span class="eyebrow">Minecraft Server Store</span>
         <h1>FARIDSMP</h1>
-        <p>Semoga Betah, Selamat Belanja di Faridsmp</p>
+        <p>Semoga betah, selamat belanja di FaridSmp. Pilih rank atau key di bawah untuk mulai belanja.</p>
     </header>
 
     <main class="container">
-        
-        <section id="ranks">
-            <h2 class="section-title">Server Ranks</h2>
-            <div class="rank-container">
-                <div class="card rank-card">
-                    <div class="rank-badge">RANK</div>
-                    <h3>FARID+</h3>
-                    <ul class="features">
-                        <li>+ Fly In Lobby</li>
-                        <li>+ Get shard anywhere</li>
-                        <li>+ 6 Max Sethome</li>
-                    </ul>
-                    <p class="subscription">30 Day Subscription</p>
-                    <p class="price">
-                        RM 5.00 / 15k IDR
-                    </p>
-                    <a href="https://wa.me/60142446184?text=Halo%2C%20saya%20mau%20beli%20Rank%20FARID%2B%20%28RM%205.00%20%2F%2015k%20IDR%29.%20Nickname%3A" class="btn-buy">Buy via WhatsApp</a>
-                </div>
-        
-                 <div class="card rank-card">
-                    <div class="rank-badge">RANK</div>
-                    <h3>FARID++</h3>
-                    <ul class="features">
-                        <li>+ All Feature Farid +</li>
-                        <li>+ 10 Max Sethome</li>
-                        <li>+ 35 Slot Sell Ah</li>
-                        <li>+ 2x Shard In AFK</li>
-                        <li>+ Ability to /craft</li>
-                    </ul>
-                    <p class="subscription">30 Day Subscription</p>
-                    <p class="price">
-                        RM 15.00 / 57k IDR
-                    </p>
-                    <a href="https://wa.me/60142446184?text=Halo%2C%20saya%20mau%20beli%20Rank%20FARID%2B%2B%20%28RM%2015.00%20%2F%2057k%20IDR%29.%20Nickname%3A" class="btn-buy">Buy via WhatsApp</a>
-                </div>
+        <div class="hub-grid">
 
-                <div class="card rank-card">
-                    <div class="rank-badge">RANK</div>
-                    <h3>FARID ULTRA</h3>
-                    <ul class="features">
-                        <li>+ All Feature Farid ++</li>
-                        <li>+ 2x Shard Anywhere</li>
-                        <li>+ 20 Max Sethome</li>
-                        <li>+ 65 Slot Sell Ah</li>
-                        <li>+ 3x Shard In AFK</li>
-                        <li>+ Ability to /anvil</li>
-                    </ul>
-                    <p class="subscription">30 Day Subscription</p>
-                    <p class="price">
-                        RM 30.00 / 114k IDR
-                    </p>
-                    <a href="https://wa.me/60142446184?text=Halo%2C%20saya%20mau%20beli%20Rank%20FARID%20ULTRA%20%28RM%2030.00%20%2F%20114k%20IDR%29.%20Nickname%3A" class="btn-buy">Buy via WhatsApp</a>
-                </div>
-            </div>
-        </section>
+            <a href="rank.html" class="hub-card sfx">
+                <span class="hub-tag">Server Ranks</span>
+                <h2>Ranks</h2>
+                <p>Naikkan level bermainmu — fly di lobby, tambahan sethome, akses /craft dan /anvil, sampai bonus shard di AFK.</p>
+                <span class="hub-arrow">Lihat Ranks
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                </span>
+            </a>
 
-        <section id="keys">
-            <h2 class="section-title">Crate Keys</h2>
-            <div class="grid">
-                
-                <!-- Iron Key -->
-                <div class="card">
-                    <img src="assets/images/key/iron-key.png" alt="Iron Key">
-                    <h3>Iron Key</h3>
-                    <div class="qty-container">
-                        <label for="iron-qty">Jumlah:</label>
-                        <input type="number" id="iron-qty" min="1" value="1" oninput="calculateKeyPrice('iron')">
-                    </div>
-                    <p class="price" id="iron-price">RM 3.50 / 13k IDR</p>
-                    <a href="https://wa.me/60142446184?text=Halo%2C%20saya%20mau%20beli%20Iron%20Key%20%28RM%203.50%20%2F%2013k%20IDR%29.%20Jumlah%3A%201x%0ANickname%3A" id="iron-btn" class="btn-buy">Buy via WhatsApp</a>
-                </div>
+            <a href="key.html" class="hub-card sfx">
+                <span class="hub-tag">Crate Keys</span>
+                <h2>Keys</h2>
+                <p>Iron, Gold, Diamond, sampai Netherite Key. Atur jumlah sesuai kebutuhan, harga dihitung otomatis.</p>
+                <span class="hub-arrow">Lihat Keys
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                </span>
+            </a>
 
-                <!-- Gold Key -->
-                <div class="card">
-                    <img src="assets/images/key/gold-key.png" alt="Gold Key">
-                    <h3>Gold Key</h3>
-                    <div class="qty-container">
-                        <label for="gold-qty">Jumlah:</label>
-                        <input type="number" id="gold-qty" min="1" value="1" oninput="calculateKeyPrice('gold')">
-                    </div>
-                    <p class="price" id="gold-price">RM 6.50 / 25k IDR</p>
-                    <a href="https://wa.me/60142446184?text=Halo%2C%20saya%20mau%20beli%20Gold%20Key%20%28RM%206.50%20%2F%2025k%20IDR%29.%20Jumlah%3A%201x%0ANickname%3A" id="gold-btn" class="btn-buy">Buy via WhatsApp</a>
-                </div>
+        </div>
 
-                <!-- Diamond Key -->
-                <div class="card">
-                    <img src="assets/images/key/diamond-key.png" alt="Diamond Key">
-                    <h3>Diamond Key</h3>
-                    <div class="qty-container">
-                        <label for="diamond-qty">Jumlah:</label>
-                        <input type="number" id="diamond-qty" min="1" value="1" oninput="calculateKeyPrice('diamond')">
-                    </div>
-                    <p class="price" id="diamond-price">RM 12.50 / 48k IDR</p>
-                    <a href="https://wa.me/60142446184?text=Halo%2C%20saya%20mau%20beli%20Diamond%20Key%20%28RM%2012.50%20%2F%2048k%20IDR%29.%20Jumlah%3A%201x%0ANickname%3A" id="diamond-btn" class="btn-buy">Buy via WhatsApp</a>
-                </div>
-
-                <!-- Netherite Key -->
-                <div class="card">
-                    <img src="assets/images/key/netherite-key.png" alt="Netherite Key">
-                    <h3>Netherite Key</h3>
-                    <div class="qty-container">
-                        <label for="netherite-qty">Jumlah:</label>
-                        <input type="number" id="netherite-qty" min="1" value="1" oninput="calculateKeyPrice('netherite')">
-                    </div>
-                    <p class="price" id="netherite-price">RM 18.50 / 71k IDR</p>
-                    <a href="https://wa.me/60142446184?text=Halo%2C%20saya%20mau%20beli%20Netherite%20Key%20%28RM%2018.50%20%2F%2071k%20IDR%29.%20Jumlah%3A%201x%0ANickname%3A" id="netherite-btn" class="btn-buy">Buy via WhatsApp</a>
-                </div>
-
-            </div>
-        </section>
+        <div class="inventory-bar" aria-hidden="true">
+            <div class="slot"></div>
+            <div class="slot lit"></div>
+            <div class="slot"></div>
+            <div class="slot"></div>
+            <div class="slot lit"></div>
+            <div class="slot"></div>
+            <div class="slot"></div>
+            <div class="slot lit"></div>
+            <div class="slot"></div>
+        </div>
     </main>
 
     <footer>
         <p>&copy; 2026 FaridSmp Store. Not an official Minecraft product.</p>
+        <div class="footer-links">
+            <a href="rank.html" class="sfx">Ranks</a>
+            <a href="key.html" class="sfx">Keys</a>
+            <a href="https://wa.me/60142446184" class="sfx">WhatsApp Support</a>
+        </div>
     </footer>
 
-    <script>
-        function updatePrice(type) {
-            if(type === 'ce') {
-                const val = document.getElementById('ce-key-select').value;
-                document.getElementById('ce-price').innerText = val;
-            } else if(type === 'spawner') {
-                const val = document.getElementById('spawner-key-select').value;
-                document.getElementById('spawner-price').innerText = val;
-            }
-        }
-
-        // Data harga dasar masing-masing key per 1 pcs
-        const keyData = {
-            iron: { name: "Iron Key", rm: 3.50, idr: 13 },
-            gold: { name: "Gold Key", rm: 6.50, idr: 25 },
-            diamond: { name: "Diamond Key", rm: 12.50, idr: 48 },
-            netherite: { name: "Netherite Key", rm: 18.50, idr: 71 }
-        };
-
-        // Fungsi perhitungan harga kustom dan generate link WhatsApp otomatis
-        function calculateKeyPrice(type) {
-            let qty = parseInt(document.getElementById(type + '-qty').value);
-            
-            // Jaga-jaga kalau input kosong, diisi 0, atau minus, otomatis dihitung sebagai 1
-            if (isNaN(qty) || qty < 1) {
-                qty = 1;
-            }
-            
-            const data = keyData[type];
-            
-            // Hitung total harga baru berdasarkan jumlah kustom
-            const totalRM = (data.rm * qty).toFixed(2);
-            const totalIDR = data.idr * qty;
-            
-            // Perbarui teks harga di layar web
-            document.getElementById(type + '-price').innerText = `RM ${totalRM} / ${totalIDR}k IDR`;
-            
-            // Buat ulang link WhatsApp beserta pesan teks kustomnya
-            const phoneNumber = "60142446184";
-            const message = `Halo, saya mau beli ${data.name} (RM ${totalRM} / ${totalIDR}k IDR).\nJumlah: ${qty}x\nNickname:`;
-            const encodedMessage = encodeURIComponent(message);
-            
-            document.getElementById(type + '-btn').href = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
-        }
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
