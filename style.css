@@ -386,7 +386,18 @@ main.container { padding-bottom: 60px; }
     text-align: center;
 }
 .calculator h3 { font-size: 1.35rem; margin-bottom: 8px; letter-spacing: -0.3px; }
-.calculator .calc-sub { color: var(--text-dim); font-size: 13px; margin-bottom: 28px; line-height: 1.6; }
+.calculator .calc-sub { color: var(--text-dim); font-size: 13px; margin-bottom: 24px; line-height: 1.6; }
+
+.currency-toggle { display: flex; justify-content: center; gap: 8px; margin-bottom: 24px; }
+.curr-btn {
+    padding: 8px 20px; border-radius: 50px;
+    border: 1px solid var(--glass-border); background: var(--glass);
+    color: var(--text-dim); font-family: 'Inter', sans-serif;
+    font-weight: 700; font-size: 12.5px; cursor: pointer; transition: 0.25s;
+}
+.curr-btn.active { background: var(--red); border-color: var(--red-bright); color: white; }
+.curr-btn:hover:not(.active) { border-color: var(--red-bright); color: var(--text); }
+
 .calc-row { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 22px; text-align: left; }
 .calc-field { flex: 1; min-width: 200px; }
 .calc-field label {

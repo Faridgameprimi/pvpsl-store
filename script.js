@@ -158,12 +158,28 @@ document.addEventListener('DOMContentLoaded', () => {
 
     /* ---------- Rank upgrade discount calculator ---------- */
     const rankPrices = {
-        none:         { name: 'Belum punya rank', price: 0 },
-        plus:         { name: 'Farid Plus', price: 20000 },
-        plusplus:     { name: 'Farid Plus Plus', price: 40000 },
-        plusplusplus: { name: 'Farid Plus Plus Plus', price: 70000 },
-        ultra:        { name: 'Farid Ultra (30 hari)', price: 114000 }
+        none:         { name: 'Belum punya rank', price: 0, rm: 0 },
+        plus:         { name: 'Farid Plus', price: 20000, rm: 7 },
+        plusplus:     { name: 'Farid Plus Plus', price: 40000, rm: 12 },
+        plusplusplus: { name: 'Farid Plus Plus Plus', price: 70000, rm: 18 },
+        ultra:        { name: 'Farid Ultra (30 hari)', price: 114000, rm: 30 }
     };
+
+    const fmtBoth = (idr, rm) => `RM ${rm.toFixed(2)} / ${(idr / 1000).toLocaleString('id-ID')}k IDR`;
+
+    let calcCurrency = 'idr';
+    document.querySelectorAll('.curr-btn[data-currency]').forEach(btn => {
+        btn.addEventListener('click', () => {
+            calcCurrency = btn.dataset.currency;
+            document.querySelectorAll('.curr-btn[data-currency]').forEach(b => b.classList.toggle('active', b === btn));
+            const resultBox = document.getElementById('calc-result');
+            if (resultBox && resultBox.style.display === 'block') calculateUpgrade();
+        });
+    });
+
+    function fmtPrice(idr, rm) {
+        return calcCurrency === 'rm' ? `RM ${rm.toFixed(2)}` : `Rp ${idr.toLocaleString('id-ID')}`;
+    }
 
     window.calculateUpgrade = function () {
         const ownedSel = document.getElementById('calc-owned');
@@ -174,7 +190,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const owned = rankPrices[ownedSel.value];
         const target = rankPrices[targetSel.value];
-        const fmt = n => 'Rp ' + n.toLocaleString('id-ID');
 
         if (owned.price >= target.price) {
             resultBox.innerHTML = `<p class="calc-note" style="color:#ff6b6b; margin-top:0;">Rank tujuan harus lebih tinggi dari rank yang sudah dimiliki.</p>`;
@@ -183,18 +198,20 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        const discount = owned.price;
-        const finalPrice = target.price - discount;
+        const discountIdr = owned.price;
+        const discountRm = owned.rm;
+        const finalIdr = target.price - discountIdr;
+        const finalRm = target.rm - discountRm;
 
         resultBox.innerHTML = `
-            <div class="calc-line"><span>Harga normal ${target.name}</span><span>${fmt(target.price)}</span></div>
-            <div class="calc-line"><span>Potongan (harga ${owned.name})</span><span class="discount">- ${fmt(discount)}</span></div>
-            <div class="calc-line final"><span>Harga Upgrade</span><span>${fmt(finalPrice)}</span></div>
+            <div class="calc-line"><span>Harga normal ${target.name}</span><span>${fmtPrice(target.price, target.rm)}</span></div>
+            <div class="calc-line"><span>Potongan (harga ${owned.name})</span><span class="discount">- ${fmtPrice(discountIdr, discountRm)}</span></div>
+            <div class="calc-line final"><span>Harga Upgrade</span><span>${fmtPrice(finalIdr, finalRm)}</span></div>
         `;
         resultBox.style.display = 'block';
 
         if (waBtn) {
-            const message = `Halo, saya mau upgrade rank.\nRank sekarang: ${owned.name}\nRank tujuan: ${target.name}\nHarga upgrade: ${fmt(finalPrice)} (setelah potongan ${fmt(discount)})\nNickname:`;
+            const message = `Halo, saya mau upgrade rank.\nRank sekarang: ${owned.name}\nRank tujuan: ${target.name}\nHarga upgrade: ${fmtPrice(finalIdr, finalRm)} (setelah potongan ${fmtPrice(discountIdr, discountRm)})\nNickname:`;
             waBtn.href = `https://wa.me/60142446184?text=${encodeURIComponent(message)}`;
             waBtn.style.display = 'block';
         }
