@@ -372,6 +372,53 @@ main.container { padding-bottom: 60px; }
 .rank-card.tier-ultra { border-color: rgba(240, 180, 41, 0.28); }
 .rank-card.tier-ultra:hover { border-color: rgba(240, 180, 41, 0.6); box-shadow: 0 30px 60px rgba(0,0,0,0.45), 0 0 24px rgba(240,180,41,0.18); }
 
+.upgrade-note {
+    font-size: 11.5px; color: var(--gold); margin: -6px 0 4px;
+    text-align: left; line-height: 1.5;
+}
+
+/* ===================== Upgrade discount calculator ===================== */
+.calculator {
+    max-width: 640px; margin: 56px auto 0;
+    background: var(--glass); border: 1px solid var(--glass-border);
+    border-radius: var(--radius-lg); padding: 40px 36px;
+    backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
+    text-align: center;
+}
+.calculator h3 { font-size: 1.35rem; margin-bottom: 8px; letter-spacing: -0.3px; }
+.calculator .calc-sub { color: var(--text-dim); font-size: 13px; margin-bottom: 28px; line-height: 1.6; }
+.calc-row { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 22px; text-align: left; }
+.calc-field { flex: 1; min-width: 200px; }
+.calc-field label {
+    display: block; font-size: 11px; text-transform: uppercase; letter-spacing: 1px;
+    color: var(--text-faint); margin-bottom: 8px; font-weight: 700;
+}
+.calc-field select {
+    width: 100%; padding: 12px 14px;
+    background: rgba(0,0,0,0.35);
+    border: 1px solid var(--glass-border); border-radius: var(--radius-sm);
+    color: var(--text); font-family: 'Inter', sans-serif; font-weight: 600; font-size: 14px;
+    appearance: none; -webkit-appearance: none;
+}
+.calc-field select:focus { border-color: var(--red); }
+
+.calc-result {
+    margin-top: 24px; text-align: left;
+    padding-top: 22px; border-top: 1px solid var(--glass-border);
+}
+.calc-result .calc-line {
+    display: flex; justify-content: space-between; font-size: 13.5px;
+    color: var(--text-dim); padding: 6px 0;
+}
+.calc-result .calc-line.final {
+    font-size: 1.15rem; font-weight: 800; color: var(--text);
+    font-family: 'Sora', sans-serif; border-top: 1px dashed var(--glass-border);
+    margin-top: 8px; padding-top: 16px;
+}
+.calc-result .calc-line .discount { color: #35d16a; }
+
+.calc-note { font-size: 11.5px; color: var(--text-faint); text-align: center; margin-top: 20px; line-height: 1.6; }
+
 .card h3 { font-size: 1.35rem; letter-spacing: -0.3px; margin-bottom: 4px; }
 
 .subscription { font-size: 12px; color: var(--text-faint); text-transform: uppercase; letter-spacing: 1px; margin: 10px 0 0; }
