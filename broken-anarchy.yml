@@ -12,7 +12,7 @@ server:
   discord: https://discord.gg/QCcnqXhhN
 
 rank:
-  name: Weekly Plus Pass
+  name: Plus Pass
   billing: per_week
   price:
     rm: 1.50
