@@ -1,0 +1,42 @@
+# FaridSmp — Broken Anarchy server config
+# Data ini dipakai sebagai referensi/dokumentasi untuk halaman broken-anarchy/.
+# Untuk mengubah IP, port, atau link Discord yang tampil di website,
+# edit langsung di broken-anarchy/index.html, broken-anarchy/rank.html, dan
+# broken-anarchy/key.html (harga & kalkulator dicari lewat script.js).
+
+server:
+  name: Broken Anarchy
+  gamemode: Anarchy Survival
+  ip: faridsmp.xyz
+  port: 19291
+  discord: https://discord.gg/QCcnqXhhN
+
+rank:
+  name: Farid Plus
+  billing: per_week
+  price:
+    rm: 1.50
+    idr_k: 6.5
+  features:
+    - Get 50k Money
+    - Get 100 Shards
+    - Get 1 Plus Key
+
+keys:
+  - name: Amethyst Key
+    price:
+      rm: 3.50
+      idr_k: 15
+  - name: Farid Key
+    price:
+      rm: 3.50
+      idr_k: 15
+
+pages:
+  hub: broken-anarchy/index.html
+  rank: broken-anarchy/rank.html
+  key: broken-anarchy/key.html
+
+assets:
+  sounds: assets/sounds/
+  key_images: assets/images/key/

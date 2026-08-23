@@ -6,7 +6,7 @@
 
 // Resolve this script's own folder so asset paths (assets/sounds/...)
 // work the same whether the page loads it as "script.js" (root)
-// or "../script.js" (from lifesteal/rank.html, key.html, etc).
+// or "../script.js" (from broken-anarchy/rank.html, key.html, etc).
 // Must run at top level — document.currentScript is only valid
 // during synchronous, initial script execution.
 const SCRIPT_BASE = (() => {
@@ -117,10 +117,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     /* ---------- Key price calculator ---------- */
     const keyData = {
-        iron:      { name: 'Iron Key',      rm: 3.50,  idr: 13 },
-        gold:      { name: 'Gold Key',      rm: 6.50,  idr: 25 },
-        diamond:   { name: 'Diamond Key',   rm: 12.50, idr: 48 },
-        netherite: { name: 'Netherite Key', rm: 18.50, idr: 71 }
+        amethyst: { name: 'Amethyst Key', rm: 3.50, idr: 15 },
+        farid:    { name: 'Farid Key',    rm: 3.50, idr: 15 }
     };
 
     const phoneNumber = '60142446184';
@@ -156,65 +154,36 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    /* ---------- Rank upgrade discount calculator ---------- */
-    const rankPrices = {
-        none:         { name: 'Belum punya rank', price: 0, rm: 0 },
-        plus:         { name: 'Farid Plus', price: 20000, rm: 7 },
-        plusplus:     { name: 'Farid Plus Plus', price: 40000, rm: 12 },
-        plusplusplus: { name: 'Farid Plus Plus Plus', price: 70000, rm: 18 },
-        ultra:        { name: 'Farid Ultra (30 hari)', price: 114000, rm: 30 }
+    /* ---------- Rank price calculator (Farid Plus, per week) ---------- */
+    const RANK_RM_PER_WEEK = 1.50;
+    const RANK_IDR_PER_WEEK = 6.5; // in "k" units, i.e. Rp 6.500
+
+    window.calculateRankPrice = function () {
+        const input = document.getElementById('rank-qty');
+        if (!input) return;
+        let weeks = parseInt(input.value, 10);
+        if (isNaN(weeks) || weeks < 1) weeks = 1;
+        input.value = weeks;
+
+        const totalRM = (RANK_RM_PER_WEEK * weeks).toFixed(2);
+        const totalIDR = (RANK_IDR_PER_WEEK * weeks).toLocaleString('id-ID', { maximumFractionDigits: 1 });
+
+        const priceEl = document.getElementById('rank-price');
+        if (priceEl) priceEl.innerText = `RM ${totalRM} / ${totalIDR}k IDR`;
+
+        const message = `Halo, saya mau beli Rank Farid Plus (RM ${totalRM} / ${totalIDR}k IDR).\nJumlah: ${weeks} minggu\nNickname:`;
+        const btn = document.getElementById('rank-btn');
+        if (btn) btn.href = `https://wa.me/60142446184?text=${encodeURIComponent(message)}`;
     };
 
-    const fmtBoth = (idr, rm) => `RM ${rm.toFixed(2)} / ${(idr / 1000).toLocaleString('id-ID')}k IDR`;
-
-    let calcCurrency = 'idr';
-    document.querySelectorAll('.curr-btn[data-currency]').forEach(btn => {
+    document.querySelectorAll('.quick-select button[data-weeks]').forEach(btn => {
         btn.addEventListener('click', () => {
-            calcCurrency = btn.dataset.currency;
-            document.querySelectorAll('.curr-btn[data-currency]').forEach(b => b.classList.toggle('active', b === btn));
-            const resultBox = document.getElementById('calc-result');
-            if (resultBox && resultBox.style.display === 'block') calculateUpgrade();
+            const weeks = parseInt(btn.dataset.weeks, 10);
+            const input = document.getElementById('rank-qty');
+            if (!input) return;
+            input.value = weeks;
+            calculateRankPrice();
         });
     });
-
-    function fmtPrice(idr, rm) {
-        return calcCurrency === 'rm' ? `RM ${rm.toFixed(2)}` : `Rp ${idr.toLocaleString('id-ID')}`;
-    }
-
-    window.calculateUpgrade = function () {
-        const ownedSel = document.getElementById('calc-owned');
-        const targetSel = document.getElementById('calc-target');
-        const resultBox = document.getElementById('calc-result');
-        const waBtn = document.getElementById('calc-wa-btn');
-        if (!ownedSel || !targetSel || !resultBox) return;
-
-        const owned = rankPrices[ownedSel.value];
-        const target = rankPrices[targetSel.value];
-
-        if (owned.price >= target.price) {
-            resultBox.innerHTML = `<p class="calc-note" style="color:#ff6b6b; margin-top:0;">Rank tujuan harus lebih tinggi dari rank yang sudah dimiliki.</p>`;
-            resultBox.style.display = 'block';
-            if (waBtn) waBtn.style.display = 'none';
-            return;
-        }
-
-        const discountIdr = owned.price;
-        const discountRm = owned.rm;
-        const finalIdr = target.price - discountIdr;
-        const finalRm = target.rm - discountRm;
-
-        resultBox.innerHTML = `
-            <div class="calc-line"><span>Harga normal ${target.name}</span><span>${fmtPrice(target.price, target.rm)}</span></div>
-            <div class="calc-line"><span>Potongan (harga ${owned.name})</span><span class="discount">- ${fmtPrice(discountIdr, discountRm)}</span></div>
-            <div class="calc-line final"><span>Harga Upgrade</span><span>${fmtPrice(finalIdr, finalRm)}</span></div>
-        `;
-        resultBox.style.display = 'block';
-
-        if (waBtn) {
-            const message = `Halo, saya mau upgrade rank.\nRank sekarang: ${owned.name}\nRank tujuan: ${target.name}\nHarga upgrade: ${fmtPrice(finalIdr, finalRm)} (setelah potongan ${fmtPrice(discountIdr, discountRm)})\nNickname:`;
-            waBtn.href = `https://wa.me/60142446184?text=${encodeURIComponent(message)}`;
-            waBtn.style.display = 'block';
-        }
-    };
 
 });
