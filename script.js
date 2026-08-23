@@ -154,7 +154,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    /* ---------- Rank price calculator (Farid Plus, per week) ---------- */
+    /* ---------- Rank price calculator (Weekly Plus Pass, per week) ---------- */
     const RANK_RM_PER_WEEK = 1.50;
     const RANK_IDR_PER_WEEK = 6.5; // in "k" units, i.e. Rp 6.500
 
@@ -171,7 +171,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const priceEl = document.getElementById('rank-price');
         if (priceEl) priceEl.innerText = `RM ${totalRM} / ${totalIDR}k IDR`;
 
-        const message = `Halo, saya mau beli Rank Farid Plus (RM ${totalRM} / ${totalIDR}k IDR).\nJumlah: ${weeks} minggu\nNickname:`;
+        const message = `Halo, saya mau beli Rank Weekly Plus Pass (RM ${totalRM} / ${totalIDR}k IDR).\nJumlah: ${weeks} minggu\nNickname:`;
         const btn = document.getElementById('rank-btn');
         if (btn) btn.href = `https://wa.me/60142446184?text=${encodeURIComponent(message)}`;
     };

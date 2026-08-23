@@ -12,7 +12,7 @@ server:
   discord: https://discord.gg/QCcnqXhhN
 
 rank:
-  name: Farid Plus
+  name: Weekly Plus Pass
   billing: per_week
   price:
     rm: 1.50
@@ -20,7 +20,7 @@ rank:
   features:
     - Get 50k Money
     - Get 100 Shards
-    - Get 1 Plus Key
+    - Get 7 Plus Key
 
 keys:
   - name: Amethyst Key
