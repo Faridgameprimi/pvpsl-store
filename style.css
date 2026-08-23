@@ -368,67 +368,8 @@ main.container { padding-bottom: 60px; }
     font-size: 10px; font-weight: 800; letter-spacing: 1px; margin-bottom: 18px;
     display: inline-block; box-shadow: 0 10px 20px rgba(232, 38, 47, 0.25);
 }
-.rank-card.tier-ultra .rank-badge { background: linear-gradient(90deg, #b8860b, var(--gold)); box-shadow: 0 10px 20px rgba(240,180,41,0.25); }
-.rank-card.tier-ultra { border-color: rgba(240, 180, 41, 0.28); }
-.rank-card.tier-ultra:hover { border-color: rgba(240, 180, 41, 0.6); box-shadow: 0 30px 60px rgba(0,0,0,0.45), 0 0 24px rgba(240,180,41,0.18); }
 
-.upgrade-note {
-    font-size: 11.5px; color: var(--gold); margin: -6px 0 4px;
-    text-align: left; line-height: 1.5;
-}
-
-/* ===================== Upgrade discount calculator ===================== */
-.calculator {
-    max-width: 640px; margin: 56px auto 0;
-    background: var(--glass); border: 1px solid var(--glass-border);
-    border-radius: var(--radius-lg); padding: 40px 36px;
-    backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
-    text-align: center;
-}
-.calculator h3 { font-size: 1.35rem; margin-bottom: 8px; letter-spacing: -0.3px; }
-.calculator .calc-sub { color: var(--text-dim); font-size: 13px; margin-bottom: 24px; line-height: 1.6; }
-
-.currency-toggle { display: flex; justify-content: center; gap: 8px; margin-bottom: 24px; }
-.curr-btn {
-    padding: 8px 20px; border-radius: 50px;
-    border: 1px solid var(--glass-border); background: var(--glass);
-    color: var(--text-dim); font-family: 'Inter', sans-serif;
-    font-weight: 700; font-size: 12.5px; cursor: pointer; transition: 0.25s;
-}
-.curr-btn.active { background: var(--red); border-color: var(--red-bright); color: white; }
-.curr-btn:hover:not(.active) { border-color: var(--red-bright); color: var(--text); }
-
-.calc-row { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 22px; text-align: left; }
-.calc-field { flex: 1; min-width: 200px; }
-.calc-field label {
-    display: block; font-size: 11px; text-transform: uppercase; letter-spacing: 1px;
-    color: var(--text-faint); margin-bottom: 8px; font-weight: 700;
-}
-.calc-field select {
-    width: 100%; padding: 12px 14px;
-    background: rgba(0,0,0,0.35);
-    border: 1px solid var(--glass-border); border-radius: var(--radius-sm);
-    color: var(--text); font-family: 'Inter', sans-serif; font-weight: 600; font-size: 14px;
-    appearance: none; -webkit-appearance: none;
-}
-.calc-field select:focus { border-color: var(--red); }
-
-.calc-result {
-    margin-top: 24px; text-align: left;
-    padding-top: 22px; border-top: 1px solid var(--glass-border);
-}
-.calc-result .calc-line {
-    display: flex; justify-content: space-between; font-size: 13.5px;
-    color: var(--text-dim); padding: 6px 0;
-}
-.calc-result .calc-line.final {
-    font-size: 1.15rem; font-weight: 800; color: var(--text);
-    font-family: 'Sora', sans-serif; border-top: 1px dashed var(--glass-border);
-    margin-top: 8px; padding-top: 16px;
-}
-.calc-result .calc-line .discount { color: #35d16a; }
-
-.calc-note { font-size: 11.5px; color: var(--text-faint); text-align: center; margin-top: 20px; line-height: 1.6; }
+.single-card-wrap { display: flex; justify-content: center; margin: 10px 0 40px; }
 
 .card h3 { font-size: 1.35rem; letter-spacing: -0.3px; margin-bottom: 4px; }
 
