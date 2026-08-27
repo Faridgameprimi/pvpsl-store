@@ -1,77 +1,92 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FaridSmp | Server Lobby</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="FaridSmp Network official store">
+  <title>FaridSmp | Network Store</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  <div class="bg-orb orb-a"></div><div class="bg-orb orb-b"></div>
+  <nav class="glass-nav">
+    <div class="nav-inner">
+      <a class="brand" href="index.html">FARIDSMP <span>NETWORK</span></a>
+      <div class="nav-actions">
+        <a class="nav-link" href="#stores">Store</a>
+        <a class="nav-link" href="https://discord.gg/TUhjeUTvhh" target="_blank" rel="noopener">Discord</a>
+        <a class="nav-cta" href="https://sociabuzz.com/faridsmp/tribe" target="_blank" rel="noopener">Donate</a>
+        <a class="admin-link" href="admin.html" title="Admin">⚙</a>
+      </div>
+    </div>
+  </nav>
 
-    <nav>
-        <div class="container">
-            <div class="nav-left">
-                <a href="index.html" class="brand-logo">FARIDSMP<span> NETWORK</span></a>
-            </div>
-            <ul>
-                <li><a href="https://discord.gg/TUhjeUTvhh" target="_blank" rel="noopener" class="nav-discord sfx">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 20l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
-                    Discord
-                </a></li>
-                <li><a href="https://wa.me/60142446184" class="nav-support sfx">Contact Support</a></li>
-            </ul>
-        </div>
-    </nav>
+  <header class="hero container">
+    <div class="hero-badge"><span></span> FARIDSMP NETWORK</div>
+    <h1>PLAY. <em>SUPPORT.</em><br>GET REWARDED.</h1>
+    <p>Webstore FaridSmp dengan tampilan liquid glass merah. Pilih server, pilih item, lalu isi data Minecraft sebelum melanjutkan pembayaran.</p>
+    <div class="hero-actions">
+      <a class="btn primary" href="#stores">Jelajahi Store <b>→</b></a>
+      <a class="btn glass-btn" href="https://discord.gg/TUhjeUTvhh" target="_blank" rel="noopener">Join Discord</a>
+    </div>
+    <div class="server-chip glass">
+      <div><small>SERVER ADDRESS</small><strong>faridsmp.xyz:19291</strong></div>
+      <button class="copy-btn" data-copy="faridsmp.xyz:19291">Copy IP</button>
+    </div>
+  </header>
 
-    <header class="hero">
-        <span class="eyebrow">FaridSmp Network</span>
-        <h1>PILIH SERVER</h1>
-        <p>Klik salah satu server di bawah untuk masuk ke webstore-nya.</p>
+  <main id="stores" class="container main">
+    <div class="section-heading">
+      <div><span class="eyebrow">NETWORK</span><h2>Choose your store</h2></div>
+      <span class="live-pill"><i></i> Store Online</span>
+    </div>
+    <div id="storeGrid" class="store-grid"></div>
+  </main>
 
-        <div class="server-info-panel">
-            <div class="ip-copy">
-                <span class="ip-text">faridsmp.xyz<span class="port">:19291</span></span>
-                <button class="copy-btn sfx" data-copy="faridsmp.xyz:19291">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
-                    Copy IP
-                </button>
-            </div>
-        </div>
-    </header>
+  <section class="container info-grid">
+    <div class="info-card glass"><span class="info-icon">◈</span><h3>Simple Checkout</h3><p>Masukkan nickname Minecraft dan pilih Java atau Bedrock sebelum order.</p></div>
+    <div class="info-card glass"><span class="info-icon">◆</span><h3>Support Server</h3><p>Gunakan Discord untuk bantuan dan informasi terbaru dari FaridSmp.</p></div>
+    <div class="info-card glass"><span class="info-icon">✦</span><h3>Support FaridSmp</h3><p>Donasi diarahkan langsung ke halaman Sociabuzz FaridSmp.</p></div>
+  </section>
 
-    <main class="container">
-        <div class="server-grid">
+  <footer class="container footer">
+    <div><strong>FARIDSMP NETWORK</strong><p>© 2026 FaridSmp. Not an official Minecraft product.</p></div>
+    <div class="footer-links"><a href="https://discord.gg/TUhjeUTvhh">Discord</a><a href="https://sociabuzz.com/faridsmp/tribe">Sociabuzz</a><a href="admin.html">Admin</a></div>
+  </footer>
 
-            <div class="server-card">
-                <span class="hub-tag">Anarchy Server</span>
-                <h2>Broken Anarchy</h2>
-                <p class="server-desc">No rules, no limits — survival murni tanpa batasan. Bertahan hidup dengan cara apapun.</p>
-                <div class="server-meta">
-                    <span class="player-badge"><span class="status-dot"></span><span class="player-count">0</span> Players Online</span>
-                </div>
-                <div class="card-actions">
-                    <a href="broken-anarchy/index.html" class="btn-buy sfx">Masuk Store →</a>
-                </div>
-            </div>
-
-            <div class="server-card coming-soon">
-                <span class="hub-tag">Coming Soon</span>
-                <h2>Server Baru</h2>
-                <p class="server-desc">Sedang disiapkan. Pantau Discord untuk info server berikutnya.</p>
-            </div>
-
-        </div>
-    </main>
-
-    <footer>
-        <p>&copy; 2026 FaridSmp Network. Not an official Minecraft product.</p>
-        <div class="footer-links">
-            <a href="broken-anarchy/index.html" class="sfx">Broken Anarchy</a>
-            <a href="https://discord.gg/TUhjeUTvhh" class="sfx">Discord</a>
-            <a href="https://wa.me/60142446184" class="sfx">WhatsApp Support</a>
-        </div>
-    </footer>
-
-    <script src="script.js"></script>
+  <div id="orderModal" class="modal-backdrop" hidden>
+    <div class="modal glass">
+      <button class="modal-close" data-close>×</button>
+      <span class="eyebrow">CHECKOUT</span>
+      <h2 id="modalTitle">Order Item</h2>
+      <p id="modalPrice" class="modal-price"></p>
+      <form id="orderForm">
+        <input type="hidden" id="orderItem">
+        <label>Nama Minecraft
+          <input id="mcName" name="mcName" maxlength="32" required placeholder="Contoh: FaridGame">
+        </label>
+        <label>Edition
+          <select id="mcEdition" name="mcEdition" required>
+            <option value="">Pilih edition</option>
+            <option>Java</option><option>Bedrock</option>
+          </select>
+        </label>
+        <label>Jumlah
+          <input id="orderQty" type="number" min="1" max="99" value="1" required>
+        </label>
+        <div class="order-summary"><span>Total</span><strong id="orderTotal">RM 0.00</strong></div>
+        <button class="btn primary full" type="submit">Lanjut ke Pembayaran →</button>
+      </form>
+      <div id="paymentStep" class="payment-step" hidden>
+        <div class="success-mark">✓</div>
+        <h3>Data order siap</h3>
+        <p>Salin detail order untuk dikirim ke staff Discord, lalu lanjutkan ke Sociabuzz.</p>
+        <button id="copyOrder" class="btn glass-btn full">Copy Detail Order</button>
+        <a class="btn primary full" href="https://sociabuzz.com/faridsmp/tribe" target="_blank" rel="noopener">Buka Sociabuzz</a>
+        <a class="discord-order" href="https://discord.gg/TUhjeUTvhh" target="_blank" rel="noopener">Open FaridSmp Discord</a>
+      </div>
+    </div>
+  </div>
+  <script src="script.js"></script>
 </body>
 </html>
