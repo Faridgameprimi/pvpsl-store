@@ -14,8 +14,8 @@
    ========================================================= */
 
 const ADMIN_CREDENTIALS = {
-    username: "admin",
-    password: "gantipassword123"
+    username: "Mrfarid",
+    password: "farid255"
 };
 
 /* =========================================================
