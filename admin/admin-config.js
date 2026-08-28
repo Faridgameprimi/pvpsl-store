@@ -22,7 +22,6 @@ const ADMIN_CREDENTIALS = {
    Konfigurasi GitHub — dipakai untuk fitur "Publish to GitHub"
    (opsional) di dashboard, supaya perubahan yang kamu buat di
    panel admin langsung ke-update ke repo GitHub Pages kamu.
-
    owner  = username GitHub kamu
    repo   = nama repository tempat website ini di-host
    branch = branch yang dipakai GitHub Pages (biasanya "main")
@@ -31,7 +30,7 @@ const ADMIN_CREDENTIALS = {
 
 const GITHUB_CONFIG = {
     owner: "Faridgameprimi",
-    repo: "https://github.com/Faridgameprimi/pvpsl-store",
+    repo: "https://github.com/Faridgameprimi/",
     branch: "main",
     path: "data.json"
 };
