@@ -23,13 +23,16 @@
 
     <div class="admin-layout">
 
-        <div class="token-warning">
-            Kamu sedang edit <strong>draft lokal</strong> (tersimpan di browser ini saja). Perubahan baru tampil ke semua pengunjung setelah kamu <strong>Publish</strong> di bagian paling bawah.
+        <div class="stats-bar">
+            <div class="stat-chip glass"><span class="stat-num" id="stat-servers">0</span><span class="stat-label">Store</span></div>
+            <div class="stat-chip glass"><span class="stat-num" id="stat-ranks">0</span><span class="stat-label">Rank</span></div>
+            <div class="stat-chip glass"><span class="stat-num" id="stat-keys">0</span><span class="stat-label">Key</span></div>
+            <div class="stat-chip glass" id="stat-draft-chip"><span class="stat-dot"></span><span class="stat-label" id="stat-draft-label">Draft belum di-publish</span></div>
         </div>
 
         <!-- ================= Add Store ================= -->
         <div class="admin-section glass">
-            <h2>Tambah Store Baru</h2>
+            <h2>📦 Tambah Store Baru</h2>
             <p class="admin-sub">Store baru langsung muncul di Lobby setelah di-publish.</p>
             <form id="form-add-store">
                 <div class="form-row">
@@ -75,8 +78,8 @@
 
         <!-- ================= Add Item ================= -->
         <div class="admin-section glass">
-            <h2>Tambah Item (Rank / Key)</h2>
-            <p class="admin-sub">Pilih store tujuan, lalu isi detail item.</p>
+            <h2>🏷️ Tambah Item (Rank / Key)</h2>
+            <p class="admin-sub">Pilih store tujuan, lalu isi detail item. Untuk Key, boleh langsung upload gambar PNG-nya.</p>
             <form id="form-add-item">
                 <div class="form-row">
                     <div class="form-field">
@@ -119,9 +122,16 @@
                 </div>
                 <div class="form-row" id="item-image-row" style="display:none;">
                     <div class="form-field full">
-                        <label for="item-image">Path Gambar PNG Key</label>
-                        <input type="text" id="item-image" placeholder="assets/images/<slug-store>/nama-key.png">
-                        <p class="form-hint">Upload PNG-nya ke folder itu lewat GitHub. Kalau belum ada, otomatis muncul kotak label teks.</p>
+                        <label for="item-image-file">Upload Gambar PNG Key</label>
+                        <div class="upload-box" id="upload-box">
+                            <input type="file" id="item-image-file" accept="image/png,image/jpeg,image/webp">
+                            <div class="upload-placeholder" id="upload-placeholder">
+                                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+                                <span>Tap untuk pilih gambar (PNG/JPG, maks ~1MB)</span>
+                            </div>
+                            <img id="upload-preview" style="display:none;">
+                        </div>
+                        <p class="form-hint">Gambar akan otomatis ter-upload ke GitHub waktu item ini di-publish. Belum pilih gambar? Kartu key akan pakai label teks sebagai gantinya.</p>
                     </div>
                 </div>
                 <div class="form-row">
@@ -134,21 +144,21 @@
                         <input type="text" id="item-qty-quick" placeholder="Contoh: 1,5,10">
                     </div>
                 </div>
-                <button type="submit" class="admin-btn sfx">+ Tambah Item</button>
+                <button type="submit" class="admin-btn sfx" id="add-item-btn">+ Tambah Item</button>
             </form>
         </div>
 
         <!-- ================= Current Data ================= -->
         <div class="admin-section glass">
-            <h2>Store & Item Sekarang</h2>
+            <h2>🗂️ Store & Item Sekarang</h2>
             <p class="admin-sub">Draft yang lagi kamu edit.</p>
             <div id="current-data-list" class="data-list"></div>
         </div>
 
         <!-- ================= Network Settings ================= -->
         <div class="admin-section glass">
-            <h2>Pengaturan Network</h2>
-            <p class="admin-sub">Berlaku untuk semua store.</p>
+            <h2>⚙️ Pengaturan Network</h2>
+            <p class="admin-sub">Berlaku untuk semua store. Link Discord & Sociabuzz ini publik (tampil di website).</p>
             <div class="form-row">
                 <div class="form-field">
                     <label for="net-discord">Link Discord</label>
@@ -160,71 +170,31 @@
                 </div>
             </div>
             <div class="form-row">
-                <div class="form-field">
+                <div class="form-field full">
                     <label for="net-whatsapp">Nomor WhatsApp (62xxx / 60xxx, tanpa +)</label>
                     <input type="text" id="net-whatsapp">
                 </div>
-                <div class="form-field">
-                    <label for="net-webhook">Discord Webhook URL (opsional)</label>
-                    <input type="text" id="net-webhook" placeholder="https://discord.com/api/webhooks/...">
-                </div>
             </div>
             <button type="button" id="btn-save-network" class="admin-btn sfx">Simpan Pengaturan</button>
+            <p class="form-hint" style="margin-top:14px;">Notifikasi Discord (webhook) sekarang diatur langsung di server lewat Vercel Environment Variable <code>DISCORD_WEBHOOK_URL</code> — bukan di sini, biar link webhook-nya tidak kelihatan di publik.</p>
         </div>
 
         <!-- ================= Publish ================= -->
         <div class="admin-section glass">
-            <h2>Publish Perubahan</h2>
-            <p class="admin-sub">Draft di browser ini belum kelihatan oleh pengunjung lain sampai kamu publish salah satu cara di bawah.</p>
+            <h2>🚀 Publish Perubahan</h2>
+            <p class="admin-sub">Draft di browser ini belum kelihatan oleh pengunjung lain sampai kamu publish.</p>
 
-            <h3 style="font-size:14px; margin-bottom:10px;">Cara 1 — Download & Upload Manual (paling aman)</h3>
             <div class="publish-bar">
+                <button type="button" id="btn-publish" class="admin-btn gold sfx">🚀 Publish ke GitHub</button>
                 <button type="button" id="btn-download" class="admin-btn secondary sfx">⬇ Download data.json</button>
+                <button type="button" id="btn-reset-draft" class="admin-btn danger sfx">Reset Draft</button>
             </div>
-            <p class="form-hint" style="margin-top:10px;">Download file-nya, lalu upload/replace ke repo GitHub kamu (drag & drop di halaman repo, commit). GitHub Pages otomatis update dalam 1–2 menit.</p>
-
-            <hr style="border:none; border-top:1px solid var(--glass-border); margin:26px 0;">
-
-            <h3 style="font-size:14px; margin-bottom:10px;">Cara 2 — Publish Langsung ke GitHub (opsional, lebih cepat)</h3>
-            <div class="token-warning">
-                Fitur ini butuh <strong>GitHub Personal Access Token</strong> dengan akses tulis ke repo kamu. Token ini HANYA dipakai di browser kamu sekarang (tidak disimpan permanen, hilang setelah tutup tab) — tapi tetap jangan share token ke siapapun. Pakai token yang scope-nya dibatasi ke repo ini saja kalau bisa.
-            </div>
-            <div class="form-row">
-                <div class="form-field">
-                    <label for="gh-owner">GitHub Owner</label>
-                    <input type="text" id="gh-owner">
-                </div>
-                <div class="form-field">
-                    <label for="gh-repo">Repo Name</label>
-                    <input type="text" id="gh-repo">
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="form-field">
-                    <label for="gh-branch">Branch</label>
-                    <input type="text" id="gh-branch">
-                </div>
-                <div class="form-field">
-                    <label for="gh-path">Path data.json</label>
-                    <input type="text" id="gh-path">
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="form-field full">
-                    <label for="gh-token">Personal Access Token</label>
-                    <input type="password" id="gh-token" placeholder="ghp_xxxxxxxxxxxx" autocomplete="off">
-                </div>
-            </div>
-            <div class="publish-bar">
-                <button type="button" id="btn-publish-github" class="admin-btn gold sfx">🚀 Publish ke GitHub</button>
-                <button type="button" id="btn-reset-draft" class="admin-btn danger sfx">Reset Draft ke Live data.json</button>
-            </div>
+            <p class="form-hint" style="margin-top:12px;">Publish sekarang tidak butuh token — server yang simpan kredensial GitHub-nya (lihat README untuk setup Environment Variables di Vercel).</p>
             <p id="publish-status" class="publish-status"></p>
         </div>
 
     </div>
 
-    <script src="admin-config.js"></script>
     <script src="admin.js"></script>
 </body>
 </html>

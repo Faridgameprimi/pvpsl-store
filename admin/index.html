@@ -23,8 +23,8 @@
                     <label for="admin-password">Password</label>
                     <input type="password" id="admin-password" autocomplete="current-password" required>
                 </div>
-                <p class="admin-error" id="login-error">Username atau password salah.</p>
-                <button type="submit" class="btn-buy sfx" style="width:100%;">Login</button>
+                <p class="admin-error" id="login-error"></p>
+                <button type="submit" class="btn-buy sfx" id="login-btn" style="width:100%;">Login</button>
             </form>
 
             <p class="form-hint" style="margin-top:20px;">
@@ -33,19 +33,41 @@
         </div>
     </div>
 
-    <script src="admin-config.js"></script>
     <script>
-        document.getElementById('login-form').addEventListener('submit', (e) => {
-            e.preventDefault();
-            const u = document.getElementById('admin-username').value.trim();
-            const p = document.getElementById('admin-password').value;
-            const errorEl = document.getElementById('login-error');
+        const form = document.getElementById('login-form');
+        const errorEl = document.getElementById('login-error');
+        const btn = document.getElementById('login-btn');
 
-            if (u === ADMIN_CREDENTIALS.username && p === ADMIN_CREDENTIALS.password) {
-                sessionStorage.setItem('faridsmp_admin_session', '1');
-                window.location.href = 'dashboard.html';
-            } else {
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            errorEl.classList.remove('show');
+            btn.disabled = true;
+            btn.textContent = 'Memeriksa...';
+
+            const username = document.getElementById('admin-username').value.trim();
+            const password = document.getElementById('admin-password').value;
+
+            try {
+                const res = await fetch('/api/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username, password })
+                });
+                const json = await res.json();
+
+                if (res.ok && json.token) {
+                    sessionStorage.setItem('faridsmp_admin_token', json.token);
+                    window.location.href = 'dashboard.html';
+                } else {
+                    errorEl.textContent = json.error || 'Username atau password salah.';
+                    errorEl.classList.add('show');
+                }
+            } catch (err) {
+                errorEl.textContent = 'Gagal hubungi server. Coba lagi.';
                 errorEl.classList.add('show');
+            } finally {
+                btn.disabled = false;
+                btn.textContent = 'Login';
             }
         });
     </script>
