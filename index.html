@@ -14,11 +14,11 @@
                 <a href="index.html" class="brand-logo">FARIDSMP<span> NETWORK</span></a>
             </div>
             <ul>
-                <li><a href="https://discord.gg/TUhjeUTvhh" target="_blank" rel="noopener" class="nav-discord sfx">
+                <li><a href="https://discord.gg/QCcnqXhhN" target="_blank" rel="noopener" class="pill-btn nav-discord sfx">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 20l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>
                     Discord
                 </a></li>
-                <li><a href="https://wa.me/60142446184" class="nav-support sfx">Contact Support</a></li>
+                <li><a href="https://wa.me/60142446184" class="pill-btn nav-support sfx">Contact Support</a></li>
             </ul>
         </div>
     </nav>
@@ -29,7 +29,7 @@
         <p>Klik salah satu server di bawah untuk masuk ke webstore-nya.</p>
 
         <div class="server-info-panel">
-            <div class="ip-copy">
+            <div class="ip-copy glass">
                 <span class="ip-text">faridsmp.xyz<span class="port">:19291</span></span>
                 <button class="copy-btn sfx" data-copy="faridsmp.xyz:19291">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
@@ -40,35 +40,25 @@
     </header>
 
     <main class="container">
-        <div class="server-grid">
+        <div class="server-grid" id="lobby-servers">
+            <!-- rendered from data.json by script.js -->
+        </div>
 
-            <div class="server-card">
-                <span class="hub-tag">Anarchy Server</span>
-                <h2>Broken Anarchy</h2>
-                <p class="server-desc">No rules, no limits — survival murni tanpa batasan. Bertahan hidup dengan cara apapun.</p>
-                <div class="server-meta">
-                    <span class="player-badge"><span class="status-dot"></span><span class="player-count">0</span> Players Online</span>
-                </div>
-                <div class="card-actions">
-                    <a href="broken-anarchy/index.html" class="btn-buy sfx">Masuk Store →</a>
-                </div>
-            </div>
-
-            <div class="server-card coming-soon">
+        <div class="server-grid" style="margin-top:0;">
+            <div class="server-card glass coming-soon">
                 <span class="hub-tag">Coming Soon</span>
                 <h2>Server Baru</h2>
                 <p class="server-desc">Sedang disiapkan. Pantau Discord untuk info server berikutnya.</p>
             </div>
-
         </div>
     </main>
 
     <footer>
         <p>&copy; 2026 FaridSmp Network. Not an official Minecraft product.</p>
         <div class="footer-links">
-            <a href="broken-anarchy/index.html" class="sfx">Broken Anarchy</a>
-            <a href="https://discord.gg/TUhjeUTvhh" class="sfx">Discord</a>
+            <a href="https://discord.gg/QCcnqXhhN" class="sfx">Discord</a>
             <a href="https://wa.me/60142446184" class="sfx">WhatsApp Support</a>
+            <a href="admin/index.html" class="sfx">Admin</a>
         </div>
     </footer>
 

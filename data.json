@@ -1,0 +1,46 @@
+{
+  "network": {
+    "name": "FaridSmp",
+    "discord": "https://discord.gg/QCcnqXhhN",
+    "donateUrl": "https://sociabuzz.com/faridsmp/tribe",
+    "whatsapp": "60142446184",
+    "discordWebhook": ""
+  },
+  "servers": [
+    {
+      "slug": "broken-anarchy",
+      "name": "Broken Anarchy",
+      "tag": "Anarchy Server",
+      "tagline": "No Rules. No Limits.",
+      "description": "Survival murni tanpa batasan — bertahan hidup dengan cara apapun di FaridSmp Broken Anarchy.",
+      "ip": "faridsmp.xyz",
+      "port": 19291,
+      "ranks": [
+        {
+          "id": "weekly-plus-pass",
+          "name": "Weekly Plus Pass",
+          "billing": "Per Minggu",
+          "price": { "rm": 1.50, "idrK": 6.5 },
+          "features": ["Get 50k Money", "Get 100 Shards", "Get 7 Plus Key"],
+          "qty": { "enabled": true, "label": "Minggu", "quickSelect": [1, 4, 8] }
+        }
+      ],
+      "keys": [
+        {
+          "id": "amethyst-key",
+          "name": "Amethyst Key",
+          "price": { "rm": 3.50, "idrK": 15 },
+          "image": "assets/images/broken-anarchy/amethyst-key.png",
+          "qty": { "enabled": true, "label": "Jumlah", "quickSelect": [1, 5, 10] }
+        },
+        {
+          "id": "farid-key",
+          "name": "Farid Key",
+          "price": { "rm": 3.50, "idrK": 15 },
+          "image": "assets/images/broken-anarchy/farid-key.png",
+          "qty": { "enabled": true, "label": "Jumlah", "quickSelect": [1, 5, 10] }
+        }
+      ]
+    }
+  ]
+}
