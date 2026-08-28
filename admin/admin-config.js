@@ -30,8 +30,8 @@ const ADMIN_CREDENTIALS = {
    ========================================================= */
 
 const GITHUB_CONFIG = {
-    owner: "username-github-kamu",
-    repo: "nama-repo-kamu",
+    owner: "Faridgameprimi",
+    repo: "https://github.com/Faridgameprimi/pvpsl-store",
     branch: "main",
     path: "data.json"
 };
