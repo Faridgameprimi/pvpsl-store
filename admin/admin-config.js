@@ -30,7 +30,7 @@ const ADMIN_CREDENTIALS = {
 
 const GITHUB_CONFIG = {
     owner: "Faridgameprimi",
-    repo: "https://github.com/Faridgameprimi/",
+    repo: "pvpsl-store",
     branch: "main",
     path: "data.json"
 };
