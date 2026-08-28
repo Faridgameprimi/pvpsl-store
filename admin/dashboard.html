@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard | FaridSmp</title>
+    <link rel="stylesheet" href="../style.css">
+    <meta name="robots" content="noindex, nofollow">
+</head>
+<body>
+
+    <div class="admin-topbar">
+        <div class="container">
+            <div class="nav-left">
+                <a href="../index.html" class="brand-logo">FARIDSMP<span> ADMIN</span></a>
+            </div>
+            <div style="display:flex; gap:10px;">
+                <a href="../index.html" target="_blank" class="admin-btn secondary sfx">Lihat Website</a>
+                <button type="button" id="logout-btn" class="admin-btn danger sfx">Logout</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="admin-layout">
+
+        <div class="token-warning">
+            Kamu sedang edit <strong>draft lokal</strong> (tersimpan di browser ini saja). Perubahan baru tampil ke semua pengunjung setelah kamu <strong>Publish</strong> di bagian paling bawah.
+        </div>
+
+        <!-- ================= Add Store ================= -->
+        <div class="admin-section glass">
+            <h2>Tambah Store Baru</h2>
+            <p class="admin-sub">Store baru langsung muncul di Lobby setelah di-publish.</p>
+            <form id="form-add-store">
+                <div class="form-row">
+                    <div class="form-field">
+                        <label for="store-name">Nama Server</label>
+                        <input type="text" id="store-name" placeholder="Contoh: Skyblock" required>
+                    </div>
+                    <div class="form-field">
+                        <label for="store-slug">Slug (URL)</label>
+                        <input type="text" id="store-slug" placeholder="otomatis dari nama">
+                        <p class="form-hint">Dipakai di link: store.html?server=slug</p>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-field">
+                        <label for="store-tag">Tag Kecil</label>
+                        <input type="text" id="store-tag" placeholder="Contoh: Skyblock Server">
+                    </div>
+                    <div class="form-field">
+                        <label for="store-tagline">Tagline (di hero)</label>
+                        <input type="text" id="store-tagline" placeholder="Contoh: Build. Trade. Survive.">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-field full">
+                        <label for="store-desc">Deskripsi</label>
+                        <textarea id="store-desc" placeholder="Deskripsi singkat server ini..."></textarea>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-field">
+                        <label for="store-ip">Server IP</label>
+                        <input type="text" id="store-ip" placeholder="faridsmp.xyz" required>
+                    </div>
+                    <div class="form-field">
+                        <label for="store-port">Port</label>
+                        <input type="text" id="store-port" placeholder="19291" required>
+                    </div>
+                </div>
+                <button type="submit" class="admin-btn sfx">+ Tambah Store</button>
+            </form>
+        </div>
+
+        <!-- ================= Add Item ================= -->
+        <div class="admin-section glass">
+            <h2>Tambah Item (Rank / Key)</h2>
+            <p class="admin-sub">Pilih store tujuan, lalu isi detail item.</p>
+            <form id="form-add-item">
+                <div class="form-row">
+                    <div class="form-field">
+                        <label for="item-store">Store Tujuan</label>
+                        <select id="item-store" required></select>
+                    </div>
+                    <div class="form-field">
+                        <label for="item-type">Tipe Item</label>
+                        <select id="item-type">
+                            <option value="rank">Rank</option>
+                            <option value="key">Key</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-field">
+                        <label for="item-name">Nama Item</label>
+                        <input type="text" id="item-name" placeholder="Contoh: VIP Pass" required>
+                    </div>
+                    <div class="form-field">
+                        <label for="item-billing" id="item-billing-label">Label Durasi (Rank)</label>
+                        <input type="text" id="item-billing" placeholder="Contoh: Permanent / Per Minggu">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-field">
+                        <label for="item-rm">Harga (RM)</label>
+                        <input type="text" id="item-rm" placeholder="Contoh: 5.00" required>
+                    </div>
+                    <div class="form-field">
+                        <label for="item-idrk">Harga (IDR, dalam ribuan / "k")</label>
+                        <input type="text" id="item-idrk" placeholder="Contoh: 20" required>
+                    </div>
+                </div>
+                <div class="form-row" id="item-features-row">
+                    <div class="form-field full">
+                        <label for="item-features">Fitur Rank (satu baris = satu fitur)</label>
+                        <textarea id="item-features" placeholder="Get 50k Money&#10;Get 100 Shards"></textarea>
+                    </div>
+                </div>
+                <div class="form-row" id="item-image-row" style="display:none;">
+                    <div class="form-field full">
+                        <label for="item-image">Path Gambar PNG Key</label>
+                        <input type="text" id="item-image" placeholder="assets/images/<slug-store>/nama-key.png">
+                        <p class="form-hint">Upload PNG-nya ke folder itu lewat GitHub. Kalau belum ada, otomatis muncul kotak label teks.</p>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-field">
+                        <label for="item-qty-label">Label Jumlah (kosongkan = tanpa selector jumlah)</label>
+                        <input type="text" id="item-qty-label" placeholder="Contoh: Minggu / Jumlah">
+                    </div>
+                    <div class="form-field">
+                        <label for="item-qty-quick">Tombol Cepat (pisah koma)</label>
+                        <input type="text" id="item-qty-quick" placeholder="Contoh: 1,5,10">
+                    </div>
+                </div>
+                <button type="submit" class="admin-btn sfx">+ Tambah Item</button>
+            </form>
+        </div>
+
+        <!-- ================= Current Data ================= -->
+        <div class="admin-section glass">
+            <h2>Store & Item Sekarang</h2>
+            <p class="admin-sub">Draft yang lagi kamu edit.</p>
+            <div id="current-data-list" class="data-list"></div>
+        </div>
+
+        <!-- ================= Network Settings ================= -->
+        <div class="admin-section glass">
+            <h2>Pengaturan Network</h2>
+            <p class="admin-sub">Berlaku untuk semua store.</p>
+            <div class="form-row">
+                <div class="form-field">
+                    <label for="net-discord">Link Discord</label>
+                    <input type="text" id="net-discord">
+                </div>
+                <div class="form-field">
+                    <label for="net-donate">Link Donate (Sociabuzz)</label>
+                    <input type="text" id="net-donate">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-field">
+                    <label for="net-whatsapp">Nomor WhatsApp (62xxx / 60xxx, tanpa +)</label>
+                    <input type="text" id="net-whatsapp">
+                </div>
+                <div class="form-field">
+                    <label for="net-webhook">Discord Webhook URL (opsional)</label>
+                    <input type="text" id="net-webhook" placeholder="https://discord.com/api/webhooks/...">
+                </div>
+            </div>
+            <button type="button" id="btn-save-network" class="admin-btn sfx">Simpan Pengaturan</button>
+        </div>
+
+        <!-- ================= Publish ================= -->
+        <div class="admin-section glass">
+            <h2>Publish Perubahan</h2>
+            <p class="admin-sub">Draft di browser ini belum kelihatan oleh pengunjung lain sampai kamu publish salah satu cara di bawah.</p>
+
+            <h3 style="font-size:14px; margin-bottom:10px;">Cara 1 — Download & Upload Manual (paling aman)</h3>
+            <div class="publish-bar">
+                <button type="button" id="btn-download" class="admin-btn secondary sfx">⬇ Download data.json</button>
+            </div>
+            <p class="form-hint" style="margin-top:10px;">Download file-nya, lalu upload/replace ke repo GitHub kamu (drag & drop di halaman repo, commit). GitHub Pages otomatis update dalam 1–2 menit.</p>
+
+            <hr style="border:none; border-top:1px solid var(--glass-border); margin:26px 0;">
+
+            <h3 style="font-size:14px; margin-bottom:10px;">Cara 2 — Publish Langsung ke GitHub (opsional, lebih cepat)</h3>
+            <div class="token-warning">
+                Fitur ini butuh <strong>GitHub Personal Access Token</strong> dengan akses tulis ke repo kamu. Token ini HANYA dipakai di browser kamu sekarang (tidak disimpan permanen, hilang setelah tutup tab) — tapi tetap jangan share token ke siapapun. Pakai token yang scope-nya dibatasi ke repo ini saja kalau bisa.
+            </div>
+            <div class="form-row">
+                <div class="form-field">
+                    <label for="gh-owner">GitHub Owner</label>
+                    <input type="text" id="gh-owner">
+                </div>
+                <div class="form-field">
+                    <label for="gh-repo">Repo Name</label>
+                    <input type="text" id="gh-repo">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-field">
+                    <label for="gh-branch">Branch</label>
+                    <input type="text" id="gh-branch">
+                </div>
+                <div class="form-field">
+                    <label for="gh-path">Path data.json</label>
+                    <input type="text" id="gh-path">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-field full">
+                    <label for="gh-token">Personal Access Token</label>
+                    <input type="password" id="gh-token" placeholder="ghp_xxxxxxxxxxxx" autocomplete="off">
+                </div>
+            </div>
+            <div class="publish-bar">
+                <button type="button" id="btn-publish-github" class="admin-btn gold sfx">🚀 Publish ke GitHub</button>
+                <button type="button" id="btn-reset-draft" class="admin-btn danger sfx">Reset Draft ke Live data.json</button>
+            </div>
+            <p id="publish-status" class="publish-status"></p>
+        </div>
+
+    </div>
+
+    <script src="admin-config.js"></script>
+    <script src="admin.js"></script>
+</body>
+</html>

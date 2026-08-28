@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login | FaridSmp</title>
+    <link rel="stylesheet" href="../style.css">
+    <meta name="robots" content="noindex, nofollow">
+</head>
+<body>
+
+    <div class="admin-shell">
+        <div class="admin-login-box glass">
+            <h1>Admin Login</h1>
+            <p>Masuk untuk kelola store, rank, dan key FaridSmp.</p>
+
+            <form id="login-form">
+                <div class="field">
+                    <label for="admin-username">Username</label>
+                    <input type="text" id="admin-username" autocomplete="username" required>
+                </div>
+                <div class="field">
+                    <label for="admin-password">Password</label>
+                    <input type="password" id="admin-password" autocomplete="current-password" required>
+                </div>
+                <p class="admin-error" id="login-error">Username atau password salah.</p>
+                <button type="submit" class="btn-buy sfx" style="width:100%;">Login</button>
+            </form>
+
+            <p class="form-hint" style="margin-top:20px;">
+                <a href="../index.html" style="color:var(--text-dim);">← Kembali ke website</a>
+            </p>
+        </div>
+    </div>
+
+    <script src="admin-config.js"></script>
+    <script>
+        document.getElementById('login-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const u = document.getElementById('admin-username').value.trim();
+            const p = document.getElementById('admin-password').value;
+            const errorEl = document.getElementById('login-error');
+
+            if (u === ADMIN_CREDENTIALS.username && p === ADMIN_CREDENTIALS.password) {
+                sessionStorage.setItem('faridsmp_admin_session', '1');
+                window.location.href = 'dashboard.html';
+            } else {
+                errorEl.classList.add('show');
+            }
+        });
+    </script>
+</body>
+</html>
