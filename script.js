@@ -111,28 +111,23 @@ async function handlePurchaseSubmit(e) {
     const totalRm = (currentOrder.rm * currentOrder.qty).toFixed(2);
     const totalIdrK = (currentOrder.idrK * currentOrder.qty).toLocaleString('id-ID', { maximumFractionDigits: 1 });
 
-    // Notify Discord via webhook, if configured. Fails silently if not set / blocked.
+    // Notify Discord via the serverless endpoint — the webhook URL itself
+    // stays private on the server (Vercel env var), never exposed to the browser.
     try {
-        const data = await loadSiteData();
-        const webhook = data.network && data.network.discordWebhook;
-        if (webhook) {
-            fetch(webhook, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    embeds: [{
-                        title: 'Pesanan Baru',
-                        color: 15216943,
-                        fields: [
-                            { name: 'Item', value: `${currentOrder.name} (${currentOrder.qty}x ${currentOrder.qtyLabel || ''})`, inline: false },
-                            { name: 'Total', value: `RM ${totalRm} / ${totalIdrK}k IDR`, inline: true },
-                            { name: 'Nickname', value: nickname, inline: true },
-                            { name: 'Platform', value: platform, inline: true }
-                        ]
-                    }]
-                })
-            }).catch(() => { /* ignore network/CORS errors */ });
-        }
+        fetch('/api/notify-discord', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                serverName: window.__currentServerName || '',
+                itemName: currentOrder.name,
+                qty: currentOrder.qty,
+                qtyLabel: currentOrder.qtyLabel || '',
+                totalRm,
+                totalIdrK,
+                nickname,
+                platform
+            })
+        }).catch(() => { /* ignore network errors — never block the purchase flow */ });
     } catch (e2) { /* ignore */ }
 
     const data = await loadSiteData();
@@ -298,6 +293,7 @@ async function renderStore() {
 
     registerItems(server.ranks || []);
     registerItems(server.keys || []);
+    window.__currentServerName = server.name;
 
     const ranksPanel = document.getElementById('panel-ranks');
     const keysPanel = document.getElementById('panel-keys');
