@@ -76,22 +76,6 @@
               10
             ]
           }
-        },
-        {
-          "id": "test-smyj",
-          "name": "Test",
-          "price": {
-            "rm": 1,
-            "idrK": 1
-          },
-          "image": "assets/images/broken-anarchy/test.png",
-          "qty": {
-            "enabled": true,
-            "label": "1",
-            "quickSelect": [
-              1
-            ]
-          }
         }
       ]
     }
