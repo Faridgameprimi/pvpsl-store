@@ -3,40 +3,37 @@ const { readJsonBody } = require('../lib/auth');
 
 const ORDERS_PATH = process.env.ORDERS_DATA_PATH || 'pending-orders.json';
 
-/* Sociabuzz's exact webhook field names aren't fully documented publicly,
-   so we defensively check several likely spots for the token and the
-   supporter's note/message instead of assuming one fixed schema. */
 function extractToken(req, body) {
     return (
         req.headers['x-webhook-token'] ||
         req.headers['x-sociabuzz-token'] ||
-        body.webhook_token ||
-        body.token ||
+        (req.query && (req.query.token || req.query.webhook_token)) ||
+        body?.webhook_token ||
+        body?.token ||
+        body?.secret ||
         ''
     );
 }
 
 function extractNote(body) {
     const candidates = [
-        body.message, body.note, body.comment, body.supporter_message,
-        body.donation_message, body.msg, body.description
+        body?.message, body?.note, body?.comment, body?.supporter_message,
+        body?.donation_message, body?.msg, body?.description
     ];
     return candidates.find(v => typeof v === 'string' && v.trim().length > 0) || '';
 }
 
 function extractSupporterName(body) {
-    const candidates = [body.supporter_name, body.name, body.donator_name, body.from, body.sender_name];
+    const candidates = [body?.supporter_name, body?.name, body?.donator_name, body?.from, body?.sender_name];
     return candidates.find(v => typeof v === 'string' && v.trim().length > 0) || '';
 }
 
 function extractAmount(body) {
-    const candidates = [body.amount, body.price, body.nominal, body.total, body.amount_raw];
+    const candidates = [body?.amount, body?.price, body?.nominal, body?.total, body?.amount_raw];
     const found = candidates.find(v => v !== undefined && v !== null);
     return found !== undefined ? found : null;
 }
 
-/* Our purchase modal asks buyers to paste a tag like:
-   [FARIDSMP-ORDER] item=weekly-plus-pass;qty=1;nick=Steve123;platform=Java */
 function parseOrderTag(note) {
     const match = note.match(/\[FARIDSMP-ORDER\]\s*(.+)/i);
     if (!match) return null;
@@ -81,11 +78,30 @@ module.exports = async function handler(req, res) {
         return;
     }
 
-    const body = await readJsonBody(req);
+    // Ambil data req.body jika Vercel sudah auto-parse, jika tiada baru gunakan readJsonBody
+    let body = req.body;
+    if (!body || typeof body !== 'object' || Object.keys(body).length === 0) {
+        try {
+            body = await readJsonBody(req);
+        } catch (e) {
+            body = {};
+        }
+    }
+
     const receivedToken = extractToken(req, body);
 
+    // Debugging Log di Vercel (untuk menyemak data sebenar dari SociaBuzz)
+    console.log('--- SOCIABUZZ WEBHOOK DEBUG ---');
+    console.log('Received Token:', receivedToken);
+    console.log('Expected Token:', expectedToken);
+    console.log('Headers:', JSON.stringify(req.headers));
+    console.log('Body:', JSON.stringify(body));
+
     if (receivedToken !== expectedToken) {
-        res.status(401).json({ error: 'Webhook token tidak cocok.' });
+        res.status(401).json({ 
+            error: 'Webhook token tidak cocok.',
+            received: receivedToken ? 'ADA (tetapi tidak sepadan)' : 'KOSONG/TIDAK DIJUMPAI'
+        });
         return;
     }
 
@@ -115,7 +131,6 @@ module.exports = async function handler(req, res) {
         orders.push(order);
         await writeJsonFile(ORDERS_PATH, orders, `Order baru dari Sociabuzz (${order.nickname || 'unknown'})`, sha);
     } catch (err) {
-        // Still notify Discord even if the queue write failed, so nothing gets silently lost.
         await notifyDiscord(`⚠️ Order masuk dari Sociabuzz tapi GAGAL disimpan ke queue: ${err.message}\nNote asli: ${note || '(kosong)'}`, 15548997);
         res.status(500).json({ error: err.message });
         return;
