@@ -339,6 +339,16 @@ footer .footer-links a:hover { color: var(--red-bright); }
 .donate-btn:hover { filter: brightness(1.08); }
 .modal-note { font-size: 11px; color: var(--text-faint); margin-top: 16px; line-height: 1.6; }
 
+.order-code-box { text-align: left; margin-bottom: 20px; }
+.order-code-box label { display: block; font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--gold); font-weight: 700; margin-bottom: 8px; }
+.order-code-row { display: flex; gap: 8px; align-items: center; }
+.order-code-row code {
+    flex: 1; display: block; background: rgba(0,0,0,0.4); border: 1px solid var(--glass-border);
+    border-radius: var(--radius-sm); padding: 12px 14px; font-size: 11.5px; color: var(--text);
+    word-break: break-all; font-family: 'Courier New', monospace; line-height: 1.5;
+}
+.order-code-row .copy-btn { flex-shrink: 0; }
+
 /* ===================== Admin ===================== */
 .admin-shell { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; }
 .admin-login-box { width: 100%; max-width: 400px; border-radius: var(--radius-xl); padding: 44px 38px; text-align: center; }

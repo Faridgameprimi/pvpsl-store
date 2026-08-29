@@ -1,81 +1,106 @@
 # FaridSmp Store
 
-Website + admin panel, di-host di **Vercel**. Bahagian publik (`index.html`, `store.html`) statis; bahagian admin (`admin/`) dibantu oleh serverless functions di `api/` supaya password, GitHub token, dan link webhook Discord **tidak pernah nampak di browser** — semua rahsia itu disimpan sebagai Environment Variable di Vercel.
+Website + admin panel + auto-delivery ke Minecraft, di-host di **Vercel**.
+
+## Alur Auto-Delivery (baru)
+
+```
+Pembeli klik "Buy Now"
+   → isi Nickname + Platform
+   → dapat KODE ORDER unik (copy)
+   → paste kode itu di kolom pesan/catatan Sociabuzz
+   → bayar di Sociabuzz
+        ↓
+Sociabuzz kirim Webhook ke /api/sociabuzz-webhook
+   → verify token, parse kode order dari catatan
+   → simpan ke antrian (pending-orders.json di GitHub)
+   → notif Discord "order masuk"
+        ↓
+Plugin Minecraft (jalan di server game) polling /api/pending-orders
+   tiap 15 detik
+   → jalankan command (kasih rank/key) sesuai mapping di config.yml
+   → tandai order selesai lewat /api/mark-fulfilled
+```
 
 ## Struktur
 
 ```
-index.html              ← Lobby (render server dari data.json)
-store.html               ← Template store — dipakai semua server via ?server=slug
-data.json                 ← "Database" — data server/rank/key/network (public, tak sensitif)
-style.css                  ← Tema merah + liquid glass
-script.js                   ← Render lobby/store, sound, player count, form beli
+index.html / store.html / style.css / script.js   ← Website publik
+data.json                                            ← Data server/rank/key (public)
+pending-orders.json                                   ← Antrian order (auto-generate, jangan edit manual)
 
-admin/
-  index.html                ← Login admin (panggil /api/login)
-  dashboard.html              ← Panel tambah store/item, upload gambar, publish
-  admin.js                     ← Logic dashboard
+admin/            ← Panel admin (login, dashboard, upload gambar, publish)
 
-api/                         ← Serverless functions (jalan di server, bukan browser)
-  login.js                     ← Cek username/password, keluarkan session token
-  publish.js                    ← Commit data.json ke GitHub (guna token server)
-  upload-image.js                ← Upload PNG ke GitHub (guna token server)
-  notify-discord.js               ← Hantar notifikasi order ke Discord webhook
+api/
+  login.js                 ← Login admin
+  publish.js                ← Commit data.json ke GitHub
+  upload-image.js            ← Upload PNG ke GitHub
+  notify-discord.js           ← Notif Discord saat form beli di-submit di website
+  sociabuzz-webhook.js         ← Terima webhook Sociabuzz saat bayar berhasil ⭐ BARU
+  pending-orders.js             ← Plugin Minecraft polling order dari sini ⭐ BARU
+  mark-fulfilled.js              ← Plugin Minecraft tandai order selesai ⭐ BARU
 
-lib/auth.js                  ← Helper sign/verify session token
-package.json
+lib/
+  auth.js           ← Session token admin + plugin key check
+  github.js          ← Baca/tulis file JSON ke GitHub repo (dipakai banyak endpoint)
 
-assets/
-  sounds/click.mp3           ← taruh sendiri
-  images/<slug>/...png        ← auto ke-upload lewat Admin Dashboard, atau taruh manual
+minecraft-plugin/   ← Source code plugin Java (Paper/Spigot) — kena di-compile sendiri ⭐ BARU
+  README.md           ← Cara build & install plugin-nya
+  pom.xml
+  src/...
 ```
 
-## Setup wajib — Environment Variables di Vercel
+## Setup Environment Variables (Vercel)
 
-Buka **Vercel Dashboard → Project kamu → Settings → Environment Variables**, tambah semua ni:
+Sama seperti sebelum, **plus 3 baru**:
 
-| Nama | Contoh isi | Fungsi |
+| Nama | Contoh | Fungsi |
 |---|---|---|
-| `ADMIN_USERNAME` | `Mrfarid` | Username login admin |
-| `ADMIN_PASSWORD` | `farid255` | Password login admin |
-| `ADMIN_SECRET` | *(random string panjang)* | Untuk sign session token — jangan share, jangan pakai contoh di bawah |
-| `GITHUB_TOKEN` | `ghp_xxxxxxxxxxxx` | Personal Access Token (scope `repo`) — dipakai server untuk commit |
-| `GITHUB_OWNER` | `Faridgameprimi` | Username GitHub kamu |
-| `GITHUB_REPO` | `pvpsl-store` | Nama repo (bukan URL — nama saja) |
-| `GITHUB_BRANCH` | `main` | Branch yang dipakai (opsional, default `main`) |
-| `GITHUB_DATA_PATH` | `data.json` | Lokasi data.json dalam repo (opsional, default `data.json`) |
-| `DISCORD_WEBHOOK_URL` | `https://discord.com/api/webhooks/...` | Notifikasi order masuk (opsional — kosongkan kalau tak nak) |
+| `ADMIN_USERNAME` | `Mrfarid` | Login admin |
+| `ADMIN_PASSWORD` | `farid255` | Login admin |
+| `ADMIN_SECRET` | *(random string)* | Sign session token admin |
+| `GITHUB_TOKEN` | `ghp_xxx` | Commit ke repo (data.json, gambar, antrian order) |
+| `GITHUB_OWNER` | `Faridgameprimi` | Username GitHub |
+| `GITHUB_REPO` | `pvpsl-store` | Nama repo |
+| `GITHUB_BRANCH` | `main` | Branch |
+| `DISCORD_WEBHOOK_URL` | `https://discord.com/api/webhooks/...` | Notifikasi order |
+| **`SOCIABUZZ_WEBHOOK_TOKEN`** ⭐ | *(random string)* | Verify webhook beneran dari Sociabuzz |
+| **`PLUGIN_API_KEY`** ⭐ | *(random string, beda dari yang lain)* | Auth plugin Minecraft ke API |
+| `ORDERS_DATA_PATH` | `pending-orders.json` | Opsional, lokasi file antrian |
 
-Contoh nilai random untuk `ADMIN_SECRET` (boleh pakai ni, atau generate sendiri, yang penting **jangan share ke sesiapa**):
-```
-63957b57e6ecefa208ea29f8c388e7862484eccf96708aa4b4e86b78f7b73dad
-```
+Generate random string (untuk `ADMIN_SECRET`, `SOCIABUZZ_WEBHOOK_TOKEN`, `PLUGIN_API_KEY` — **pakai string BEDA-BEDA untuk masing-masing**, jangan sama):
+- Buka [randomkeygen.com](https://randomkeygen.com) → copy salah satu "CodeIgniter Encryption Keys" atau sejenis
+- Atau di HP: cari "random password generator 64 character"
 
-Lepas isi semua env var, **redeploy** project (Vercel → Deployments → titik tiga → Redeploy) supaya env var-nya kebaca.
+Habis isi env var → **Redeploy** project di Vercel.
 
-⚠️ Env var ini **beza** dengan file kod biasa — dia tersimpan encrypted kat server Vercel, **tidak** masuk repo GitHub, dan **tidak** boleh dibaca dari browser/View Source. Ini jauh lebih selamat berbanding letak password terus dalam fail `.js`.
+## Setup Sociabuzz Webhook
 
-## Cara login admin
+1. Login [sociabuzz.com](https://sociabuzz.com) → buka page TRIBE kamu → **Edit & Settings**
+2. **Integrations** → **Webhook**
+3. **Activate Webhook Integration** → ON
+4. **Webhook URL**: `https://pvpsl-store.vercel.app/api/sociabuzz-webhook`
+5. **Webhook Token**: isi string yang **sama persis** dengan env var `SOCIABUZZ_WEBHOOK_TOKEN` di Vercel
+6. Klik **Test Notification** untuk pastikan konek
 
-Buka `/admin/index.html` (atau tombol "Admin" di footer lobby) → masuk dengan username/password yang kamu set di `ADMIN_USERNAME` / `ADMIN_PASSWORD`.
+⚠️ Sociabuzz tidak publish dokumentasi format payload webhook secara lengkap ke publik, jadi `api/sociabuzz-webhook.js` ditulis defensif (coba beberapa nama field yang umum dipakai). Kalau setelah test ada masalah field tidak ke-detect, cek log function di Vercel (Deployments → pilih deployment → Functions → `sociabuzz-webhook`) untuk lihat payload asli yang dikirim Sociabuzz, kabari saya biar disesuaikan.
 
-## Cara kerja Admin Dashboard
+## Setup Plugin Minecraft
 
-1. Semua perubahan (tambah store, tambah rank/key, upload gambar) disimpan sebagai **draft** di `localStorage` browser kamu dulu.
-2. Bila upload gambar PNG untuk key, gambar terus ter-upload ke GitHub repo kamu (folder `assets/images/<slug-store>/`) — tak payah upload manual lagi.
-3. Bila siap edit, klik **"🚀 Publish ke GitHub"** — server yang urus commit `data.json` guna token yang tersimpan di env var, admin **tidak perlu** isi token apa-apa lagi.
-4. Kalau nak cara manual (tanpa Vercel/API, contoh untuk backup), boleh "⬇ Download data.json" lalu upload sendiri ke GitHub.
+Lihat `minecraft-plugin/README.md` — ada panduan build (`mvn clean package`) dan install lengkap.
 
-## Purchase flow
+Poin penting: `api.plugin-key` di `config.yml` plugin **harus sama persis** dengan env var `PLUGIN_API_KEY` di Vercel.
 
-Klik "Buy Now" pada rank/key → isi Nickname Minecraft + Platform (Java/Bedrock) → sistem panggil `/api/notify-discord` (webhook URL-nya tersembunyi di server, tak nampak di browser pembeli) → pengunjung diarahkan ke link donate Sociabuzz FaridSmp.
+## Kode Order — kenapa penting
 
-Cara bikin Discord webhook: Discord → Server Settings → Integrations → Webhooks → New Webhook → Copy URL → paste sebagai `DISCORD_WEBHOOK_URL` di Vercel.
+Sociabuzz bukan API-based checkout (bukan macam Midtrans/Stripe), jadi kita tidak bisa "kirim" data pesanan ke Sociabuzz waktu checkout. Solusinya: website generate **kode order unik** (contoh `[FARIDSMP-ORDER] item=amethyst-key-a1b2;qty=5;nick=Steve123;platform=Java`) yang pembeli **paste sendiri** ke kolom pesan/catatan Sociabuzz waktu donasi. Kode ini yang dibaca sistem untuk tau siapa beli apa.
+
+Kalau pembeli lupa/salah paste kode itu, order otomatis masuk status "perlu cek manual" dan admin dapat notif Discord untuk diproses manual.
+
+## Admin Dashboard — tidak berubah
+
+Tambah store/rank/key, upload gambar, publish — semua sama seperti sebelum.
 
 ## Live player count
 
-Diambil otomatis dari `api.mcsrvstat.us` berdasarkan IP:port tiap server di `data.json`. Kalau server offline atau API tidak bisa diakses, otomatis fallback tanpa error.
-
-## Kenapa perlu Vercel (bukan GitHub Pages je)
-
-GitHub Pages 100% statis — tidak boleh jalankan kod server, jadi tidak boleh sembunyikan password/token langsung. Vercel boleh jalankan **serverless functions** (folder `api/`), jadi rahsia-rahsia tu boleh disimpan betul-betul di server. Struktur website (`index.html`, `data.json`, dll) tetap sama macam biasa — cuma bahagian admin yang sekarang dibantu oleh function tersebut.
+Diambil otomatis dari `api.mcsrvstat.us` berdasarkan IP:port tiap server di `data.json`.
