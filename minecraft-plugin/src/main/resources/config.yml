@@ -1,0 +1,45 @@
+# =========================================================
+# FaridSmp Order Delivery — config
+# =========================================================
+
+api:
+  # Domain website kamu di Vercel (TANPA slash di akhir).
+  base-url: "https://pvpsl-store.vercel.app"
+
+  # Kena SAMA PERSIS dengan env var PLUGIN_API_KEY di Vercel.
+  # Generate string random yang panjang, jangan share ke sesiapa.
+  plugin-key: "CHANGE-ME-SAME-AS-PLUGIN_API_KEY-ENV-VAR"
+
+  # Berapa kerap plugin cek order baru (dalam detik).
+  poll-interval-seconds: 15
+
+# =========================================================
+# Mapping: item id (dari data.json / Admin Dashboard) -> command
+# yang dijalankan lewat console waktu order itu di-deliver.
+#
+# Placeholder yang boleh dipakai:
+#   %player%  -> nickname Minecraft pembeli
+#   %qty%     -> jumlah yang dibeli (contoh: 4 minggu, 5 key)
+#
+# item id boleh dilihat di Admin Dashboard -> "Store & Item Sekarang"
+# (contoh: weekly-plus-pass-a1b2, amethyst-key-c3d4 — id lengkap
+# dengan suffix random-nya, copy PERSIS dari situ).
+# =========================================================
+items:
+  weekly-plus-pass:
+    commands:
+      - "lp user %player% parent add vip"
+      - "eco give %player% 50000"
+      - "crazycrates give %player% plus_key %qty%"
+
+  amethyst-key:
+    commands:
+      - "crazycrates give %player% amethyst_key %qty%"
+
+  farid-key:
+    commands:
+      - "crazycrates give %player% farid_key %qty%"
+
+messages:
+  delivered: "&a[FaridSmp] Terima kasih! Pesanan kamu sudah dikirim ke akun ini."
+  delivered-offline-note: "Item sudah dikirim lewat command (cek plugin economy/permission kamu untuk konfirmasi kalau player belum online saat itu)."
