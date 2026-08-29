@@ -26,5 +26,19 @@
     "nickname": "",
     "platform": null,
     "needsReview": true
+  },
+  {
+    "id": "mte9z25s201ilh",
+    "source": "sociabuzz",
+    "receivedAt": "2026-08-29T11:06:16.624Z",
+    "fulfilled": false,
+    "amount": 1,
+    "supporterName": "",
+    "rawNote": "[FARIDSMP-ORDER] item=weakly-plus-pass-1nnr;qty=1;nick=Mrfarid;platform=Java",
+    "itemId": "weakly-plus-pass-1nnr",
+    "qty": 1,
+    "nickname": "Mrfarid",
+    "platform": "Java",
+    "needsReview": false
   }
 ]
