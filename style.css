@@ -387,6 +387,28 @@ footer .footer-links a:hover { color: var(--red-bright); }
 .admin-btn.danger { background: rgba(232,38,47,0.15); border: 1px solid rgba(232,38,47,0.4); box-shadow: none; }
 
 .data-list { display: flex; flex-direction: column; gap: 10px; margin-top: 18px; }
+
+/* ===================== Payment admin: review cards ===================== */
+.review-list { display: flex; flex-direction: column; gap: 14px; margin-top: 18px; }
+.review-card {
+    border-radius: var(--radius-md); padding: 18px 20px;
+    display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap;
+}
+.review-card.needs-correction { border-color: rgba(240, 180, 41, 0.35); align-items: flex-start; }
+.review-main { display: flex; flex-direction: column; gap: 4px; flex: 1; min-width: 220px; }
+.review-main strong { font-size: 14.5px; }
+.review-main span { font-size: 12.5px; color: var(--text-dim); }
+.review-main .review-meta { color: var(--text-faint); font-size: 11.5px; }
+.review-actions { display: flex; gap: 8px; flex-shrink: 0; }
+.review-actions button { white-space: nowrap; }
+
+.correction-row { display: flex; align-items: center; gap: 10px; margin-top: 8px; }
+.correction-row label { font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-faint); font-weight: 700; width: 70px; flex-shrink: 0; }
+.correction-row select, .correction-row input {
+    flex: 1; padding: 8px 10px; background: rgba(0,0,0,0.32); border: 1px solid var(--glass-border);
+    border-radius: var(--radius-sm); color: var(--text); font-size: 12.5px;
+}
+
 .data-row {
     display: flex; align-items: center; justify-content: space-between; gap: 14px;
     padding: 14px 18px; border-radius: var(--radius-md); border: 1px solid var(--glass-border); background: rgba(0,0,0,0.2);

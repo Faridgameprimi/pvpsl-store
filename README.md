@@ -1,105 +1,125 @@
 # FaridSmp Store
 
-Website + admin panel + auto-delivery ke Minecraft, di-host di **Vercel**.
+Website + 2 panel admin (Site Admin & Payment Admin) + auto-delivery ke Minecraft (via verifikasi manual), di-host di **Vercel**.
 
-## Alur Auto-Delivery (baru)
+## Alur (manual verification)
 
 ```
-Pembeli klik "Buy Now"
+Pembeli klik "Buy Now" di website
    → isi Nickname + Platform
    → dapat KODE ORDER unik (copy)
    → paste kode itu di kolom pesan/catatan Sociabuzz
    → bayar di Sociabuzz
         ↓
 Sociabuzz kirim Webhook ke /api/sociabuzz-webhook
-   → verify token, parse kode order dari catatan
-   → simpan ke antrian (pending-orders.json di GitHub)
-   → notif Discord "order masuk"
+   → parse kode order dari catatan (kalau ke-detect)
+   → SELALU masuk "Order Menunggu Verifikasi" (payment-review.json)
+   → notif Discord "order masuk, perlu verifikasi"
         ↓
-Plugin Minecraft (jalan di server game) polling /api/pending-orders
-   tiap 15 detik
-   → jalankan command (kasih rank/key) sesuai mapping di config.yml
-   → tandai order selesai lewat /api/mark-fulfilled
+Admin buka PAYMENT ADMIN (login terpisah dari Site Admin)
+   → cek jumlah bayaran di dashboard Sociabuzz sendiri
+   → cocok? klik Accept — kalau kode order tidak ke-detect,
+     admin isi manual (item/nickname/platform/qty) dulu baru Accept
+   → tidak cocok / mencurigakan? klik Deny
+        ↓
+Order yang di-Accept masuk antrian (pending-orders.json)
+        ↓
+Plugin Minecraft polling /api/pending-orders tiap 15 detik
+   → jalankan command sesuai config.yml
+   → tandai selesai lewat /api/mark-fulfilled
 ```
+
+Admin juga bisa **kasih rank/key langsung** (tanpa lewat Sociabuzz sama sekali) lewat Payment Admin → "Beri Rank/Key Manual" — untuk pembayaran cash/transfer manual.
 
 ## Struktur
 
 ```
 index.html / store.html / style.css / script.js   ← Website publik
 data.json                                            ← Data server/rank/key (public)
-pending-orders.json                                   ← Antrian order (auto-generate, jangan edit manual)
+pending-orders.json                                   ← Antrian delivery (plugin baca dari sini)
+payment-review.json                                    ← Antrian verifikasi (Payment Admin baca dari sini)
 
-admin/            ← Panel admin (login, dashboard, upload gambar, publish)
+admin/                    ← SITE ADMIN — kelola store/rank/key/gambar
+  index.html                → Login
+  dashboard.html              → Tambah/Edit Store & Item, upload gambar, publish
+  admin.js
+
+payment-admin/             ← PAYMENT ADMIN — login TERPISAH, kelola pembayaran ⭐ BARU
+  index.html                  → Login (kredensial beda dari Site Admin)
+  dashboard.html                → Accept/Deny order, kasih rank/key manual
+  payment-admin.js
 
 api/
-  login.js                 ← Login admin
-  publish.js                ← Commit data.json ke GitHub
-  upload-image.js            ← Upload PNG ke GitHub
-  notify-discord.js           ← Notif Discord saat form beli di-submit di website
-  sociabuzz-webhook.js         ← Terima webhook Sociabuzz saat bayar berhasil ⭐ BARU
-  pending-orders.js             ← Plugin Minecraft polling order dari sini ⭐ BARU
-  mark-fulfilled.js              ← Plugin Minecraft tandai order selesai ⭐ BARU
+  login.js                        ← Login Site Admin
+  publish.js                       ← Commit data.json ke GitHub
+  upload-image.js                   ← Upload PNG ke GitHub (rank & key)
+  notify-discord.js                  ← Notif Discord dari form beli
+  sociabuzz-webhook.js                ← Terima webhook Sociabuzz → payment-review.json
+  payment-login.js                      ← Login Payment Admin ⭐ BARU
+  review-orders.js                       ← Payment Admin ambil daftar order ⭐ BARU
+  review-action.js                        ← Accept/Deny order ⭐ BARU
+  manual-grant.js                          ← Kasih rank/key manual (tanpa Sociabuzz) ⭐ BARU
+  pending-orders.js                         ← Plugin Minecraft polling dari sini
+  mark-fulfilled.js                          ← Plugin Minecraft tandai selesai
 
 lib/
-  auth.js           ← Session token admin + plugin key check
-  github.js          ← Baca/tulis file JSON ke GitHub repo (dipakai banyak endpoint)
+  auth.js           ← Session token (2 role terpisah: admin & payment) + plugin key
+  github.js          ← Baca/tulis file JSON ke GitHub repo
 
-minecraft-plugin/   ← Source code plugin Java (Paper/Spigot) — kena di-compile sendiri ⭐ BARU
-  README.md           ← Cara build & install plugin-nya
-  pom.xml
-  src/...
+minecraft-plugin/   ← Source code plugin Java (Paper 1.21.11) — kena compile sendiri
 ```
 
 ## Setup Environment Variables (Vercel)
 
-Sama seperti sebelum, **plus 3 baru**:
-
 | Nama | Contoh | Fungsi |
 |---|---|---|
-| `ADMIN_USERNAME` | `Mrfarid` | Login admin |
-| `ADMIN_PASSWORD` | `farid255` | Login admin |
-| `ADMIN_SECRET` | *(random string)* | Sign session token admin |
-| `GITHUB_TOKEN` | `ghp_xxx` | Commit ke repo (data.json, gambar, antrian order) |
+| `ADMIN_USERNAME` | `Mrfarid` | Login Site Admin |
+| `ADMIN_PASSWORD` | `farid255` | Login Site Admin |
+| `ADMIN_SECRET` | *(random string A)* | Sign token Site Admin |
+| **`PAYMENT_ADMIN_USERNAME`** ⭐ | *(bebas, beda dari Site Admin)* | Login Payment Admin |
+| **`PAYMENT_ADMIN_PASSWORD`** ⭐ | *(bebas, beda dari Site Admin)* | Login Payment Admin |
+| **`PAYMENT_ADMIN_SECRET`** ⭐ | *(random string B, BEDA dari ADMIN_SECRET)* | Sign token Payment Admin |
+| `GITHUB_TOKEN` | `ghp_xxx` | Commit ke repo |
 | `GITHUB_OWNER` | `Faridgameprimi` | Username GitHub |
 | `GITHUB_REPO` | `pvpsl-store` | Nama repo |
 | `GITHUB_BRANCH` | `main` | Branch |
 | `DISCORD_WEBHOOK_URL` | `https://discord.com/api/webhooks/...` | Notifikasi order |
-| **`SOCIABUZZ_WEBHOOK_TOKEN`** ⭐ | *(random string)* | Verify webhook beneran dari Sociabuzz |
-| **`PLUGIN_API_KEY`** ⭐ | *(random string, beda dari yang lain)* | Auth plugin Minecraft ke API |
-| `ORDERS_DATA_PATH` | `pending-orders.json` | Opsional, lokasi file antrian |
+| `SOCIABUZZ_WEBHOOK_TOKEN` | *(random string C)* | Verify webhook dari Sociabuzz |
+| `PLUGIN_API_KEY` | *(random string D)* | Auth plugin Minecraft ke API |
 
-Generate random string (untuk `ADMIN_SECRET`, `SOCIABUZZ_WEBHOOK_TOKEN`, `PLUGIN_API_KEY` — **pakai string BEDA-BEDA untuk masing-masing**, jangan sama):
-- Buka [randomkeygen.com](https://randomkeygen.com) → copy salah satu "CodeIgniter Encryption Keys" atau sejenis
-- Atau di HP: cari "random password generator 64 character"
+**Semua random string (A/B/C/D) harus BEDA-BEDA satu sama lain.** Generate di [randomkeygen.com](https://randomkeygen.com).
 
-Habis isi env var → **Redeploy** project di Vercel.
+Habis isi/ubah env var → **Redeploy** project di Vercel.
+
+## Kenapa harus 2 login admin terpisah?
+
+- **Site Admin** (`/admin/`) → kelola tampilan & katalog toko (nama, harga, gambar, deskripsi). Orang yang urus konten website.
+- **Payment Admin** (`/payment-admin/`) → kelola verifikasi uang masuk & pengiriman rank/key. Orang yang urus transaksi.
+
+Dua akses ini sengaja dipisah token & secret-nya — orang yang pegang password Site Admin (misal admin konten/desainer) **tidak otomatis** bisa Accept/Deny pembayaran, dan sebaliknya. Kalau di server kamu cuma 1 orang yang urus semua, tetap boleh pakai kedua-duanya, cuma login-nya beda halaman.
 
 ## Setup Sociabuzz Webhook
 
-1. Login [sociabuzz.com](https://sociabuzz.com) → buka page TRIBE kamu → **Edit & Settings**
-2. **Integrations** → **Webhook**
-3. **Activate Webhook Integration** → ON
-4. **Webhook URL**: `https://pvpsl-store.vercel.app/api/sociabuzz-webhook`
-5. **Webhook Token**: isi string yang **sama persis** dengan env var `SOCIABUZZ_WEBHOOK_TOKEN` di Vercel
-6. Klik **Test Notification** untuk pastikan konek
+1. Login [sociabuzz.com](https://sociabuzz.com) → TRIBE page kamu → **Edit & Settings**
+2. **Integrations** → **Webhook** → aktifkan
+3. **Webhook URL**: `https://pvpsl-store.vercel.app/api/sociabuzz-webhook`
+4. **Webhook Token**: samakan dengan env var `SOCIABUZZ_WEBHOOK_TOKEN`
+5. **Test Notification**
 
-⚠️ Sociabuzz tidak publish dokumentasi format payload webhook secara lengkap ke publik, jadi `api/sociabuzz-webhook.js` ditulis defensif (coba beberapa nama field yang umum dipakai). Kalau setelah test ada masalah field tidak ke-detect, cek log function di Vercel (Deployments → pilih deployment → Functions → `sociabuzz-webhook`) untuk lihat payload asli yang dikirim Sociabuzz, kabari saya biar disesuaikan.
+⚠️ Format payload webhook Sociabuzz tidak didokumentasikan lengkap ke publik — kode parsing di `sociabuzz-webhook.js` defensif (coba beberapa nama field umum). Setelah order beneran masuk (bukan cuma test), cek apakah field Amount/Supporter kebaca benar di Payment Admin. Kalau ada yang aneh, cek log function di Vercel dan kabari saya.
+
+## Kode Order
+
+Karena Sociabuzz bukan checkout berbasis API, pembeli **paste sendiri** kode order (`[FARIDSMP-ORDER] item=...;qty=...;nick=...;platform=...`) ke kolom pesan Sociabuzz. Kalau kode ini tidak ke-detect di webhook, order tetap masuk ke Payment Admin dengan status "perlu koreksi manual" — admin isi item/nickname/platform sendiri sebelum Accept.
 
 ## Setup Plugin Minecraft
 
-Lihat `minecraft-plugin/README.md` — ada panduan build (`mvn clean package`) dan install lengkap.
+Lihat `minecraft-plugin/README.md`. **Tidak berubah** dari sebelumnya — plugin tetap polling `/api/pending-orders` dan `/api/mark-fulfilled`, cuma sekarang isi antrian itu berasal dari order yang sudah di-Accept admin (bukan langsung dari webhook).
 
-Poin penting: `api.plugin-key` di `config.yml` plugin **harus sama persis** dengan env var `PLUGIN_API_KEY` di Vercel.
+## Site Admin — fitur baru
 
-## Kode Order — kenapa penting
-
-Sociabuzz bukan API-based checkout (bukan macam Midtrans/Stripe), jadi kita tidak bisa "kirim" data pesanan ke Sociabuzz waktu checkout. Solusinya: website generate **kode order unik** (contoh `[FARIDSMP-ORDER] item=amethyst-key-a1b2;qty=5;nick=Steve123;platform=Java`) yang pembeli **paste sendiri** ke kolom pesan/catatan Sociabuzz waktu donasi. Kode ini yang dibaca sistem untuk tau siapa beli apa.
-
-Kalau pembeli lupa/salah paste kode itu, order otomatis masuk status "perlu cek manual" dan admin dapat notif Discord untuk diproses manual.
-
-## Admin Dashboard — tidak berubah
-
-Tambah store/rank/key, upload gambar, publish — semua sama seperti sebelum.
+- **Upload gambar PNG untuk Rank juga**, bukan cuma Key
+- **Edit item** — klik "Edit" di daftar item, form otomatis keisi, submit untuk simpan perubahan (bukan bikin item baru)
 
 ## Live player count
 

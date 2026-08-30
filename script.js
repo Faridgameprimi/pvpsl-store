@@ -192,11 +192,11 @@ function renderItemCard(item, kind) {
     const inputId = `qty-${item.id}`;
     const priceId = `price-${item.id}`;
 
-    const imageBlock = kind === 'key' ? `
-        <img class="key-img" src="${escapeHtml(item.image || '')}" alt="${escapeHtml(item.name)}"
+    const imageBlock = item.image ? `
+        <img class="key-img" src="${escapeHtml(item.image)}" alt="${escapeHtml(item.name)}"
              onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
-        <div class="key-fallback" style="display:${item.image ? 'none' : 'flex'};">${escapeHtml(item.name).toUpperCase()}</div>
-    ` : '';
+        <div class="key-fallback" style="display:none;">${escapeHtml(item.name).toUpperCase()}</div>
+    ` : (kind === 'key' ? `<div class="key-fallback">${escapeHtml(item.name).toUpperCase()}</div>` : '');
 
     const badgeBlock = kind === 'rank' ? `<div class="rank-badge">RANK</div>` : '';
 
