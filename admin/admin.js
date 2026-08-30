@@ -101,6 +101,7 @@ function renderCurrentData() {
                         <span>RM ${it.price.rm.toFixed(2)} / ${it.price.idrK}k IDR${it.image ? ' · 🖼️ ada gambar' : ''}</span>
                     </div>
                     <div class="data-actions">
+                        <button type="button" class="admin-btn secondary sfx" onclick="editItem('${server.slug}','${it.kind}','${it.id}')">Edit</button>
                         <button type="button" class="admin-btn danger sfx" onclick="deleteItem('${server.slug}','${it.kind}','${it.id}')">Hapus</button>
                     </div>
                 </div>
@@ -180,15 +181,79 @@ document.getElementById('form-add-store').addEventListener('submit', (e) => {
     document.getElementById('store-slug').dataset.touched = '';
 });
 
-/* ---------- Add item ---------- */
+/* ---------- Add / Edit item ---------- */
 const itemTypeSelect = document.getElementById('item-type');
+let editingContext = null; // { storeSlug, kind, id } when editing an existing item
+
 function syncItemFormFields() {
     const isRank = itemTypeSelect.value === 'rank';
     document.getElementById('item-features-row').style.display = isRank ? 'flex' : 'none';
-    document.getElementById('item-image-row').style.display = isRank ? 'none' : 'flex';
     document.getElementById('item-billing-label').textContent = isRank ? 'Label Durasi (Rank)' : 'Label Durasi (abaikan untuk Key)';
 }
 itemTypeSelect.addEventListener('change', syncItemFormFields);
+
+function findItemInServer(server, kind, id) {
+    const list = kind === 'rank' ? (server.ranks || []) : (server.keys || []);
+    return list.find(i => i.id === id);
+}
+function removeItemFromServer(storeSlug, kind, id) {
+    const srv = draft.servers.find(s => s.slug === storeSlug);
+    if (!srv) return;
+    const key = kind === 'rank' ? 'ranks' : 'keys';
+    srv[key] = (srv[key] || []).filter(i => i.id !== id);
+}
+
+window.editItem = function (storeSlug, kind, id) {
+    const server = draft.servers.find(s => s.slug === storeSlug);
+    if (!server) return;
+    const item = findItemInServer(server, kind, id);
+    if (!item) return;
+
+    editingContext = { storeSlug, kind, id };
+
+    document.getElementById('item-store').value = storeSlug;
+    itemTypeSelect.value = kind;
+    document.getElementById('item-name').value = item.name || '';
+    document.getElementById('item-billing').value = item.billing || '';
+    document.getElementById('item-rm').value = item.price ? item.price.rm : '';
+    document.getElementById('item-idrk').value = item.price ? item.price.idrK : '';
+    document.getElementById('item-features').value = (item.features || []).join('\n');
+    document.getElementById('item-qty-label').value = (item.qty && item.qty.enabled) ? (item.qty.label || '') : '';
+    document.getElementById('item-qty-quick').value = (item.qty && item.qty.quickSelect) ? item.qty.quickSelect.join(',') : '';
+
+    pendingImageFile = null;
+    imageFileInput.value = '';
+    if (item.image) {
+        uploadPreview.src = item.image.startsWith('http') ? item.image : `../${item.image}`;
+        uploadPreview.style.display = 'block';
+        uploadPlaceholder.style.display = 'none';
+    } else {
+        uploadPreview.style.display = 'none';
+        uploadPlaceholder.style.display = 'flex';
+    }
+
+    syncItemFormFields();
+    document.getElementById('item-form-title').textContent = `✏️ Edit Item: ${item.name}`;
+    document.getElementById('add-item-btn').textContent = 'Simpan Perubahan';
+    document.getElementById('cancel-edit-btn').style.display = 'inline-flex';
+    document.getElementById('form-add-item').scrollIntoView({ behavior: 'smooth', block: 'start' });
+};
+
+function exitEditMode() {
+    editingContext = null;
+    document.getElementById('item-form-title').textContent = '🏷️ Tambah Item (Rank / Key)';
+    document.getElementById('add-item-btn').textContent = '+ Tambah Item';
+    document.getElementById('cancel-edit-btn').style.display = 'none';
+}
+
+document.getElementById('cancel-edit-btn').addEventListener('click', () => {
+    exitEditMode();
+    document.getElementById('form-add-item').reset();
+    pendingImageFile = null;
+    uploadPreview.style.display = 'none';
+    uploadPlaceholder.style.display = 'flex';
+    syncItemFormFields();
+});
 
 /* ---------- Image picker preview ---------- */
 const imageFileInput = document.getElementById('item-image-file');
@@ -227,7 +292,6 @@ document.getElementById('form-add-item').addEventListener('submit', async (e) =>
     const qtyLabel = document.getElementById('item-qty-label').value.trim();
     const qtyQuick = document.getElementById('item-qty-quick').value.trim();
 
-    const id = slugify(name) + '-' + Math.random().toString(36).slice(2, 6);
     const qty = qtyLabel ? {
         enabled: true,
         label: qtyLabel,
@@ -235,56 +299,56 @@ document.getElementById('form-add-item').addEventListener('submit', async (e) =>
     } : { enabled: false };
 
     const addBtn = document.getElementById('add-item-btn');
+    const isEditing = !!editingContext;
+    const id = isEditing ? editingContext.id : (slugify(name) + '-' + Math.random().toString(36).slice(2, 6));
 
-    if (type === 'rank') {
-        const features = document.getElementById('item-features').value
-            .split('\n').map(f => f.trim()).filter(Boolean);
-        server.ranks = server.ranks || [];
-        server.ranks.push({
-            id, name,
-            billing: document.getElementById('item-billing').value.trim() || 'Permanent',
-            price: { rm, idrK },
-            features,
-            qty
-        });
-    } else {
-        let imagePath = '';
-
-        if (pendingImageFile) {
-            addBtn.disabled = true;
-            addBtn.textContent = 'Upload gambar...';
-            try {
-                const res = await fetch('/api/upload-image', {
-                    method: 'POST',
-                    headers: authHeaders(),
-                    body: JSON.stringify({
-                        storeSlug,
-                        filename: `${id}-${pendingImageFile.filename}`,
-                        base64: pendingImageFile.dataUrl
-                    })
-                });
-                const json = await res.json();
-                if (res.ok && json.path) {
-                    imagePath = json.path;
-                } else {
-                    alert('Gagal upload gambar: ' + (json.error || 'unknown error') + '\n\nItem tetap ditambahkan tanpa gambar (bisa upload manual nanti).');
-                }
-            } catch (err) {
-                alert('Gagal upload gambar: ' + err.message + '\n\nItem tetap ditambahkan tanpa gambar.');
-            } finally {
-                addBtn.disabled = false;
-                addBtn.textContent = '+ Tambah Item';
-            }
-        }
-
-        server.keys = server.keys || [];
-        server.keys.push({
-            id, name,
-            price: { rm, idrK },
-            image: imagePath,
-            qty
-        });
+    let imagePath = '';
+    if (isEditing) {
+        const existing = findItemInServer(
+            draft.servers.find(s => s.slug === editingContext.storeSlug),
+            editingContext.kind, editingContext.id
+        );
+        imagePath = (existing && existing.image) || '';
     }
+
+    if (pendingImageFile) {
+        addBtn.disabled = true;
+        addBtn.textContent = 'Upload gambar...';
+        try {
+            const res = await fetch('/api/upload-image', {
+                method: 'POST',
+                headers: authHeaders(),
+                body: JSON.stringify({
+                    storeSlug,
+                    filename: `${id}-${pendingImageFile.filename}`,
+                    base64: pendingImageFile.dataUrl
+                })
+            });
+            const json = await res.json();
+            if (res.ok && json.path) {
+                imagePath = json.path;
+            } else {
+                alert('Gagal upload gambar: ' + (json.error || 'unknown error') + '\n\nItem tetap disimpan tanpa gambar baru.');
+            }
+        } catch (err) {
+            alert('Gagal upload gambar: ' + err.message);
+        } finally {
+            addBtn.disabled = false;
+        }
+    }
+
+    const itemData = { id, name, price: { rm, idrK }, image: imagePath, qty };
+    if (type === 'rank') {
+        itemData.billing = document.getElementById('item-billing').value.trim() || 'Permanent';
+        itemData.features = document.getElementById('item-features').value.split('\n').map(f => f.trim()).filter(Boolean);
+    }
+
+    if (isEditing) {
+        removeItemFromServer(editingContext.storeSlug, editingContext.kind, editingContext.id);
+    }
+    const targetKey = type === 'rank' ? 'ranks' : 'keys';
+    server[targetKey] = server[targetKey] || [];
+    server[targetKey].push(itemData);
 
     saveDraft();
     renderCurrentData();
@@ -292,6 +356,7 @@ document.getElementById('form-add-item').addEventListener('submit', async (e) =>
     pendingImageFile = null;
     uploadPreview.style.display = 'none';
     uploadPlaceholder.style.display = 'flex';
+    exitEditMode();
     syncItemFormFields();
 });
 

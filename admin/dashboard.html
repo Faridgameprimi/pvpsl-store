@@ -76,10 +76,10 @@
             </form>
         </div>
 
-        <!-- ================= Add Item ================= -->
+        <!-- ================= Add / Edit Item ================= -->
         <div class="admin-section glass">
-            <h2>🏷️ Tambah Item (Rank / Key)</h2>
-            <p class="admin-sub">Pilih store tujuan, lalu isi detail item. Untuk Key, boleh langsung upload gambar PNG-nya.</p>
+            <h2 id="item-form-title">🏷️ Tambah Item (Rank / Key)</h2>
+            <p class="admin-sub">Pilih store tujuan, lalu isi detail item. Gambar PNG opsional untuk Rank maupun Key.</p>
             <form id="form-add-item">
                 <div class="form-row">
                     <div class="form-field">
@@ -120,9 +120,9 @@
                         <textarea id="item-features" placeholder="Get 50k Money&#10;Get 100 Shards"></textarea>
                     </div>
                 </div>
-                <div class="form-row" id="item-image-row" style="display:none;">
+                <div class="form-row" id="item-image-row">
                     <div class="form-field full">
-                        <label for="item-image-file">Upload Gambar PNG Key</label>
+                        <label for="item-image-file">Upload Gambar PNG (opsional)</label>
                         <div class="upload-box" id="upload-box">
                             <input type="file" id="item-image-file" accept="image/png,image/jpeg,image/webp">
                             <div class="upload-placeholder" id="upload-placeholder">
@@ -131,7 +131,7 @@
                             </div>
                             <img id="upload-preview" style="display:none;">
                         </div>
-                        <p class="form-hint">Gambar akan otomatis ter-upload ke GitHub waktu item ini di-publish. Belum pilih gambar? Kartu key akan pakai label teks sebagai gantinya.</p>
+                        <p class="form-hint">Gambar otomatis ter-upload ke GitHub waktu item ini disimpan. Tanpa gambar, kartu item pakai label teks sebagai gantinya.</p>
                     </div>
                 </div>
                 <div class="form-row">
@@ -144,7 +144,10 @@
                         <input type="text" id="item-qty-quick" placeholder="Contoh: 1,5,10">
                     </div>
                 </div>
-                <button type="submit" class="admin-btn sfx" id="add-item-btn">+ Tambah Item</button>
+                <div style="display:flex; gap:10px;">
+                    <button type="submit" class="admin-btn sfx" id="add-item-btn">+ Tambah Item</button>
+                    <button type="button" class="admin-btn secondary sfx" id="cancel-edit-btn" style="display:none;">Batal Edit</button>
+                </div>
             </form>
         </div>
 
