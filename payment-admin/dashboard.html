@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Admin | FaridSmp</title>
+    <link rel="stylesheet" href="../style.css">
+    <meta name="robots" content="noindex, nofollow">
+</head>
+<body>
+
+    <div class="admin-topbar">
+        <div class="container">
+            <div class="nav-left">
+                <a href="../index.html" class="brand-logo">FARIDSMP<span> PAYMENT</span></a>
+            </div>
+            <div style="display:flex; gap:10px;">
+                <button type="button" id="refresh-btn" class="admin-btn secondary sfx">↻ Refresh</button>
+                <button type="button" id="logout-btn" class="admin-btn danger sfx">Logout</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="admin-layout">
+
+        <div class="stats-bar">
+            <div class="stat-chip glass"><span class="stat-num" id="stat-pending">0</span><span class="stat-label">Menunggu</span></div>
+            <div class="stat-chip glass"><span class="stat-num" id="stat-accepted">0</span><span class="stat-label">Diterima</span></div>
+            <div class="stat-chip glass"><span class="stat-num" id="stat-denied">0</span><span class="stat-label">Ditolak</span></div>
+        </div>
+
+        <!-- ================= Pending Review ================= -->
+        <div class="admin-section glass">
+            <h2>📥 Order Menunggu Verifikasi</h2>
+            <p class="admin-sub">Cek jumlah pembayaran di dashboard Sociabuzz kamu dulu sebelum Accept — sistem ini tidak validasi jumlah otomatis.</p>
+            <div id="pending-list" class="review-list">
+                <p class="form-hint">Memuat...</p>
+            </div>
+        </div>
+
+        <!-- ================= Manual Grant ================= -->
+        <div class="admin-section glass">
+            <h2>✋ Beri Rank/Key Manual</h2>
+            <p class="admin-sub">Untuk pembayaran cash/transfer langsung — langsung kirim ke plugin tanpa lewat Sociabuzz.</p>
+            <form id="form-manual-grant">
+                <div class="form-row">
+                    <div class="form-field">
+                        <label for="mg-store">Store</label>
+                        <select id="mg-store" required></select>
+                    </div>
+                    <div class="form-field">
+                        <label for="mg-item">Item</label>
+                        <select id="mg-item" required></select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-field">
+                        <label for="mg-nickname">Nickname Minecraft</label>
+                        <input type="text" id="mg-nickname" required>
+                    </div>
+                    <div class="form-field">
+                        <label for="mg-platform">Platform</label>
+                        <select id="mg-platform">
+                            <option value="Java">Java</option>
+                            <option value="Bedrock">Bedrock</option>
+                        </select>
+                    </div>
+                    <div class="form-field">
+                        <label for="mg-qty">Jumlah</label>
+                        <input type="number" id="mg-qty" value="1" min="1">
+                    </div>
+                </div>
+                <button type="submit" class="admin-btn gold sfx">🚀 Kirim ke Plugin</button>
+            </form>
+            <p id="manual-grant-status" class="publish-status"></p>
+        </div>
+
+        <!-- ================= History ================= -->
+        <div class="admin-section glass">
+            <h2>🕓 Riwayat Terbaru</h2>
+            <div id="history-list" class="data-list"></div>
+        </div>
+
+    </div>
+
+    <script src="payment-admin.js"></script>
+</body>
+</html>
