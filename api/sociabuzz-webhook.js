@@ -1,39 +1,44 @@
 const { readJsonFile, writeJsonFile } = require('../lib/github');
 const { readJsonBody } = require('../lib/auth');
 
-const ORDERS_PATH = process.env.ORDERS_DATA_PATH || 'pending-orders.json';
+const REVIEW_PATH = process.env.REVIEW_DATA_PATH || 'payment-review.json';
 
+/* Sociabuzz's exact webhook field names aren't fully documented publicly,
+   so we defensively check several likely spots for the token and the
+   supporter's note/message instead of assuming one fixed schema. */
 function extractToken(req, body) {
     return (
         req.headers['x-webhook-token'] ||
         req.headers['x-sociabuzz-token'] ||
-        (req.query && (req.query.token || req.query.webhook_token)) ||
-        body?.webhook_token ||
-        body?.token ||
-        body?.secret ||
+        body.webhook_token ||
+        body.token ||
         ''
     );
 }
 
 function extractNote(body) {
     const candidates = [
-        body?.message, body?.note, body?.comment, body?.supporter_message,
-        body?.donation_message, body?.msg, body?.description
+        body.message, body.note, body.comment, body.supporter_message,
+        body.donation_message, body.msg, body.description
     ];
     return candidates.find(v => typeof v === 'string' && v.trim().length > 0) || '';
 }
 
 function extractSupporterName(body) {
-    const candidates = [body?.supporter_name, body?.name, body?.donator_name, body?.from, body?.sender_name];
+    const candidates = [body.supporter_name, body.name, body.donator_name, body.from, body.sender_name];
     return candidates.find(v => typeof v === 'string' && v.trim().length > 0) || '';
 }
 
 function extractAmount(body) {
-    const candidates = [body?.amount, body?.price, body?.nominal, body?.total, body?.amount_raw];
+    const candidates = [body.amount, body.price, body.nominal, body.total, body.amount_raw];
     const found = candidates.find(v => v !== undefined && v !== null);
     return found !== undefined ? found : null;
 }
 
+/* Our purchase modal asks buyers to paste a tag like:
+   [FARIDSMP-ORDER] item=weekly-plus-pass;qty=1;nick=Steve123;platform=Java
+   Parsing it just PRE-FILLS the review card for admin convenience —
+   it never skips the manual Accept/Deny step. */
 function parseOrderTag(note) {
     const match = note.match(/\[FARIDSMP-ORDER\]\s*(.+)/i);
     if (!match) return null;
@@ -78,30 +83,11 @@ module.exports = async function handler(req, res) {
         return;
     }
 
-    // Ambil data req.body jika Vercel sudah auto-parse, jika tiada baru gunakan readJsonBody
-    let body = req.body;
-    if (!body || typeof body !== 'object' || Object.keys(body).length === 0) {
-        try {
-            body = await readJsonBody(req);
-        } catch (e) {
-            body = {};
-        }
-    }
-
+    const body = await readJsonBody(req);
     const receivedToken = extractToken(req, body);
 
-    // Debugging Log di Vercel (untuk menyemak data sebenar dari SociaBuzz)
-    console.log('--- SOCIABUZZ WEBHOOK DEBUG ---');
-    console.log('Received Token:', receivedToken);
-    console.log('Expected Token:', expectedToken);
-    console.log('Headers:', JSON.stringify(req.headers));
-    console.log('Body:', JSON.stringify(body));
-
     if (receivedToken !== expectedToken) {
-        res.status(401).json({ 
-            error: 'Webhook token tidak cocok.',
-            received: receivedToken ? 'ADA (tetapi tidak sepadan)' : 'KOSONG/TIDAK DIJUMPAI'
-        });
+        res.status(401).json({ error: 'Webhook token tidak cocok.' });
         return;
     }
 
@@ -110,11 +96,13 @@ module.exports = async function handler(req, res) {
     const amount = extractAmount(body);
     const parsed = parseOrderTag(note);
 
-    const order = {
+    // Every order lands here as "pending" — nothing gets delivered until
+    // a human clicks Accept in the Payment Admin panel.
+    const review = {
         id: Date.now().toString(36) + Math.random().toString(36).slice(2, 8),
         source: 'sociabuzz',
         receivedAt: new Date().toISOString(),
-        fulfilled: false,
+        status: 'pending', // pending | accepted | denied
         amount,
         supporterName,
         rawNote: note,
@@ -122,33 +110,27 @@ module.exports = async function handler(req, res) {
         qty: parsed ? parsed.qty : 1,
         nickname: parsed ? parsed.nickname : supporterName,
         platform: parsed ? parsed.platform : null,
-        needsReview: !parsed
+        tagDetected: !!parsed
     };
 
     try {
-        const { data, sha } = await readJsonFile(ORDERS_PATH, []);
-        const orders = Array.isArray(data) ? data : [];
-        orders.push(order);
-        await writeJsonFile(ORDERS_PATH, orders, `Order baru dari Sociabuzz (${order.nickname || 'unknown'})`, sha);
+        const { data, sha } = await readJsonFile(REVIEW_PATH, []);
+        const reviews = Array.isArray(data) ? data : [];
+        reviews.push(review);
+        await writeJsonFile(REVIEW_PATH, reviews, `Order baru dari Sociabuzz (${review.nickname || 'unknown'})`, sha);
     } catch (err) {
-        await notifyDiscord(`⚠️ Order masuk dari Sociabuzz tapi GAGAL disimpan ke queue: ${err.message}\nNote asli: ${note || '(kosong)'}`, 15548997);
+        await notifyDiscord(`⚠️ Order masuk dari Sociabuzz tapi GAGAL disimpan: ${err.message}\nCatatan: ${note || '(kosong)'}`, 15548997);
         res.status(500).json({ error: err.message });
         return;
     }
 
-    if (order.needsReview) {
-        await notifyDiscord(
-            `⚠️ **Order dari Sociabuzz — perlu cek manual** (format tag tidak ketemu di catatan)\n` +
-            `Supporter: ${supporterName || '-'}\nAmount: ${amount ?? '-'}\nCatatan: ${note || '(kosong)'}`,
-            15548997
-        );
-    } else {
-        await notifyDiscord(
-            `✅ **Order baru — masuk antrian delivery otomatis**\n` +
-            `Item: \`${order.itemId}\` x${order.qty}\nNickname: **${order.nickname}** (${order.platform})`,
-            5793266
-        );
-    }
+    await notifyDiscord(
+        `💰 **Order baru dari Sociabuzz — menunggu verifikasi admin**\n` +
+        `${review.tagDetected ? `Item: \`${review.itemId}\` x${review.qty}\nNickname: **${review.nickname}** (${review.platform})` : `⚠️ Kode order tidak ke-detect — cek manual\nCatatan: ${note || '(kosong)'}`}\n` +
+        `Amount: ${amount ?? '-'} · Supporter: ${supporterName || '-'}\n` +
+        `Buka Payment Admin untuk Accept/Deny.`,
+        15844367
+    );
 
-    res.status(200).json({ ok: true, queued: !order.needsReview });
+    res.status(200).json({ ok: true });
 };

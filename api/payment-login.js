@@ -6,12 +6,12 @@ module.exports = async function handler(req, res) {
         return;
     }
 
-    const validUser = process.env.ADMIN_USERNAME;
-    const validPass = process.env.ADMIN_PASSWORD;
-    const secret = process.env.ADMIN_SECRET;
+    const validUser = process.env.PAYMENT_ADMIN_USERNAME;
+    const validPass = process.env.PAYMENT_ADMIN_PASSWORD;
+    const secret = process.env.PAYMENT_ADMIN_SECRET;
 
     if (!validUser || !validPass || !secret) {
-        res.status(500).json({ error: 'Server belum di-setup. Isi ADMIN_USERNAME, ADMIN_PASSWORD, dan ADMIN_SECRET di Vercel → Project Settings → Environment Variables.' });
+        res.status(500).json({ error: 'Server belum di-setup. Isi PAYMENT_ADMIN_USERNAME, PAYMENT_ADMIN_PASSWORD, dan PAYMENT_ADMIN_SECRET di Vercel → Project Settings → Environment Variables.' });
         return;
     }
 

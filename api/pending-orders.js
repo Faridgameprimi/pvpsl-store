@@ -17,7 +17,7 @@ module.exports = async function handler(req, res) {
     try {
         const { data } = await readJsonFile(ORDERS_PATH, []);
         const orders = Array.isArray(data) ? data : [];
-        const pending = orders.filter(o => !o.fulfilled && !o.needsReview && o.itemId);
+        const pending = orders.filter(o => !o.fulfilled && o.itemId);
         res.status(200).json({ orders: pending });
     } catch (err) {
         res.status(500).json({ error: err.message });
