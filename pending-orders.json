@@ -89,5 +89,15 @@
     "platform": "Java",
     "fulfilled": false,
     "queuedAt": "2026-09-02T07:33:14.465Z"
+  },
+  {
+    "id": "manual-mtjs4ynsc1uh",
+    "source": "manual-grant",
+    "itemId": "farid-key",
+    "qty": 1,
+    "nickname": "Mrfarid",
+    "platform": "Java",
+    "fulfilled": false,
+    "queuedAt": "2026-09-02T07:33:35.992Z"
   }
 ]
