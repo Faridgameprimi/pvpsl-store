@@ -174,5 +174,15 @@
     "fulfilled": true,
     "queuedAt": "2026-09-02T07:56:06.906Z",
     "fulfilledAt": "2026-09-02T07:56:12.474Z"
+  },
+  {
+    "id": "manual-mtjsz1bvok06",
+    "source": "manual-grant",
+    "itemId": "farid-key",
+    "qty": 1,
+    "nickname": "_Mrfarids3066",
+    "platform": "Bedrock",
+    "fulfilled": false,
+    "queuedAt": "2026-09-02T07:56:59.131Z"
   }
 ]
