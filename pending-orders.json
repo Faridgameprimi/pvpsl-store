@@ -97,7 +97,8 @@
     "qty": 1,
     "nickname": "Mrfarid",
     "platform": "Java",
-    "fulfilled": false,
-    "queuedAt": "2026-09-02T07:33:35.992Z"
+    "fulfilled": true,
+    "queuedAt": "2026-09-02T07:33:35.992Z",
+    "fulfilledAt": "2026-09-02T07:33:37.856Z"
   }
 ]
