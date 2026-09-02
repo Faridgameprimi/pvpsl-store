@@ -106,7 +106,7 @@ function buildCorrectionSelect(review) {
     const options = Object.entries(itemIndex).map(([id, it]) =>
         `<option value="${escapeHtml(id)}">${escapeHtml(it.name)} (${escapeHtml(it.storeName)})</option>`
     ).join('');
-    return `<select class="correction-item">${options}</select>`;
+    return `<select class="correction-item"><option value="">— pilih item —</option>${options}</select>`;
 }
 
 function renderPending() {
@@ -120,41 +120,25 @@ function renderPending() {
 
     container.innerHTML = pending.map(r => {
         const time = r.receivedAt ? new Date(r.receivedAt).toLocaleString('id-ID') : '-';
-        if (r.tagDetected) {
-            return `
-            <div class="review-card glass" data-id="${escapeHtml(r.id)}">
-                <div class="review-main">
-                    <strong>${escapeHtml(itemLabel(r.itemId))} × ${r.qty}</strong>
-                    <span>Nickname: <b>${escapeHtml(r.nickname || '-')}</b> · ${escapeHtml(r.platform || '-')}</span>
-                    <span class="review-meta">Amount: ${r.amount ?? '-'} · Supporter: ${escapeHtml(r.supporterName || '-')} · ${time}</span>
-                </div>
-                <div class="review-actions">
-                    <button type="button" class="admin-btn sfx" onclick="acceptReview('${r.id}')">✅ Accept</button>
-                    <button type="button" class="admin-btn danger sfx" onclick="denyReview('${r.id}')">❌ Deny</button>
-                </div>
-            </div>`;
-        }
-
-        // Tag not detected — needs manual correction before it can be accepted.
         return `
         <div class="review-card glass needs-correction" data-id="${escapeHtml(r.id)}">
             <div class="review-main">
-                <strong style="color:var(--gold);">⚠️ Kode order tidak ke-detect</strong>
-                <span class="review-meta">Catatan asli: "${escapeHtml(r.rawNote || '(kosong)')}"</span>
-                <span class="review-meta">Amount: ${r.amount ?? '-'} · Supporter: ${escapeHtml(r.supporterName || '-')} · ${time}</span>
+                <strong>Nama Sociabuzz: "${escapeHtml(r.supporterName || '-')}"</strong>
+                <span class="review-meta">Pesan: "${escapeHtml(r.rawNote || '(kosong)')}"</span>
+                <span class="review-meta">Amount: ${r.amount ?? '-'} · ${time}</span>
                 <div class="correction-row">
                     <label>Item</label>
                     ${buildCorrectionSelect(r)}
                 </div>
                 <div class="correction-row">
                     <label>Nickname</label>
-                    <input type="text" class="correction-nick" value="${escapeHtml(r.supporterName || '')}" placeholder="Nickname Minecraft">
+                    <input type="text" class="correction-nick" value="${escapeHtml(r.nickname || '')}" placeholder="Nickname Minecraft">
                 </div>
                 <div class="correction-row">
                     <label>Platform</label>
                     <select class="correction-platform">
-                        <option value="Java">Java</option>
-                        <option value="Bedrock">Bedrock</option>
+                        <option value="Java" ${r.platform === 'Java' ? 'selected' : ''}>Java</option>
+                        <option value="Bedrock" ${r.platform === 'Bedrock' ? 'selected' : ''}>Bedrock</option>
                     </select>
                 </div>
                 <div class="correction-row">
@@ -163,7 +147,7 @@ function renderPending() {
                 </div>
             </div>
             <div class="review-actions">
-                <button type="button" class="admin-btn sfx" onclick="acceptReview('${r.id}', true)">✅ Accept dengan Koreksi</button>
+                <button type="button" class="admin-btn sfx" onclick="acceptReview('${r.id}')">✅ Accept</button>
                 <button type="button" class="admin-btn danger sfx" onclick="denyReview('${r.id}')">❌ Deny</button>
             </div>
         </div>`;
@@ -187,18 +171,20 @@ function renderHistory() {
     `).join('');
 }
 
-window.acceptReview = async function (id, useCorrection) {
+window.acceptReview = async function (id) {
     const card = document.querySelector(`.review-card[data-id="${id}"]`);
-    let overrides;
-    if (useCorrection && card) {
-        overrides = {
-            itemId: card.querySelector('.correction-item').value,
-            nickname: card.querySelector('.correction-nick').value.trim(),
-            platform: card.querySelector('.correction-platform').value,
-            qty: parseInt(card.querySelector('.correction-qty').value, 10) || 1
-        };
-        if (!overrides.nickname) { alert('Isi nickname dulu.'); return; }
-    }
+    if (!card) return;
+
+    const overrides = {
+        itemId: card.querySelector('.correction-item').value,
+        nickname: card.querySelector('.correction-nick').value.trim(),
+        platform: card.querySelector('.correction-platform').value,
+        qty: parseInt(card.querySelector('.correction-qty').value, 10) || 1
+    };
+
+    if (!overrides.itemId) { alert('Pilih item dulu.'); return; }
+    if (!overrides.nickname) { alert('Isi nickname dulu.'); return; }
+
     await submitReviewAction(id, 'accept', overrides);
 };
 
