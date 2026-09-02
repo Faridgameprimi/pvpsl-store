@@ -68,5 +68,15 @@
     "platform": "Java",
     "fulfilled": false,
     "queuedAt": "2026-09-02T07:32:00.114Z"
+  },
+  {
+    "id": "manual-mtjs41p7b88j",
+    "source": "manual-grant",
+    "itemId": "amethyst-key",
+    "qty": 1,
+    "nickname": "Mrfarid",
+    "platform": "Java",
+    "fulfilled": false,
+    "queuedAt": "2026-09-02T07:32:53.275Z"
   }
 ]
