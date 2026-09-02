@@ -57,21 +57,43 @@ function injectPurchaseModal() {
                 <div class="success-icon">
                     <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
                 </div>
-                <h3>Pesanan Dicatat!</h3>
+                <h3>Sebelum Lanjut ke Sociabuzz</h3>
                 <p id="modal-success-text"></p>
+
                 <div class="order-code-box">
-                    <label>Kode Order — PASTE ini di kolom pesan/catatan Sociabuzz</label>
+                    <label>Isi kolom "Nama" di Sociabuzz dengan ini</label>
                     <div class="order-code-row">
-                        <code id="modal-order-code"></code>
-                        <button type="button" id="modal-copy-code-btn" class="copy-btn sfx">
+                        <code id="modal-gamertag"></code>
+                        <button type="button" id="modal-copy-gamertag-btn" class="copy-btn sfx">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
                             Copy
                         </button>
                     </div>
                 </div>
-                <a href="#" id="modal-donate-btn" target="_blank" rel="noopener" class="btn-buy donate-btn sfx">Donate via Sociabuzz</a>
+
+                <div class="order-code-box">
+                    <label>Isi kolom "Pesan" di Sociabuzz dengan ini</label>
+                    <div class="order-code-row">
+                        <code id="modal-message"></code>
+                        <button type="button" id="modal-copy-message-btn" class="copy-btn sfx">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                            Copy
+                        </button>
+                    </div>
+                </div>
+
+                <div class="platform-reminder">
+                    <strong>⚠️ Format nama wajib ikut platform:</strong>
+                    <div class="platform-reminder-example">
+                        <div><span class="pr-label">Java</span><span class="pr-code">gamertag</span><span class="pr-sample">andi</span></div>
+                        <div><span class="pr-label">Bedrock</span><span class="pr-code">_gamertag</span><span class="pr-sample">_andi</span></div>
+                    </div>
+                    <p>Nama di atas sudah otomatis diformat sesuai platform yang kamu pilih tadi — tinggal copy-paste.</p>
+                </div>
+
+                <a href="#" id="modal-donate-btn" target="_blank" rel="noopener" class="btn-buy donate-btn sfx">Lanjut ke Sociabuzz</a>
                 <a href="#" id="modal-wa-btn" target="_blank" rel="noopener" class="btn-outline sfx" style="display:block; margin-top:12px;">Konfirmasi via WhatsApp</a>
-                <p class="modal-note">⚠️ Rank/key dikirim OTOMATIS ke game kamu setelah donasi berhasil — <strong>tapi cuma kalau kode order di atas ke-paste persis</strong> di kolom pesan Sociabuzz. Jangan diubah/dipotong.</p>
+                <p class="modal-note">Admin akan cek pembayaran kamu di Sociabuzz, cocokkan dengan pesan di atas, baru rank/key dikirim ke game. Biasanya diproses dalam beberapa menit.</p>
             </div>
         </div>
     </div>`;
@@ -83,9 +105,14 @@ function injectPurchaseModal() {
     });
     document.getElementById('purchase-form').addEventListener('submit', handlePurchaseSubmit);
 
-    document.getElementById('modal-copy-code-btn').addEventListener('click', async () => {
-        const btn = document.getElementById('modal-copy-code-btn');
-        const text = document.getElementById('modal-order-code').textContent;
+    bindCopyCode('modal-copy-gamertag-btn', 'modal-gamertag');
+    bindCopyCode('modal-copy-message-btn', 'modal-message');
+}
+
+function bindCopyCode(btnId, codeId) {
+    document.getElementById(btnId).addEventListener('click', async () => {
+        const btn = document.getElementById(btnId);
+        const text = document.getElementById(codeId).textContent;
         try {
             await navigator.clipboard.writeText(text);
         } catch (err) {
@@ -162,8 +189,11 @@ async function handlePurchaseSubmit(e) {
     const donateUrl = (data.network && data.network.donateUrl) || 'https://sociabuzz.com/faridsmp/tribe';
     const waNumber = (data.network && data.network.whatsapp) || '';
 
-    const orderCode = `[FARIDSMP-ORDER] item=${currentOrder.id};qty=${currentOrder.qty};nick=${nickname};platform=${platform}`;
-    document.getElementById('modal-order-code').textContent = orderCode;
+    const gamertag = platform === 'Bedrock' ? `_${nickname}` : nickname;
+    const suggestedMessage = `Beli ${currentOrder.name} x${currentOrder.qty}`;
+
+    document.getElementById('modal-gamertag').textContent = gamertag;
+    document.getElementById('modal-message').textContent = suggestedMessage;
 
     document.getElementById('modal-success-text').innerHTML =
         `<strong>${escapeHtml(currentOrder.name)}</strong> (${currentOrder.qty}x) — RM ${totalRm} / ${totalIdrK}k IDR<br>
@@ -172,7 +202,7 @@ async function handlePurchaseSubmit(e) {
     document.getElementById('modal-donate-btn').href = donateUrl;
 
     if (waNumber) {
-        const waMsg = `Halo, saya baru saja order:\nItem: ${currentOrder.name} (${currentOrder.qty}x)\nTotal: RM ${totalRm} / ${totalIdrK}k IDR\nNickname: ${nickname}\nPlatform: ${platform}\n\nKode order: ${orderCode}\n\nSaya akan donate lewat Sociabuzz.`;
+        const waMsg = `Halo, saya baru saja order:\nItem: ${currentOrder.name} (${currentOrder.qty}x)\nTotal: RM ${totalRm} / ${totalIdrK}k IDR\nNickname: ${nickname}\nPlatform: ${platform}\n\nSaya akan donate lewat Sociabuzz (nama: ${gamertag}).`;
         document.getElementById('modal-wa-btn').href = `https://wa.me/${waNumber}?text=${encodeURIComponent(waMsg)}`;
         document.getElementById('modal-wa-btn').style.display = 'block';
     } else {

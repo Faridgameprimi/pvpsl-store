@@ -349,6 +349,18 @@ footer .footer-links a:hover { color: var(--red-bright); }
 }
 .order-code-row .copy-btn { flex-shrink: 0; }
 
+.platform-reminder {
+    text-align: left; background: rgba(240, 180, 41, 0.08); border: 1px solid rgba(240, 180, 41, 0.3);
+    border-radius: var(--radius-md); padding: 16px 18px; margin-bottom: 20px; font-size: 12.5px;
+}
+.platform-reminder strong { color: var(--gold); display: block; margin-bottom: 10px; }
+.platform-reminder-example { display: flex; flex-direction: column; gap: 6px; margin-bottom: 10px; }
+.platform-reminder-example > div { display: flex; align-items: center; gap: 10px; }
+.platform-reminder .pr-label { width: 60px; flex-shrink: 0; font-weight: 700; color: var(--text); }
+.platform-reminder .pr-code { color: var(--text-faint); font-family: 'Courier New', monospace; width: 70px; flex-shrink: 0; }
+.platform-reminder .pr-sample { font-family: 'Courier New', monospace; color: var(--green); font-weight: 700; }
+.platform-reminder p { margin: 0; color: var(--text-dim); line-height: 1.6; }
+
 /* ===================== Admin ===================== */
 .admin-shell { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px; }
 .admin-login-box { width: 100%; max-width: 400px; border-radius: var(--radius-xl); padding: 44px 38px; text-align: center; }

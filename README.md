@@ -6,21 +6,22 @@ Website + 2 panel admin (Site Admin & Payment Admin) + auto-delivery ke Minecraf
 
 ```
 Pembeli klik "Buy Now" di website
-   → isi Nickname + Platform
-   → dapat KODE ORDER unik (copy)
-   → paste kode itu di kolom pesan/catatan Sociabuzz
-   → bayar di Sociabuzz
+   → isi Nickname + Platform (Java/Bedrock)
+   → website tunjuk NAMA yang wajib dipakai di Sociabuzz
+     (Java: nama apa adanya, Bedrock: tambah _ di depan)
+     + contoh pesan yang disarankan
+   → pembeli copy nama & pesan itu ke Sociabuzz, lalu bayar
         ↓
 Sociabuzz kirim Webhook ke /api/sociabuzz-webhook
-   → parse kode order dari catatan (kalau ke-detect)
+   → ambil Nama + Pesan dari Sociabuzz
+   → tebak platform dari awalan "_" di nama
    → SELALU masuk "Order Menunggu Verifikasi" (payment-review.json)
    → notif Discord "order masuk, perlu verifikasi"
         ↓
 Admin buka PAYMENT ADMIN (login terpisah dari Site Admin)
-   → cek jumlah bayaran di dashboard Sociabuzz sendiri
-   → cocok? klik Accept — kalau kode order tidak ke-detect,
-     admin isi manual (item/nickname/platform/qty) dulu baru Accept
-   → tidak cocok / mencurigakan? klik Deny
+   → baca Nama + Pesan, cek jumlah bayaran di dashboard Sociabuzz sendiri
+   → pilih item yang sesuai dari dropdown, cek/betulkan nickname & platform
+   → cocok? klik Accept — tidak cocok/mencurigakan? klik Deny
         ↓
 Order yang di-Accept masuk antrian (pending-orders.json)
         ↓
@@ -108,9 +109,14 @@ Dua akses ini sengaja dipisah token & secret-nya — orang yang pegang password 
 
 ⚠️ Format payload webhook Sociabuzz tidak didokumentasikan lengkap ke publik — kode parsing di `sociabuzz-webhook.js` defensif (coba beberapa nama field umum). Setelah order beneran masuk (bukan cuma test), cek apakah field Amount/Supporter kebaca benar di Payment Admin. Kalau ada yang aneh, cek log function di Vercel dan kabari saya.
 
-## Kode Order
+## Format Nama Java/Bedrock
 
-Karena Sociabuzz bukan checkout berbasis API, pembeli **paste sendiri** kode order (`[FARIDSMP-ORDER] item=...;qty=...;nick=...;platform=...`) ke kolom pesan Sociabuzz. Kalau kode ini tidak ke-detect di webhook, order tetap masuk ke Payment Admin dengan status "perlu koreksi manual" — admin isi item/nickname/platform sendiri sebelum Accept.
+Sociabuzz bukan checkout berbasis API, jadi tidak ada cara "kirim data pesanan" langsung ke Sociabuzz. Solusinya: pembeli menulis **nickname Minecraft mereka sendiri sebagai Nama** di Sociabuzz, dengan aturan:
+
+- **Java** → nama apa adanya, contoh: `andi`
+- **Bedrock** → tambah underscore `_` di depan, contoh: `_andi`
+
+Website otomatis kasih tau format yang benar (sesuai platform yang mereka pilih di form) plus contoh pesan yang disarankan (misalnya "Beli Weekly Plus Pass x1") — tinggal copy-paste ke Sociabuzz. Webhook otomatis tebak platform dari awalan `_` itu, tapi **admin tetap yang pilih item-nya secara manual** di Payment Admin sebelum Accept — sistem ini sengaja tidak coba nebak item secara otomatis, karena pesan donasi sifatnya bebas/tidak terstruktur.
 
 ## Setup Plugin Minecraft
 
