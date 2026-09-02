@@ -182,7 +182,8 @@
     "qty": 1,
     "nickname": "_Mrfarids3066",
     "platform": "Bedrock",
-    "fulfilled": false,
-    "queuedAt": "2026-09-02T07:56:59.131Z"
+    "fulfilled": true,
+    "queuedAt": "2026-09-02T07:56:59.131Z",
+    "fulfilledAt": "2026-09-02T07:57:02.761Z"
   }
 ]
