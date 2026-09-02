@@ -111,5 +111,15 @@
     "fulfilled": true,
     "queuedAt": "2026-09-02T07:34:00.717Z",
     "fulfilledAt": "2026-09-02T07:34:04.112Z"
+  },
+  {
+    "id": "manual-mtjsa9q7l4rv",
+    "source": "manual-grant",
+    "itemId": "weakly-plus-pass-1nnr",
+    "qty": 1,
+    "nickname": "Mrfarid",
+    "platform": "Java",
+    "fulfilled": false,
+    "queuedAt": "2026-09-02T07:37:43.615Z"
   }
 ]
