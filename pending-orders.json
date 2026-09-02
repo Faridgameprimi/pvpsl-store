@@ -121,5 +121,15 @@
     "platform": "Java",
     "fulfilled": false,
     "queuedAt": "2026-09-02T07:37:43.615Z"
+  },
+  {
+    "id": "manual-mtjsaiq45yrk",
+    "source": "manual-grant",
+    "itemId": "farid-key",
+    "qty": 1,
+    "nickname": "Mrfarid",
+    "platform": "Java",
+    "fulfilled": false,
+    "queuedAt": "2026-09-02T07:37:55.276Z"
   }
 ]
