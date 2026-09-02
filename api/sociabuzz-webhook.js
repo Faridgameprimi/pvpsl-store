@@ -5,7 +5,7 @@ const REVIEW_PATH = process.env.REVIEW_DATA_PATH || 'payment-review.json';
 
 /* Sociabuzz's exact webhook field names aren't fully documented publicly,
    so we defensively check several likely spots for the token and the
-   supporter's note/message instead of assuming one fixed schema. */
+   supporter's name/message instead of assuming one fixed schema. */
 function extractToken(req, body) {
     return (
         req.headers['x-webhook-token'] ||
@@ -35,28 +35,15 @@ function extractAmount(body) {
     return found !== undefined ? found : null;
 }
 
-/* Our purchase modal asks buyers to paste a tag like:
-   [FARIDSMP-ORDER] item=weekly-plus-pass;qty=1;nick=Steve123;platform=Java
-   Parsing it just PRE-FILLS the review card for admin convenience —
-   it never skips the manual Accept/Deny step. */
-function parseOrderTag(note) {
-    const match = note.match(/\[FARIDSMP-ORDER\]\s*(.+)/i);
-    if (!match) return null;
-
-    const pairs = {};
-    match[1].split(';').forEach(part => {
-        const [k, v] = part.split('=').map(s => (s || '').trim());
-        if (k && v !== undefined) pairs[k.toLowerCase()] = v;
-    });
-
-    if (!pairs.item || !pairs.nick) return null;
-
-    return {
-        itemId: pairs.item,
-        qty: parseInt(pairs.qty, 10) || 1,
-        nickname: pairs.nick,
-        platform: pairs.platform || 'Java'
-    };
+/* Buyers are told: Java = plain gamertag ("andi"), Bedrock = underscore
+   prefix ("_andi"). We use that to guess platform + real nickname —
+   admin can still correct it in Payment Admin before accepting. */
+function detectPlatform(rawName) {
+    const trimmed = (rawName || '').trim();
+    if (trimmed.startsWith('_')) {
+        return { nickname: trimmed.slice(1), platform: 'Bedrock' };
+    }
+    return { nickname: trimmed, platform: 'Java' };
 }
 
 async function notifyDiscord(text, color) {
@@ -94,10 +81,11 @@ module.exports = async function handler(req, res) {
     const note = extractNote(body);
     const supporterName = extractSupporterName(body);
     const amount = extractAmount(body);
-    const parsed = parseOrderTag(note);
+    const { nickname, platform } = detectPlatform(supporterName);
 
-    // Every order lands here as "pending" — nothing gets delivered until
-    // a human clicks Accept in the Payment Admin panel.
+    // Every order lands here as "pending" — admin reads the name + message
+    // and manually picks the matching item, then Accept/Deny. Nothing gets
+    // delivered without that human step.
     const review = {
         id: Date.now().toString(36) + Math.random().toString(36).slice(2, 8),
         source: 'sociabuzz',
@@ -106,11 +94,10 @@ module.exports = async function handler(req, res) {
         amount,
         supporterName,
         rawNote: note,
-        itemId: parsed ? parsed.itemId : null,
-        qty: parsed ? parsed.qty : 1,
-        nickname: parsed ? parsed.nickname : supporterName,
-        platform: parsed ? parsed.platform : null,
-        tagDetected: !!parsed
+        itemId: null,
+        qty: 1,
+        nickname,
+        platform
     };
 
     try {
@@ -119,16 +106,17 @@ module.exports = async function handler(req, res) {
         reviews.push(review);
         await writeJsonFile(REVIEW_PATH, reviews, `Order baru dari Sociabuzz (${review.nickname || 'unknown'})`, sha);
     } catch (err) {
-        await notifyDiscord(`⚠️ Order masuk dari Sociabuzz tapi GAGAL disimpan: ${err.message}\nCatatan: ${note || '(kosong)'}`, 15548997);
+        await notifyDiscord(`⚠️ Order masuk dari Sociabuzz tapi GAGAL disimpan: ${err.message}\nPesan: ${note || '(kosong)'}`, 15548997);
         res.status(500).json({ error: err.message });
         return;
     }
 
     await notifyDiscord(
         `💰 **Order baru dari Sociabuzz — menunggu verifikasi admin**\n` +
-        `${review.tagDetected ? `Item: \`${review.itemId}\` x${review.qty}\nNickname: **${review.nickname}** (${review.platform})` : `⚠️ Kode order tidak ke-detect — cek manual\nCatatan: ${note || '(kosong)'}`}\n` +
-        `Amount: ${amount ?? '-'} · Supporter: ${supporterName || '-'}\n` +
-        `Buka Payment Admin untuk Accept/Deny.`,
+        `Nama: **${supporterName || '-'}** → terdeteksi: ${nickname || '-'} (${platform})\n` +
+        `Pesan: "${note || '(kosong)'}"\n` +
+        `Amount: ${amount ?? '-'}\n` +
+        `Buka Payment Admin untuk cocokkan item & Accept/Deny.`,
         15844367
     );
 
