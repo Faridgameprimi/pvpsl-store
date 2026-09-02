@@ -1,1 +1,12 @@
-[]
+[
+  {
+    "id": "manual-mtjo10vcoast",
+    "source": "manual-grant",
+    "itemId": "weakly-plus-pass-1nnr",
+    "qty": 1,
+    "nickname": "Mrfarids",
+    "platform": "Java",
+    "fulfilled": false,
+    "queuedAt": "2026-09-02T05:38:33.768Z"
+  }
+]
