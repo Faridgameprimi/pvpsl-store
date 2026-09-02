@@ -193,7 +193,8 @@
     "qty": 1,
     "nickname": "Kuata",
     "platform": "Java",
-    "fulfilled": false,
-    "queuedAt": "2026-09-02T07:57:30.851Z"
+    "fulfilled": true,
+    "queuedAt": "2026-09-02T07:57:30.851Z",
+    "fulfilledAt": "2026-09-02T07:57:32.507Z"
   }
 ]
