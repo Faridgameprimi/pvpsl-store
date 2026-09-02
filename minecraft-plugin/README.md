@@ -53,4 +53,4 @@ Tak ada Maven/Java di komputer sendiri? Boleh compile pakai:
 
 - Command yang butuh player **online** (contoh `/give`) cuma jalan kalau nickname itu lagi online waktu plugin poll. Command dari plugin economy/permission (LuckPerms, Vault-based economy) biasanya tetap jalan walau player offline.
 - Kalau item id belum ada mapping-nya, order itu **tidak** ditandai selesai — plugin akan terus coba tiap poll sampai kamu tambah mapping-nya. Order tidak akan "hilang".
-- Plugin ini cuma proses order yang sudah lolos verifikasi format kode order (`[FARIDSMP-ORDER] ...`) di website. Order yang formatnya tidak ke-detect otomatis masuk status "perlu cek manual" dan dikirim ke Discord kamu untuk diproses tangan.
+- Plugin ini cuma proses order yang sudah di-Accept manual oleh admin lewat Payment Admin (website) — bukan langsung dari webhook Sociabuzz. Ini memastikan setiap pengiriman rank/key sudah dicek dulu jumlah bayarannya oleh manusia.
