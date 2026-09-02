@@ -68,8 +68,9 @@
     "qty": 1,
     "nickname": "Mrfarid",
     "platform": "Java",
-    "fulfilled": false,
-    "queuedAt": "2026-09-02T07:32:00.114Z"
+    "fulfilled": true,
+    "queuedAt": "2026-09-02T07:32:00.114Z",
+    "fulfilledAt": "2026-09-02T07:41:27.359Z"
   },
   {
     "id": "manual-mtjs41p7b88j",
