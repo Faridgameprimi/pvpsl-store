@@ -152,5 +152,15 @@
     "fulfilled": true,
     "queuedAt": "2026-09-02T07:40:24.970Z",
     "fulfilledAt": "2026-09-02T07:41:47.710Z"
+  },
+  {
+    "id": "manual-mtjsw7hgjrm8",
+    "source": "manual-grant",
+    "itemId": "amethyst-key",
+    "qty": 1,
+    "nickname": "Mrfarids3066",
+    "platform": "Bedrock",
+    "fulfilled": false,
+    "queuedAt": "2026-09-02T07:54:47.140Z"
   }
 ]
