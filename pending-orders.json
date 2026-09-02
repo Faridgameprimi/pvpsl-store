@@ -58,5 +58,15 @@
     "platform": "Java",
     "fulfilled": false,
     "queuedAt": "2026-09-02T07:31:32.057Z"
+  },
+  {
+    "id": "manual-mtjs2woil1qn",
+    "source": "manual-grant",
+    "itemId": "weakly-plus-pass-1nnr",
+    "qty": 1,
+    "nickname": "Mrfarid",
+    "platform": "Java",
+    "fulfilled": false,
+    "queuedAt": "2026-09-02T07:32:00.114Z"
   }
 ]
