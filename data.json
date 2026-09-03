@@ -1,7 +1,7 @@
 {
   "network": {
     "name": "FaridSmp",
-    "discord": "https://discord.gg/TUhjeUTvhh",
+    "discord": "https://discord.gg/QCcnqXhhN",
     "donateUrl": "https://sociabuzz.com/faridsmp/tribe",
     "whatsapp": "60142446184",
     "discordWebhook": ""
@@ -17,29 +17,28 @@
       "port": 19291,
       "ranks": [
         {
-          "id": "weakly-plus-pass-1nnr",
-          "name": "Weakly Plus Pass",
-          "billing": "Per Minggu",
+          "id": "weekly-plus-pass",
+          "name": "Weekly Plus Pass",
           "price": {
             "rm": 3.5,
             "idrK": 15
           },
+          "image": "",
+          "qty": {
+            "enabled": true,
+            "label": "Minggu",
+            "quickSelect": [
+              1,
+              4,
+              8
+            ]
+          },
+          "billing": "Per Minggu",
           "features": [
             "Get 50k Money",
             "Get 100 Shards",
             "Get 7 Plus Key"
-          ],
-          "qty": {
-            "enabled": true,
-            "label": "1",
-            "quickSelect": [
-              1,
-              6,
-              12,
-              24,
-              42
-            ]
-          }
+          ]
         }
       ],
       "keys": [
