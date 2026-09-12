@@ -110,6 +110,27 @@
             "Advertise Party Publicly",
             "Party Limit: 25 Members"
           ]
+        },
+        {
+          "id": "mvp-rank-suxd",
+          "name": "Mvp Rank",
+          "price": {
+            "rm": 14,
+            "idrK": 60
+          },
+          "image": "",
+          "qty": {
+            "enabled": false
+          },
+          "billing": "Permanent",
+          "features": [
+            "All VIP Perks Included",
+            "Extra Bonus Daily Rewards",
+            "Extra Bonus Win Rewards",
+            "MVP Prefix Badge",
+            "Priority Support Access",
+            "Party Limit: 50 Members"
+          ]
         }
       ],
       "keys": []
