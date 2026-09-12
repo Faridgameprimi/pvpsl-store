@@ -1,7 +1,7 @@
 {
   "network": {
     "name": "FaridSmp",
-    "discord": "https://discord.gg/QCcnqXhhN",
+    "discord": "https://discord.gg/TUhjeUTvhh",
     "donateUrl": "https://sociabuzz.com/faridsmp/tribe",
     "whatsapp": "60142446184",
     "discordWebhook": ""
@@ -17,29 +17,29 @@
       "port": 19291,
       "ranks": [
         {
-          "id": "weekly-plus-pass",
-          "name": "Weekly Plus Pass",
+          "id": "weakly-plus-pass-1nnr",
+          "name": "Weakly Plus Pass",
+          "billing": "Per Minggu",
           "price": {
             "rm": 3.5,
             "idrK": 15
           },
-          "image": "",
-          "qty": {
-            "enabled": true,
-            "label": "Minggu",
-            "quickSelect": [
-              1,
-              4,
-              8
-            ]
-          },
-          "billing": "Per Minggu",
           "features": [
             "Get 50k Money",
             "Get 100 Shards",
-            "Get 7 Plus Key",
-            "Get /hide name"
-          ]
+            "Get 7 Plus Key"
+          ],
+          "qty": {
+            "enabled": true,
+            "label": "1",
+            "quickSelect": [
+              1,
+              6,
+              12,
+              24,
+              42
+            ]
+          }
         }
       ],
       "keys": [
@@ -80,6 +80,39 @@
           }
         }
       ]
+    },
+    {
+      "slug": "pvp-legends",
+      "name": "Pvp Legends",
+      "tag": "Practice Server",
+      "tagline": "Pvp practice server",
+      "description": "Server Pvp yang akan membuktikan siapa diri kalian jago atau cupu",
+      "ip": "faridsmp.xyz",
+      "port": 19291,
+      "ranks": [
+        {
+          "id": "vip-rank-6ggv",
+          "name": "Vip Rank",
+          "price": {
+            "rm": 7,
+            "idrK": 30
+          },
+          "image": "",
+          "qty": {
+            "enabled": false
+          },
+          "billing": "Permanent",
+          "features": [
+            "Join Full Servers",
+            "Bonus Daily Rewards",
+            "Bonus Win Rewards",
+            "VIP Prefix Badge",
+            "Advertise Party Publicly",
+            "Party Limit: 25 Members"
+          ]
+        }
+      ],
+      "keys": []
     }
   ]
 }
