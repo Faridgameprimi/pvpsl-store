@@ -13,8 +13,8 @@
       "tag": "Anarchy Server",
       "tagline": "No Rules. No Limits.",
       "description": "Survival murni tanpa batasan — bertahan hidup dengan cara apapun di FaridSmp Broken Anarchy.",
-      "ip": "faridsmp.xyz",
-      "port": 19291,
+      "ip": "test",
+      "port": 25565,
       "ranks": [
         {
           "id": "weakly-plus-pass-1nnr",
@@ -87,8 +87,8 @@
       "tag": "Practice Server",
       "tagline": "Pvp practice server",
       "description": "Server Pvp yang akan membuktikan siapa diri kalian jago atau cupu",
-      "ip": "faridsmp.xyz",
-      "port": 19291,
+      "ip": "45.77.255.148",
+      "port": 19147,
       "ranks": [
         {
           "id": "vip-rank-6ggv",
