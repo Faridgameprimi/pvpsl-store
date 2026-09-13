@@ -13,8 +13,8 @@
       "tag": "Anarchy Server",
       "tagline": "No Rules. No Limits.",
       "description": "Survival murni tanpa batasan — bertahan hidup dengan cara apapun di FaridSmp Broken Anarchy.",
-      "ip": "test",
-      "port": 25565,
+      "ip": "faridsmp.xyz",
+      "port": 19291,
       "ranks": [
         {
           "id": "weakly-plus-pass-1nnr",
@@ -79,7 +79,8 @@
             ]
           }
         }
-      ]
+      ],
+      "queryAddress": "test"
     },
     {
       "slug": "pvp-legends",
