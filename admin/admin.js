@@ -114,6 +114,7 @@ function renderCurrentData() {
                         <span>${escapeHtml(server.slug)} · ${escapeHtml(server.ip)}:${server.port} · ${items.length} item</span>
                     </div>
                     <div class="data-actions">
+                        <button type="button" class="admin-btn secondary sfx" onclick="editStore('${server.slug}')">Edit Store</button>
                         <button type="button" class="admin-btn danger sfx" onclick="deleteStore('${server.slug}')">Hapus Store</button>
                     </div>
                 </div>
@@ -146,12 +147,48 @@ window.deleteItem = function (slug, kind, id) {
     renderCurrentData();
 };
 
-/* ---------- Add store ---------- */
+/* ---------- Add / Edit store ---------- */
+let editingStoreSlug = null; // set when editing an existing store
+
 document.getElementById('store-name').addEventListener('input', (e) => {
     const slugField = document.getElementById('store-slug');
     if (!slugField.dataset.touched) slugField.value = slugify(e.target.value);
 });
 document.getElementById('store-slug').addEventListener('input', (e) => { e.target.dataset.touched = '1'; });
+
+window.editStore = function (slug) {
+    const server = draft.servers.find(s => s.slug === slug);
+    if (!server) return;
+
+    editingStoreSlug = slug;
+
+    document.getElementById('store-name').value = server.name || '';
+    document.getElementById('store-slug').value = server.slug || '';
+    document.getElementById('store-slug').dataset.touched = '1'; // don't auto-overwrite while editing
+    document.getElementById('store-tag').value = server.tag || '';
+    document.getElementById('store-tagline').value = server.tagline || '';
+    document.getElementById('store-desc').value = server.description || '';
+    document.getElementById('store-ip').value = server.ip || '';
+    document.getElementById('store-port').value = server.port || '';
+
+    document.getElementById('store-form-title').textContent = `✏️ Edit Store: ${server.name}`;
+    document.getElementById('add-store-btn').textContent = 'Simpan Perubahan';
+    document.getElementById('cancel-store-edit-btn').style.display = 'inline-flex';
+    document.getElementById('form-add-store').scrollIntoView({ behavior: 'smooth', block: 'start' });
+};
+
+function exitStoreEditMode() {
+    editingStoreSlug = null;
+    document.getElementById('store-form-title').textContent = '📦 Tambah Store Baru';
+    document.getElementById('add-store-btn').textContent = '+ Tambah Store';
+    document.getElementById('cancel-store-edit-btn').style.display = 'none';
+}
+
+document.getElementById('cancel-store-edit-btn').addEventListener('click', () => {
+    exitStoreEditMode();
+    document.getElementById('form-add-store').reset();
+    document.getElementById('store-slug').dataset.touched = '';
+});
 
 document.getElementById('form-add-store').addEventListener('submit', (e) => {
     e.preventDefault();
@@ -159,26 +196,36 @@ document.getElementById('form-add-store').addEventListener('submit', (e) => {
     let slug = document.getElementById('store-slug').value.trim() || slugify(name);
     slug = slugify(slug);
 
-    if (draft.servers.some(s => s.slug === slug)) {
+    const isEditing = !!editingStoreSlug;
+    const slugTaken = draft.servers.some(s => s.slug === slug && s.slug !== editingStoreSlug);
+    if (slugTaken) {
         alert('Slug ini sudah dipakai store lain. Ganti nama/slug-nya.');
         return;
     }
 
-    draft.servers.push({
+    const fields = {
         slug,
         name,
         tag: document.getElementById('store-tag').value.trim(),
         tagline: document.getElementById('store-tagline').value.trim(),
         description: document.getElementById('store-desc').value.trim(),
         ip: document.getElementById('store-ip').value.trim(),
-        port: parseInt(document.getElementById('store-port').value.trim(), 10) || 25565,
-        ranks: [],
-        keys: []
-    });
+        port: parseInt(document.getElementById('store-port').value.trim(), 10) || 25565
+    };
+
+    if (isEditing) {
+        const server = draft.servers.find(s => s.slug === editingStoreSlug);
+        if (!server) return;
+        Object.assign(server, fields); // keeps existing ranks/keys untouched, just updates slug/name/etc
+    } else {
+        draft.servers.push({ ...fields, ranks: [], keys: [] });
+    }
+
     saveDraft();
     renderCurrentData();
     e.target.reset();
     document.getElementById('store-slug').dataset.touched = '';
+    exitStoreEditMode();
 });
 
 /* ---------- Add / Edit item ---------- */

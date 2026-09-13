@@ -30,9 +30,9 @@
             <div class="stat-chip glass" id="stat-draft-chip"><span class="stat-dot"></span><span class="stat-label" id="stat-draft-label">Draft belum di-publish</span></div>
         </div>
 
-        <!-- ================= Add Store ================= -->
+        <!-- ================= Add / Edit Store ================= -->
         <div class="admin-section glass">
-            <h2>📦 Tambah Store Baru</h2>
+            <h2 id="store-form-title">📦 Tambah Store Baru</h2>
             <p class="admin-sub">Store baru langsung muncul di Lobby setelah di-publish.</p>
             <form id="form-add-store">
                 <div class="form-row">
@@ -72,7 +72,10 @@
                         <input type="text" id="store-port" placeholder="19291" required>
                     </div>
                 </div>
-                <button type="submit" class="admin-btn sfx">+ Tambah Store</button>
+                <div style="display:flex; gap:10px;">
+                    <button type="submit" class="admin-btn sfx" id="add-store-btn">+ Tambah Store</button>
+                    <button type="button" class="admin-btn secondary sfx" id="cancel-store-edit-btn" style="display:none;">Batal Edit</button>
+                </div>
             </form>
         </div>
 
