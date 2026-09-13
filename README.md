@@ -128,6 +128,10 @@ Lihat `minecraft-plugin/README.md`. **Tidak berubah** dari sebelumnya — plugin
 - **Edit item** — klik "Edit" di daftar item, form otomatis keisi, submit untuk simpan perubahan (bukan bikin item baru)
 - **Edit Store** — klik "Edit Store" di daftar, form otomatis keisi (nama, slug, IP, deskripsi, dll), submit untuk simpan perubahan. Rank/key yang sudah ada di store itu tidak ikut terhapus.
 
+## Alamat Cek Player Online Terpisah dari IP Connect
+
+Di form Tambah/Edit Store ada field opsional **"Alamat untuk Cek Player Online"**. IP:Port utama tetap yang ditampilkan & di-copy pengunjung untuk connect ke server — field ini cuma dipakai buat query status/jumlah player ke `api.mcsrvstat.us`. Berguna kalau IP asli server tidak bisa di-query langsung (misal karena proxy/firewall), tapi domain/port lain bisa. Kosongkan kalau IP:Port utama sudah bisa dipakai buat keduanya (default sebelumnya).
+
 ## Kotak Peringatan Custom (Rank & Key)
 
 Di form Tambah/Edit Item ada field **"Peringatan"** — satu baris = satu kotak peringatan merah yang tampil di atas tombol Buy Now (contoh: syarat pembelian, masa berlaku rank, catatan penting lain). Kosongkan kalau item itu tidak perlu peringatan apa-apa.

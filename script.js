@@ -311,13 +311,15 @@ async function renderLobby() {
     if (!container) return;
     const data = await loadSiteData();
 
-    container.innerHTML = data.servers.map(server => `
+    container.innerHTML = data.servers.map(server => {
+        const queryAddr = server.queryAddress || `${server.ip}:${server.port}`;
+        return `
         <div class="server-card glass">
             <span class="hub-tag">${escapeHtml(server.tag || '')}</span>
             <h2>${escapeHtml(server.name)}</h2>
             <p class="server-desc">${escapeHtml(server.description || '')}</p>
             <div class="server-meta">
-                <span class="player-badge" data-mc-address="${escapeHtml(server.ip)}:${server.port}">
+                <span class="player-badge" data-mc-address="${escapeHtml(queryAddr)}">
                     <span class="status-dot"></span><span class="player-count">0</span> Players Online
                 </span>
             </div>
@@ -325,7 +327,8 @@ async function renderLobby() {
                 <a href="store.html?server=${encodeURIComponent(server.slug)}" class="btn-buy sfx">Masuk Store →</a>
             </div>
         </div>
-    `).join('');
+    `;
+    }).join('');
 
     refreshPlayerCounts();
 }
@@ -351,7 +354,7 @@ async function renderStore() {
     document.querySelectorAll('.js-server-name').forEach(el => el.textContent = server.name);
     document.querySelectorAll('.js-server-tagline').forEach(el => el.textContent = server.tagline || '');
     document.querySelectorAll('.js-server-desc').forEach(el => el.textContent = server.description || '');
-    document.querySelectorAll('.player-badge').forEach(el => el.setAttribute('data-mc-address', `${server.ip}:${server.port}`));
+    document.querySelectorAll('.player-badge').forEach(el => el.setAttribute('data-mc-address', server.queryAddress || `${server.ip}:${server.port}`));
     document.querySelectorAll('.js-ip-text').forEach(el => el.innerHTML = `${escapeHtml(server.ip)}<span class="port">:${server.port}</span>`);
     document.querySelectorAll('.js-copy-btn').forEach(el => el.setAttribute('data-copy', `${server.ip}:${server.port}`));
     document.querySelectorAll('a.nav-home, a.nav-home-footer').forEach(el => el.href = `store.html?server=${encodeURIComponent(server.slug)}`);
