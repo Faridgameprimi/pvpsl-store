@@ -356,34 +356,58 @@ async function renderStore() {
     registerItems(server.keys || []);
     window.__currentServerName = server.name;
 
+    const hasRanks = (server.ranks || []).length > 0;
+    const hasKeys = (server.keys || []).length > 0;
+
     const ranksPanel = document.getElementById('panel-ranks');
     const keysPanel = document.getElementById('panel-keys');
-    if (ranksPanel) {
-        const wrapClass = (server.ranks || []).length <= 1 ? 'single-card-wrap' : 'rank-container';
-        ranksPanel.innerHTML = `<div class="${wrapClass}">${(server.ranks || []).map(r => renderItemCard(r, 'rank')).join('')}</div>`;
+    if (ranksPanel && hasRanks) {
+        const wrapClass = server.ranks.length <= 1 ? 'single-card-wrap' : 'rank-container';
+        ranksPanel.innerHTML = `<div class="${wrapClass}">${server.ranks.map(r => renderItemCard(r, 'rank')).join('')}</div>`;
     }
-    if (keysPanel) {
-        keysPanel.innerHTML = `<div class="grid">${(server.keys || []).map(k => renderItemCard(k, 'key')).join('')}</div>`;
+    if (keysPanel && hasKeys) {
+        keysPanel.innerHTML = `<div class="grid">${server.keys.map(k => renderItemCard(k, 'key')).join('')}</div>`;
+    }
+
+    if (!hasRanks && !hasKeys) {
+        const container = ranksPanel ? ranksPanel.parentElement : null;
+        if (container) container.innerHTML = `<p style="text-align:center; padding:60px 20px; color:var(--text-dim);">Belum ada item di store ini.</p>`;
     }
 
     // Restore quick-select "quick select" price displays with correct qty=1 defaults already baked in.
     refreshPlayerCounts();
-    setupTabs();
+    setupTabs(hasRanks, hasKeys);
 }
 
-function setupTabs() {
-    const tabs = document.querySelectorAll('.tab-btn');
-    if (!tabs.length) return;
-    const activate = (name) => {
-        document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === name));
-        document.querySelectorAll('.tab-panel').forEach(p => p.classList.toggle('active', p.id === `panel-${name}`));
-    };
-    tabs.forEach(btn => btn.addEventListener('click', () => {
-        activate(btn.dataset.tab);
-        history.replaceState(null, '', `#${btn.dataset.tab}`);
-    }));
-    const hash = window.location.hash.replace('#', '');
-    activate(hash === 'keys' ? 'keys' : 'ranks');
+function setupTabs(hasRanks, hasKeys) {
+    const tabBarWrap = document.querySelector('.tab-bar-wrap');
+    const ranksBtn = document.querySelector('.tab-btn[data-tab="ranks"]');
+    const keysBtn = document.querySelector('.tab-btn[data-tab="keys"]');
+    const ranksPanel = document.getElementById('panel-ranks');
+    const keysPanel = document.getElementById('panel-keys');
+    if (!tabBarWrap || !ranksBtn || !keysBtn) return; // page has no tab UI at all (e.g. lobby)
+
+    // Menu only shows a category that actually has items.
+    if (ranksBtn) ranksBtn.style.display = hasRanks ? '' : 'none';
+    if (keysBtn) keysBtn.style.display = hasKeys ? '' : 'none';
+
+    if (hasRanks && hasKeys) {
+        // Both exist — normal tab-switching behaviour.
+        tabBarWrap.style.display = '';
+        const activate = (name) => {
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === name));
+            document.querySelectorAll('.tab-panel').forEach(p => p.classList.toggle('active', p.id === `panel-${name}`));
+        };
+        ranksBtn.onclick = () => { activate('ranks'); history.replaceState(null, '', '#ranks'); };
+        keysBtn.onclick = () => { activate('keys'); history.replaceState(null, '', '#keys'); };
+        const hash = window.location.hash.replace('#', '');
+        activate(hash === 'keys' ? 'keys' : 'ranks');
+    } else {
+        // Only one category (or none) — no point showing a tab bar to switch to nothing.
+        tabBarWrap.style.display = 'none';
+        if (ranksPanel) ranksPanel.classList.toggle('active', hasRanks);
+        if (keysPanel) keysPanel.classList.toggle('active', hasKeys);
+    }
 }
 
 /* ============================================================
