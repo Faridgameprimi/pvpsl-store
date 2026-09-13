@@ -132,7 +132,8 @@
             "Party Limit: 50 Members"
           ],
           "notices": [
-            "You require VIP rank to purchase this package"
+            "You require VIP rank to purchase this package",
+            "This rank will expire after allowtted time (30 days). MVP is not parmanent"
           ]
         }
       ],
