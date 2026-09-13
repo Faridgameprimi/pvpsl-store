@@ -246,6 +246,11 @@ function renderItemCard(item, kind) {
 
     const subLabel = kind === 'rank' ? (item.billing || 'Permanent') : 'Per Item';
 
+    const noticesBlock = (item.notices && item.notices.length) ? `
+        <div class="item-notices">
+            ${item.notices.map(n => `<div class="item-notice">${escapeHtml(n)}</div>`).join('')}
+        </div>` : '';
+
     return `
         <div class="card glass ${kind === 'rank' ? 'rank-card' : ''}" data-item-id="${item.id}">
             ${imageBlock}
@@ -255,6 +260,7 @@ function renderItemCard(item, kind) {
             ${qtyBlock}
             <p class="subscription">${escapeHtml(subLabel)}</p>
             <p class="price" id="${priceId}">${price}</p>
+            ${noticesBlock}
             <button type="button" class="btn-buy sfx" onclick="window.buyItem('${item.id}')">Buy Now</button>
         </div>`;
 }

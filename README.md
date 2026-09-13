@@ -128,6 +128,10 @@ Lihat `minecraft-plugin/README.md`. **Tidak berubah** dari sebelumnya — plugin
 - **Edit item** — klik "Edit" di daftar item, form otomatis keisi, submit untuk simpan perubahan (bukan bikin item baru)
 - **Edit Store** — klik "Edit Store" di daftar, form otomatis keisi (nama, slug, IP, deskripsi, dll), submit untuk simpan perubahan. Rank/key yang sudah ada di store itu tidak ikut terhapus.
 
+## Kotak Peringatan Custom (Rank & Key)
+
+Di form Tambah/Edit Item ada field **"Peringatan"** — satu baris = satu kotak peringatan merah yang tampil di atas tombol Buy Now (contoh: syarat pembelian, masa berlaku rank, catatan penting lain). Kosongkan kalau item itu tidak perlu peringatan apa-apa.
+
 ## Menu Ranks/Keys otomatis hilang kalau kosong
 
 Di halaman store publik: kalau sebuah store cuma punya Rank tanpa Key (atau sebaliknya), tab menu untuk kategori yang kosong itu **otomatis hilang** — bahkan tab bar-nya sendiri disembunyikan kalau cuma ada satu kategori (langsung tampil isinya tanpa perlu klik tab apa-apa). Kalau store belum ada item sama sekali, tampil pesan "Belum ada item di store ini."

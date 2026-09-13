@@ -245,6 +245,17 @@ main.container { padding-bottom: 70px; }
 .features { list-style: none; padding: 0; margin: 24px 0; text-align: left; }
 .features li { padding: 11px 4px; border-bottom: 1px solid rgba(255,255,255,0.06); color: var(--text-dim); font-size: 13.5px; }
 .features li:last-child { border-bottom: none; }
+
+.item-notices { display: flex; flex-direction: column; gap: 8px; margin-top: 14px; text-align: left; }
+.item-notice {
+    background: rgba(120, 30, 30, 0.32);
+    border-left: 3px solid var(--red-bright);
+    border-radius: var(--radius-sm);
+    padding: 12px 14px;
+    font-size: 12px;
+    color: var(--text-dim);
+    line-height: 1.55;
+}
 .card img.key-img { max-width: 104px; margin-bottom: 16px; filter: drop-shadow(0 18px 26px rgba(0,0,0,0.55)); transition: transform 0.5s; }
 .card:hover img.key-img { transform: rotate(4deg) scale(1.08); }
 .key-fallback {
