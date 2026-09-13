@@ -87,8 +87,8 @@
       "tag": "Practice Server",
       "tagline": "Pvp practice server",
       "description": "Server Pvp yang akan membuktikan siapa diri kalian jago atau cupu",
-      "ip": "45.77.255.148",
-      "port": 19147,
+      "ip": "faridsmp.xyz",
+      "port": 19291,
       "ranks": [
         {
           "id": "vip-rank-6ggv",
@@ -137,7 +137,8 @@
           ]
         }
       ],
-      "keys": []
+      "keys": [],
+      "queryAddress": "45.77.255.148:19147"
     }
   ]
 }
