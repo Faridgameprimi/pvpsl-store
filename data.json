@@ -94,8 +94,8 @@
           "id": "vip-rank-6ggv",
           "name": "Vip Rank",
           "price": {
-            "rm": 7,
-            "idrK": 30
+            "rm": 14,
+            "idrK": 60
           },
           "image": "",
           "qty": {
@@ -115,14 +115,14 @@
           "id": "mvp-rank-suxd",
           "name": "Mvp Rank",
           "price": {
-            "rm": 14,
-            "idrK": 60
+            "rm": 7,
+            "idrK": 30
           },
           "image": "",
           "qty": {
             "enabled": false
           },
-          "billing": "Permanent",
+          "billing": "Per bulan",
           "features": [
             "All VIP Perks Included",
             "Extra Bonus Daily Rewards",
@@ -130,6 +130,9 @@
             "MVP Prefix Badge",
             "Priority Support Access",
             "Party Limit: 50 Members"
+          ],
+          "notices": [
+            "You require VIP rank to purchase this package"
           ]
         }
       ],
