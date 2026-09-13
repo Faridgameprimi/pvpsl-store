@@ -170,6 +170,7 @@ window.editStore = function (slug) {
     document.getElementById('store-desc').value = server.description || '';
     document.getElementById('store-ip').value = server.ip || '';
     document.getElementById('store-port').value = server.port || '';
+    document.getElementById('store-query-address').value = server.queryAddress || '';
 
     document.getElementById('store-form-title').textContent = `✏️ Edit Store: ${server.name}`;
     document.getElementById('add-store-btn').textContent = 'Simpan Perubahan';
@@ -210,7 +211,8 @@ document.getElementById('form-add-store').addEventListener('submit', (e) => {
         tagline: document.getElementById('store-tagline').value.trim(),
         description: document.getElementById('store-desc').value.trim(),
         ip: document.getElementById('store-ip').value.trim(),
-        port: parseInt(document.getElementById('store-port').value.trim(), 10) || 25565
+        port: parseInt(document.getElementById('store-port').value.trim(), 10) || 25565,
+        queryAddress: document.getElementById('store-query-address').value.trim()
     };
 
     if (isEditing) {

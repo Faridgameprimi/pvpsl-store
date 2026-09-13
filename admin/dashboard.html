@@ -72,6 +72,13 @@
                         <input type="text" id="store-port" placeholder="19291" required>
                     </div>
                 </div>
+                <div class="form-row">
+                    <div class="form-field full">
+                        <label for="store-query-address">Alamat untuk Cek Player Online (opsional)</label>
+                        <input type="text" id="store-query-address" placeholder="Contoh: faridsmp.xyz:19291">
+                        <p class="form-hint">IP di atas tetap yang ditampilkan & di-copy pengunjung untuk connect. Kosongkan field ini kalau IP:Port di atas juga bisa dipakai untuk cek jumlah player — isi kalau beda (misal server pakai IP asli tapi query status cuma jalan lewat domain/port lain).</p>
+                    </div>
+                </div>
                 <div style="display:flex; gap:10px;">
                     <button type="submit" class="admin-btn sfx" id="add-store-btn">+ Tambah Store</button>
                     <button type="button" class="admin-btn secondary sfx" id="cancel-store-edit-btn" style="display:none;">Batal Edit</button>
