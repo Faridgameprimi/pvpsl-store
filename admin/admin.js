@@ -98,7 +98,7 @@ function renderCurrentData() {
                 <div class="data-row" style="margin-left:18px;">
                     <div class="data-info">
                         <strong>${escapeHtml(it.name)} <span style="color:var(--text-faint); font-weight:400;">(${it.kind})</span></strong>
-                        <span>RM ${it.price.rm.toFixed(2)} / ${it.price.idrK}k IDR${it.image ? ' · 🖼️ ada gambar' : ''}</span>
+                        <span>RM ${it.price.rm.toFixed(2)} / ${it.price.idrK}k IDR${it.image ? ' · 🖼️ ada gambar' : ''}${(it.notices && it.notices.length) ? ' · ⚠️ ada peringatan' : ''}</span>
                     </div>
                     <div class="data-actions">
                         <button type="button" class="admin-btn secondary sfx" onclick="editItem('${server.slug}','${it.kind}','${it.id}')">Edit</button>
@@ -267,6 +267,7 @@ window.editItem = function (storeSlug, kind, id) {
     document.getElementById('item-features').value = (item.features || []).join('\n');
     document.getElementById('item-qty-label').value = (item.qty && item.qty.enabled) ? (item.qty.label || '') : '';
     document.getElementById('item-qty-quick').value = (item.qty && item.qty.quickSelect) ? item.qty.quickSelect.join(',') : '';
+    document.getElementById('item-notices').value = (item.notices || []).join('\n');
 
     pendingImageFile = null;
     imageFileInput.value = '';
@@ -389,6 +390,8 @@ document.getElementById('form-add-item').addEventListener('submit', async (e) =>
         itemData.billing = document.getElementById('item-billing').value.trim() || 'Permanent';
         itemData.features = document.getElementById('item-features').value.split('\n').map(f => f.trim()).filter(Boolean);
     }
+    const notices = document.getElementById('item-notices').value.split('\n').map(n => n.trim()).filter(Boolean);
+    if (notices.length) itemData.notices = notices;
 
     if (isEditing) {
         removeItemFromServer(editingContext.storeSlug, editingContext.kind, editingContext.id);
