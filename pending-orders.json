@@ -20,5 +20,15 @@
     "fulfilled": true,
     "queuedAt": "2026-09-15T22:48:57.526Z",
     "fulfilledAt": "2026-09-15T22:49:02.201Z"
+  },
+  {
+    "id": "manual-mu39krwozrnx",
+    "source": "manual-grant",
+    "itemId": "mvp-rank-suxd",
+    "qty": 1,
+    "nickname": "Faridgameprimi",
+    "platform": "Java",
+    "fulfilled": false,
+    "queuedAt": "2026-09-15T22:49:24.552Z"
   }
 ]
