@@ -9,5 +9,15 @@
     "fulfilled": true,
     "queuedAt": "2026-09-15T22:46:38.473Z",
     "fulfilledAt": "2026-09-15T22:46:47.535Z"
+  },
+  {
+    "id": "manual-mu39k71y22j3",
+    "source": "manual-grant",
+    "itemId": "vip-rank-6ggv",
+    "qty": 1,
+    "nickname": "Faridgameprimi",
+    "platform": "Java",
+    "fulfilled": false,
+    "queuedAt": "2026-09-15T22:48:57.526Z"
   }
 ]
