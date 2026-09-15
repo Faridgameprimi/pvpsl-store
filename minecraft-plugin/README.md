@@ -49,6 +49,15 @@ Tak ada Maven/Java di komputer sendiri? Boleh compile pakai:
 2. Lihat console log — kalau ada order pending, akan muncul log "Order ... delivered"
 3. Kalau muncul warning "Tidak ada mapping command untuk item id" — artinya `items` di config.yml belum ada entry untuk item id itu. Copy id-nya dari Admin Dashboard → "Store & Item Sekarang", tambah ke config.yml, reload.
 
+## Akses Command
+
+`/fsorders check` dan `/fsorders reload` cuma bisa dipakai oleh **OP/admin** (permission node `faridsmp.orders.admin`, default `op`). Member biasa yang coba pakai command ini akan dapat pesan "Kamu tidak punya izin untuk command ini." — tidak bisa lihat/pengaruhi antrian order sama sekali.
+
+Kalau kamu pakai plugin permission (LuckPerms dll) dan mau kasih akses ke staff tertentu tanpa full OP, kasih permission node `faridsmp.orders.admin` ke grup mereka, contoh:
+```
+/lp group staff permission set faridsmp.orders.admin true
+```
+
 ## Catatan Penting
 
 - Command yang butuh player **online** (contoh `/give`) cuma jalan kalau nickname itu lagi online waktu plugin poll. Command dari plugin economy/permission (LuckPerms, Vault-based economy) biasanya tetap jalan walau player offline.
