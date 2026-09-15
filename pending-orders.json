@@ -28,7 +28,8 @@
     "qty": 1,
     "nickname": "Faridgameprimi",
     "platform": "Java",
-    "fulfilled": false,
-    "queuedAt": "2026-09-15T22:49:24.552Z"
+    "fulfilled": true,
+    "queuedAt": "2026-09-15T22:49:24.552Z",
+    "fulfilledAt": "2026-09-15T22:49:32.775Z"
   }
 ]
