@@ -8,3 +8,9 @@ commands:
   fsorders:
     description: Manage/inspect FaridSmp order delivery
     usage: /fsorders <check|reload>
+    permission: faridsmp.orders.admin
+    permission-message: "§cKamu tidak punya izin untuk command ini."
+permissions:
+  faridsmp.orders.admin:
+    description: Boleh pakai /fsorders (check/reload) — admin/OP saja
+    default: op
