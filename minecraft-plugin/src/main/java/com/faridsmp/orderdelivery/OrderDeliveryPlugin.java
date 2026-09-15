@@ -53,6 +53,14 @@ public class OrderDeliveryPlugin extends JavaPlugin {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+        // Belt-and-suspenders: plugin.yml already restricts this to
+        // faridsmp.orders.admin (default op), but double-check here too
+        // in case that ever gets misconfigured.
+        if (!sender.hasPermission("faridsmp.orders.admin")) {
+            sender.sendMessage(ChatColor.RED + "Kamu tidak punya izin untuk command ini.");
+            return true;
+        }
+
         if (args.length > 0 && args[0].equalsIgnoreCase("reload")) {
             reloadSettings();
             sender.sendMessage(ChatColor.GREEN + "[FaridSmp] Config di-reload.");
